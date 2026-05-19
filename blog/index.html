@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — justaskmajor</title>
+<meta name="description" content="Practical IT writing for small business owners. Plain-English guides from a senior sysadmin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand">justask<span>major</span></a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="content">
+  <span class="eyebrow">Field notes</span>
+  <h1>The <em style="color: var(--copper);">blog</em>.</h1>
+  <p style="font-size: 1.15rem; color: var(--slate);">
+    Practical IT writing for small business owners. Plain-English guides on the stuff that actually matters — security, backup, email, automation, and the tools I trust.
+  </p>
+
+  <ul class="post-list" style="margin-top: 3rem;">
+
+    <li>
+      <div class="post-meta">May 2026 · 8 min read</div>
+      <h3><a href="/blog/smb-it-starter-kit.html">The Small-Business IT Starter Kit</a></h3>
+      <p>Every product I'd buy if I were setting up IT for a 10-person business from scratch — networking, backup, security, workstations, and what to skip. Roughly $2,500 buys you a real foundation.</p>
+      <a href="/blog/smb-it-starter-kit.html" style="font-family: var(--mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--copper); border-bottom: none;">Read post →</a>
+    </li>
+
+    <li>
+      <div class="post-meta">Coming soon</div>
+      <h3>The Three Backup Mistakes I See Every Single Week</h3>
+      <p>Why your "backup" is probably not a backup, and the cheap fix that takes about an hour.</p>
+    </li>
+
+    <li>
+      <div class="post-meta">Coming soon</div>
+      <h3>Microsoft 365 Security Basics — In Plain English</h3>
+      <p>Multi-factor, conditional access, and the four settings most small business tenants never touch.</p>
+    </li>
+
+  </ul>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">justask<span>major</span></div>
+        <p class="foot-tagline">Enterprise-grade IT for small businesses and nonprofits, based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/services.html#advisor">Advisor</a></li>
+          <li><a href="/services.html#partner">Quarterly Partner</a></li>
+          <li><a href="/services.html#projects">Project work</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+          <li><a href="/contact.html">Start a project</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+      <div>Built with care · 10% pledged</div>
+    </div>
+    <div class="foot-disclosure">
+      As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>

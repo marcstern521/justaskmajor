@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services & Pricing — justaskmajor</title>
+<meta name="description" content="Strategic IT consulting and project work for small businesses, nonprofits, and discerning homeowners. Advisor $149/mo, Quarterly Partner $749/qtr, projects $150/hr.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+  .tier-tagline {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--copper);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .tier-addon {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(201, 123, 62, 0.08);
+    border-left: 2px solid var(--copper);
+    font-size: 0.85rem;
+    color: var(--slate);
+  }
+  .tier.featured .tier-addon {
+    background: rgba(201, 123, 62, 0.15);
+    color: rgba(247, 243, 236, 0.9);
+  }
+  .tier-not-here {
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .tier.featured .tier-not-here { color: rgba(247, 243, 236, 0.6); }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .project-col {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 2rem;
+  }
+  .project-col h3 {
+    font-size: 1.3rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--copper);
+    margin-bottom: 1rem;
+  }
+  .project-col-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--copper);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .project-col ul { list-style: none; margin: 0; }
+  .project-col li {
+    padding: 0.55rem 0 0.55rem 1.5rem;
+    position: relative;
+    font-size: 0.95rem;
+    color: var(--slate);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .project-col li:last-child { border-bottom: none; }
+  .project-col li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--copper);
+  }
+  .price-hint {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--copper);
+    margin-left: 0.5rem;
+    white-space: nowrap;
+  }
+  .rate-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .rate {
+    text-align: center;
+    padding: 1.25rem;
+    background: var(--paper-warm);
+    border-radius: var(--r);
+  }
+  .rate-num {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .rate-label {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--copper);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    display: block;
+  }
+  @media (max-width: 760px) {
+    .project-grid { grid-template-columns: 1fr; }
+    .rate-card { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand">justask<span>major</span></a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" style="padding-bottom: 2rem;">
+  <div class="wrap" style="text-align:center; max-width: 760px; margin: 0 auto;">
+    <span class="eyebrow">Services & pricing</span>
+    <h1>Strategic IT, <span class="accent">not</span> a ticket queue.</h1>
+    <p class="hero-lede" style="margin: 1.5rem auto 0;">
+      I'm not an MSP. I'm a senior systems administrator who does consulting and project work — strategic attention, scoped engagements, no SLAs to babysit. Fixed pricing on everything that can be fixed-priced.
+    </p>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 2rem;">
+  <div class="wrap">
+
+    <div class="section-head" style="margin-bottom: 2rem;">
+      <span class="eyebrow">Retainer options</span>
+      <h2>Two ways to keep me on call.</h2>
+      <p>Both designed for clients who want ongoing access to a senior IT brain — not a 24/7 helpdesk pretender.</p>
+    </div>
+
+    <div class="tiers" style="grid-template-columns: 1fr 1fr; max-width: 880px; margin: 0 auto;">
+
+      <article class="tier rise" id="advisor">
+        <div class="tier-tagline">For solo & micro-businesses</div>
+        <h3>Advisor</h3>
+        <p class="tier-desc">Your phone-a-friend for IT decisions. You own your IT — I'm on speed-dial for the questions worth asking.</p>
+        <div class="price">$149<span class="price-unit">/month</span></div>
+        <ul>
+          <li>Up to 2 hours/month of consultation (email or Zoom)</li>
+          <li>Quarterly health check of your stack</li>
+          <li>Priority email response, business hours</li>
+          <li>Tool & vendor evaluations</li>
+          <li>Microsoft 365 administration guidance</li>
+          <li>Discounted project rate ($125/hr)</li>
+        </ul>
+        <div class="tier-addon">
+          <strong>Add-on:</strong> Phone & SMS support — $50/month
+        </div>
+        <div class="tier-not-here">
+          Not included: monitoring, patching, SLAs, ticket queue. This is consulting, not management.
+        </div>
+        <a href="/contact.html?tier=advisor" class="btn btn-ghost" style="margin-top: 1.5rem;">Start with Advisor</a>
+      </article>
+
+      <article class="tier featured rise rise-2" id="partner">
+        <div class="tier-badge">Most popular</div>
+        <div class="tier-tagline" style="color: var(--copper);">For 5–25 employee businesses</div>
+        <h3>Quarterly Partner</h3>
+        <p class="tier-desc">Strategic IT partner without the MSP retainer. Scheduled attention, a real roadmap, a senior sysadmin in your corner — quarterly, not daily.</p>
+        <div class="price">$749<span class="price-unit">/quarter</span></div>
+        <ul>
+          <li>90-minute quarterly business review (on-site DFW or Zoom)</li>
+          <li>Documented IT roadmap, updated each quarter</li>
+          <li>Vendor & contract review (M365 licensing, telco, software)</li>
+          <li>4 hours of project work included per quarter</li>
+          <li>Priority email response between quarters</li>
+          <li>Discounted project rate ($110/hr) for additional work</li>
+        </ul>
+        <div class="tier-addon">
+          <strong>Add-on:</strong> Phone & SMS support — $100/quarter
+        </div>
+        <div class="tier-not-here">
+          Not included: 24/7 coverage, daily helpdesk, patching, ticket SLAs.
+        </div>
+        <a href="/contact.html?tier=partner" class="btn btn-primary" style="background: var(--copper); margin-top: 1.5rem;">Start with Partner</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="projects">
+  <div class="wrap">
+
+    <div class="section-head">
+      <span class="eyebrow">Project work</span>
+      <h2>The main course.</h2>
+      <p>Most of what I do is scoped, fixed-bid project work. Twenty years of enterprise systems administration, brought down to small-business and high-end residential scale. If you can describe the outcome, I can scope the job.</p>
+    </div>
+
+    <div class="rate-card" style="max-width: 720px; margin: 0 auto 3rem;">
+      <div class="rate">
+        <div class="rate-num">$150<span style="font-size:1rem;color:var(--muted);">/hr</span></div>
+        <span class="rate-label">Business & nonprofit</span>
+      </div>
+      <div class="rate">
+        <div class="rate-num">$225<span style="font-size:1rem;color:var(--muted);">/hr</span></div>
+        <span class="rate-label">Residential concierge</span>
+      </div>
+      <div class="rate">
+        <div class="rate-num">−25%</div>
+        <span class="rate-label">Nonprofit discount</span>
+      </div>
+    </div>
+
+    <div class="project-grid">
+
+      <div class="project-col rise">
+        <div class="project-col-label">Business & nonprofit</div>
+        <h3>Enterprise discipline, small-business scale.</h3>
+        <ul>
+          <li>Microsoft 365 / Entra ID migrations <span class="price-hint">from $1,500</span></li>
+          <li>Active Directory administration & cleanup</li>
+          <li>PowerShell automation development</li>
+          <li>Security assessments & remediation <span class="price-hint">from $1,500</span></li>
+          <li>AI integrations & MCP server development</li>
+          <li>Custom dashboards & monitoring</li>
+          <li>Documentation buildouts (Confluence, Notion, wikis)</li>
+        </ul>
+      </div>
+
+      <div class="project-col rise rise-2">
+        <div class="project-col-label">Home & specialty</div>
+        <h3>White-glove, by appointment.</h3>
+        <ul>
+          <li>Smart camera systems (Ring, Scrypted) <span class="price-hint">from $500</span></li>
+          <li>Home network upgrades (UniFi, mesh, VLANs) <span class="price-hint">from $750</span></li>
+          <li>Home lab consulting & buildouts <span class="price-hint">from $1,000</span></li>
+          <li>Custom kiosk projects (family calendars, dashboards)</li>
+          <li>Premium family tech support</li>
+          <li>NAS & backup setup (Synology, drives, offsite)</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p style="text-align:center; max-width: 640px; margin: 2rem auto 0; color: var(--slate); font-size: 0.95rem;">
+      Fixed-bid wherever scope is clear. Hourly when it isn't. 2-hour minimum on hourly engagements. Every project is documented and handed over so you're never dependent on me to maintain your own environment.
+    </p>
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">In every engagement</span>
+      <h2>What you always get.</h2>
+    </div>
+
+    <div class="svc-grid">
+      <article class="svc">
+        <div class="svc-num">A</div>
+        <h3>Written everything.</h3>
+        <p>Every change, every configuration, every "I'd do it like this." Documented in your own knowledge base so you're never trapped by a single vendor — or by me.</p>
+      </article>
+      <article class="svc">
+        <div class="svc-num">B</div>
+        <h3>No vendor lock-in.</h3>
+        <p>I'll never put you on a platform you can't leave. Your data is yours. Your accounts are yours. If we part ways, you walk out the door with everything.</p>
+      </article>
+      <article class="svc">
+        <div class="svc-num">C</div>
+        <h3>The Major pledge.</h3>
+        <p>10% of every invoice goes to H.E.R.O.E.S. DFW and other special needs nonprofits. Itemized on every receipt so you can deduct it where applicable.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap" style="max-width: 820px;">
+    <div class="section-head">
+      <span class="eyebrow">Common questions</span>
+      <h2>Things people ask.</h2>
+    </div>
+
+    <div style="display: grid; gap: 2rem;">
+      <div>
+        <h3 style="margin-bottom: 0.5rem;">Are you an MSP?</h3>
+        <p style="color: var(--slate);">No, and that's deliberate. MSPs sell daily helpdesk and 24/7 coverage. I sell strategic attention and scoped projects. If you need someone to answer the phone at 2am when your printer breaks, I'll refer you to a good MSP partner. If you want a senior systems administrator who actually understands your stack, that's me.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 0.5rem;">Do you require long contracts?</h3>
+        <p style="color: var(--slate);">No. Advisor is month-to-month, Partner is quarter-to-quarter, both with 30-day notice to cancel. I'd rather earn it every cycle than lock you in.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 0.5rem;">What's the residential concierge rate about?</h3>
+        <p style="color: var(--slate);">High-end residential work — lake house Wi-Fi, smart home buildouts, family tech that needs to "just work" — is white-glove service. The premium rate reflects same-week scheduling, full documentation, family training, and post-install follow-up. Worth it if your time is worth it.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 0.5rem;">Do you work with nonprofits?</h3>
+        <p style="color: var(--slate);">Yes — at 25% off published rates. Faith-based ministries and special-needs organizations are especially close to my heart. Just mention it when you reach out.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 0.5rem;">What hours do you keep?</h3>
+        <p style="color: var(--slate);">Priority email response within one business day. I'm honest that I have a day job and a family. For true emergencies, the SMS add-on is the right call.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 0.5rem;">Where are you located?</h3>
+        <p style="color: var(--slate);">Richardson, Texas. Remote work everywhere in the U.S., on-site within the DFW metroplex.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Not sure what fits?</h2>
+    <p>Free 15-minute discovery call. We'll figure it out together — and if I'm not the right shop for what you need, I'll tell you who is.</p>
+    <a href="/contact.html" class="btn btn-primary">Get in touch</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">justask<span>major</span></div>
+        <p class="foot-tagline">Strategic IT for small businesses, nonprofits, and discerning homeowners. Based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/services.html#advisor">Advisor</a></li>
+          <li><a href="/services.html#partner">Quarterly Partner</a></li>
+          <li><a href="/services.html#projects">Project work</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+          <li><a href="/contact.html">Start a project</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+      <div>Built with care · 10% pledged</div>
+    </div>
+    <div class="foot-disclosure">
+      As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>

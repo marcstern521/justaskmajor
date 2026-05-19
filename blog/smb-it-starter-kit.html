@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Small-Business IT Starter Kit — justaskmajor</title>
+<meta name="description" content="Every product I'd buy if I were setting up IT for a 10-person business from scratch. Networking, backup, security, workstations — about $2,500 for a real foundation.">
+<link rel="canonical" href="https://justaskmajor.com/blog/smb-it-starter-kit.html">
+
+<meta property="og:title" content="The Small-Business IT Starter Kit">
+<meta property="og:description" content="Every product I'd buy if I were setting up IT for a 10-person business from scratch.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand">justask<span>major</span></a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="content">
+  <span class="eyebrow">Field notes · May 2026</span>
+  <h1>The small-business <em style="color: var(--copper);">IT starter kit</em>.</h1>
+
+  <div class="post-meta">By Marc Stern · 8 min read</div>
+
+  <div class="affiliate-disclosure">
+    <strong>Affiliate disclosure:</strong> This post contains affiliate links. If you buy through them, justaskmajor.com earns a small commission at no extra cost to you. 10% of all revenue is donated to special needs nonprofits.
+  </div>
+
+  <p>If you're starting a small business — or you've been running one on whatever-was-on-sale-at-Best-Buy gear for a few years — this post is for you. I'm going to walk through the actual products I'd buy if I were setting up IT for a 10-person business from scratch today.</p>
+
+  <p>The full kit costs around <strong>$2,500</strong>, and it'll give you a real foundation: redundant networking, working backup, hardware security, and workstation gear that won't be in the landfill next year.</p>
+
+  <p>I'm not going to recommend anything I haven't deployed or used myself. There are no Bluetooth-enabled toasters here.</p>
+
+  <h2>1. Network — start here, always</h2>
+
+  <p>The number one cause of IT pain in small businesses I see is consumer-grade networking. The $79 router from a big-box store is fine for an apartment. It is not fine for a business with employees, a printer, a credit card reader, and a guest Wi-Fi network. It will crash. It will get hacked. It will not log anything useful when you need to figure out why.</p>
+
+  <p>You need a real gateway and a real access point. The good news is that "real" is cheaper than it's ever been.</p>
+
+  <h3>The pick: Ubiquiti UniFi Express</h3>
+  <p>Combined gateway, controller, and Wi-Fi 6 access point. Web-managed, runs your guest network on a separate VLAN, lets me look at it remotely when you have a problem. Pairs with additional access points if you need to cover more square footage.</p>
+  <p><a href="https://www.amazon.com/s?k=ubiquiti+unifi+express&tag=marcstern521-20" target="_blank" rel="noopener nofollow">UniFi Express on Amazon →</a></p>
+
+  <h3>The add-on: U6+ access point</h3>
+  <p>If you have more than about 1,200 square feet, add one of these. Ceiling-mount, PoE, same management interface.</p>
+  <p><a href="https://www.amazon.com/s?k=ubiquiti+u6+access+point&tag=marcstern521-20" target="_blank" rel="noopener nofollow">U6+ on Amazon →</a></p>
+
+  <h3>What to skip</h3>
+  <p>Skip the mesh kits from big-box stores. Skip "business" routers from ISPs. Skip anything you can't get firmware updates for. The total here is roughly $400 — and it'll outlast three of those mesh kits.</p>
+
+  <h2>2. Backup — the part everyone fakes</h2>
+
+  <p>Here's the truth about most small-business "backup":</p>
+
+  <ul>
+    <li>An external hard drive plugged into one PC, that hasn't been verified in two years</li>
+    <li>"It's on OneDrive" — which is sync, not backup</li>
+    <li>A NAS in the same room as the server it backs up, both of which are stolen if the building gets broken into</li>
+  </ul>
+
+  <p>Real backup means: more than one copy, in more than one place, tested. The classic rule is 3-2-1 — three copies, on two different media, with one offsite.</p>
+
+  <h3>The pick: Synology DS224+ with two WD Red Plus drives</h3>
+  <p>A two-bay NAS with two enterprise-grade drives in RAID 1. That's two of your three copies. Synology's apps include Active Backup for Business which can back up Microsoft 365 — that solves the OneDrive-is-not-a-backup problem.</p>
+  <p><a href="https://www.amazon.com/s?k=synology+ds224%2B&tag=marcstern521-20" target="_blank" rel="noopener nofollow">Synology DS224+ on Amazon →</a><br>
+  <a href="https://www.amazon.com/s?k=wd+red+plus+4tb&tag=marcstern521-20" target="_blank" rel="noopener nofollow">WD Red Plus 4TB (buy two) →</a></p>
+
+  <h3>The offsite copy: rotating portable SSDs</h3>
+  <p>The cheap-and-cheerful version of offsite is two SanDisk Extreme SSDs. One goes home with you on a rotation, one stays in a fireproof box at the office. The Synology can write to them on schedule.</p>
+  <p><a href="https://www.amazon.com/s?k=sandisk+extreme+portable+ssd&tag=marcstern521-20" target="_blank" rel="noopener nofollow">SanDisk Extreme on Amazon →</a></p>
+
+  <p>Total here is around $700 and it changes "we had a fire, the business is done" into "we had a fire, we're back online in a day."</p>
+
+  <h2>3. Power — the cheapest insurance you'll ever buy</h2>
+
+  <p>A $150 UPS prevents thousands of dollars in damage to your network gear, NAS, and any PC that's always on. It also keeps you running through brief outages, which around here means brief Texas wind events.</p>
+
+  <h3>The pick: APC Back-UPS Pro 1500VA</h3>
+  <p>Plug your gateway, switch, and NAS into the battery-backed outlets. Plug everything else into the surge-only outlets. The included software will gracefully shut down attached computers if the outage runs long.</p>
+  <p><a href="https://www.amazon.com/s?k=apc+back-ups+pro+1500va&tag=marcstern521-20" target="_blank" rel="noopener nofollow">APC 1500VA on Amazon →</a></p>
+
+  <p>Get one for the network gear, and one for any always-on workstation. Roughly $300 total.</p>
+
+  <h2>4. Security — boring basics that work</h2>
+
+  <p>You don't need a $50,000-a-year security suite. You need three things:</p>
+  <ol>
+    <li>Multi-factor authentication on every account that touches business data</li>
+    <li>A password manager so MFA isn't fighting password reuse</li>
+    <li>Hardware tokens for the accounts that matter most (owner, finance, admin)</li>
+  </ol>
+
+  <h3>The pick: YubiKey 5C NFC</h3>
+  <p>Hardware MFA token that plugs into USB-C or taps via NFC. Works with Microsoft 365, Google, 1Password, Bitwarden, and most things that matter. Phishing-resistant in a way that text-message codes are not.</p>
+  <p>Get two per person who needs one — one to use, one as a backup in a safe somewhere. If you lose your only key and don't have recovery codes, that account is gone.</p>
+  <p><a href="https://www.amazon.com/s?k=yubikey+5c+nfc&tag=marcstern521-20" target="_blank" rel="noopener nofollow">YubiKey 5C NFC on Amazon →</a></p>
+
+  <p>Two keys per admin user, say three admins, is six keys at about $55 each — $330.</p>
+
+  <h2>5. Workstations — the boring stuff matters</h2>
+
+  <p>I'm not telling you which PC to buy. Get whatever your accountant or business owner is comfortable with — Dell, HP, Lenovo, Apple, all fine if specced correctly. What I will tell you is the peripherals that turn an average machine into a workstation people actually want to sit at.</p>
+
+  <h3>Logitech MX Keys + MX Master</h3>
+  <p>The keyboard and mouse I recommend to every desk worker. They pair to three devices at once, which means laptop-and-desktop people stop juggling.</p>
+  <p><a href="https://www.amazon.com/s?k=logitech+mx+keys&tag=marcstern521-20" target="_blank" rel="noopener nofollow">Logitech MX Keys on Amazon →</a></p>
+
+  <h3>Dell UltraSharp 27" monitor</h3>
+  <p>The boring-just-works monitor. IPS panel, USB-C dock built in, three-year warranty. Stop buying cheap monitors. Your eyes are worth more than $80.</p>
+  <p><a href="https://www.amazon.com/s?k=dell+ultrasharp+27&tag=marcstern521-20" target="_blank" rel="noopener nofollow">Dell UltraSharp 27" on Amazon →</a></p>
+
+  <p>Figure $400 per workstation for keyboard, mouse, and monitor. Multiply by however many people.</p>
+
+  <h2>The total — and what to do next</h2>
+
+  <p>Here's the running total for a 10-person business with three power users needing premium workstation kit:</p>
+
+  <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+    <tr style="border-bottom: 2px solid var(--copper);">
+      <td style="padding: 0.5rem; font-family: var(--mono); font-size: 0.85rem; text-transform: uppercase;">Category</td>
+      <td style="padding: 0.5rem; text-align: right; font-family: var(--mono); font-size: 0.85rem; text-transform: uppercase;">Cost</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.6rem 0.5rem;">Network (UniFi Express + U6+)</td>
+      <td style="padding: 0.6rem 0.5rem; text-align: right;">~$400</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.6rem 0.5rem;">Backup (Synology + 2× drives + 2× SSDs)</td>
+      <td style="padding: 0.6rem 0.5rem; text-align: right;">~$700</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.6rem 0.5rem;">Power (2× APC UPS)</td>
+      <td style="padding: 0.6rem 0.5rem; text-align: right;">~$300</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.6rem 0.5rem;">Security (6× YubiKey)</td>
+      <td style="padding: 0.6rem 0.5rem; text-align: right;">~$330</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.6rem 0.5rem;">Workstation kit (3× premium)</td>
+      <td style="padding: 0.6rem 0.5rem; text-align: right;">~$1,200</td>
+    </tr>
+    <tr style="border-top: 2px solid var(--navy); font-weight: 700;">
+      <td style="padding: 0.6rem 0.5rem; color: var(--navy);">Total</td>
+      <td style="padding: 0.6rem 0.5rem; text-align: right; color: var(--copper); font-family: var(--serif); font-size: 1.3rem;">~$2,930</td>
+    </tr>
+  </table>
+
+  <p>For under three grand, you have a real network, working backup, power protection, hardware MFA, and three solid workstation setups. That's an enormous upgrade over what most small businesses run.</p>
+
+  <h2>What I didn't cover</h2>
+
+  <p>Software — Microsoft 365, password manager, accounting — depends entirely on your business. So does on-site cabling, a firewall if you have specific compliance needs, and printers (which deserve their own post and their own dose of profanity).</p>
+
+  <p>If you want to talk through what fits your specific situation, that's literally what I do. <a href="/contact.html">Start a conversation</a> or browse the <a href="/resources.html">full resources list</a> for more curated gear.</p>
+
+  <div style="margin: 3rem 0 2rem; padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--copper); border-radius: var(--r);">
+    <h3 style="margin: 0 0 0.5rem;">Want this set up for you?</h3>
+    <p style="margin-bottom: 1rem;">I install, configure, and document this entire kit for clients on a fixed-fee basis. Two days on-site or remote, everything labeled and documented, and you keep all the credentials.</p>
+    <a href="/contact.html" class="btn btn-primary">Get a quote</a>
+  </div>
+
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">justask<span>major</span></div>
+        <p class="foot-tagline">Enterprise-grade IT for small businesses and nonprofits, based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/services.html#advisor">Advisor</a></li>
+          <li><a href="/services.html#partner">Quarterly Partner</a></li>
+          <li><a href="/services.html#projects">Project work</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+          <li><a href="/contact.html">Start a project</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+      <div>Built with care · 10% pledged</div>
+    </div>
+    <div class="foot-disclosure">
+      As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — justaskmajor</title>
+<meta name="description" content="Start a conversation about IT services for your small business or nonprofit. Free 15-minute discovery call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand">justask<span>major</span></a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section" style="padding: 5rem 0;">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <div class="contact-info rise">
+        <span class="eyebrow">Get in touch</span>
+        <h2>Let's see if we're a fit.</h2>
+        <p>Tell me a bit about your business and what you're looking for. I'll get back within one business day with next steps — usually a 15-minute discovery call.</p>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value"><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Service area</div>
+          <div class="contact-detail-value">Remote U.S. · On-site DFW metroplex</div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-label">Response time</div>
+          <div class="contact-detail-value">1 business day</div>
+        </div>
+
+        <p style="font-size: 0.95rem; color: var(--slate); margin-top: 1rem;">
+          <strong>Faith-based and special needs nonprofits:</strong> please mention this when you reach out — discounted rates available.
+        </p>
+      </div>
+
+      <form class="form rise rise-2"
+            action="https://formspree.io/f/mwvaddlk"
+            method="POST">
+
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="field">
+          <label for="business">Business or organization</label>
+          <input type="text" id="business" name="business">
+        </div>
+
+        <div class="field">
+          <label for="tier">Interested in</label>
+          <select id="tier" name="tier">
+            <option value="not-sure">Not sure yet</option>
+            <option value="advisor">Advisor — $149/mo</option>
+            <option value="partner">Quarterly Partner — $749/qtr</option>
+            <option value="project">Project work (business)</option>
+            <option value="residential">Residential concierge</option>
+            <option value="nonprofit">Nonprofit rate</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">What's going on?</label>
+          <textarea id="message" name="message"
+            placeholder="A sentence or two about your business and what you need. No need for a thesis."
+            required></textarea>
+        </div>
+
+        <!-- Formspree spam honeypot -->
+        <input type="text" name="_gotcha" style="display:none">
+
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">justask<span>major</span></div>
+        <p class="foot-tagline">Enterprise-grade IT for small businesses and nonprofits, based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/services.html#advisor">Advisor</a></li>
+          <li><a href="/services.html#partner">Quarterly Partner</a></li>
+          <li><a href="/services.html#projects">Project work</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+          <li><a href="/contact.html">Start a project</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+      <div>Built with care · 10% pledged</div>
+    </div>
+    <div class="foot-disclosure">
+      As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+// Pre-fill tier from query string (e.g. ?tier=growth)
+const params = new URLSearchParams(window.location.search);
+if (params.get('tier')) {
+  const sel = document.getElementById('tier');
+  if (sel && [...sel.options].some(o => o.value === params.get('tier'))) {
+    sel.value = params.get('tier');
+  }
+}
+</script>
+</body>
+</html>

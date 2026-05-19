@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMB IT Resources — justaskmajor</title>
+<meta name="description" content="Hardware, software, and books I personally own and recommend for small business IT, home networking, and security professionals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+  .marc-owns {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--copper);
+    background: rgba(201, 123, 62, 0.1);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .kit-item h3 {
+    margin-top: 0.25rem;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="brand">justask<span>major</span></a>
+    <button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<article class="content">
+  <span class="eyebrow">Resources</span>
+  <h1>Gear I actually <em style="color: var(--copper);">own and use</em>.</h1>
+
+  <p style="font-size: 1.15rem; color: var(--slate); margin-bottom: 1rem;">
+    Curated hardware, software, and books I've personally bought and run — in client environments, in my home lab, on my own desk. The items tagged "Marc owns this" mean exactly that. The rest are products I've deployed for clients or used in enterprise environments.
+  </p>
+
+  <div class="affiliate-disclosure">
+    <strong>Affiliate disclosure:</strong> Many links on this page are affiliate links. If you buy through them, justaskmajor.com earns a small commission at no extra cost to you. As always, 10% of all revenue is donated to special needs nonprofits.
+  </div>
+
+  <!-- ============= NETWORKING ============= -->
+  <div class="kit-section">
+    <h2>Networking — the foundation</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      The number-one cause of IT pain in small businesses is consumer-grade networking. Real network gear is cheaper than it's ever been — and these are the picks I actually deploy and run.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>TP-Link TL-SG108 8-Port Gigabit Switch</h3>
+        <p>The unmanaged switch I have in my own home lab. Metal case, fanless, plug-and-play, lifetime warranty. The go-to for adding wired ports without complexity.</p>
+        <a href="https://www.amazon.com/dp/B00A121WN6?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>UniFi Express (budget pick)</h3>
+        <p>Combined Wi-Fi 6 gateway and access point. Web-managed, guest VLAN out of the box, remote management. The right starter pick for an office under ~1,200 sq ft.</p>
+        <a href="https://www.amazon.com/s?k=ubiquiti+unifi+express&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>UniFi Express 7 (future-proof pick)</h3>
+        <p>The Wi-Fi 7 successor with a 10GbE port. $50 more than the original, significantly more headroom. The pick if you're starting fresh in 2026.</p>
+        <a href="https://www.amazon.com/s?k=ubiquiti+unifi+express+7&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>Ubiquiti U6+ Access Point</h3>
+        <p>Add this for larger spaces or multiple floors. Ceiling-mount, PoE, Wi-Fi 6. Pairs cleanly with either UniFi Express gateway above.</p>
+        <a href="https://www.amazon.com/s?k=ubiquiti+u6+access+point&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>Ubiquiti U7 Pro Access Point</h3>
+        <p>The Wi-Fi 7 upgrade path. Worth it if your gateway already supports Wi-Fi 7 and you want to future-proof. Otherwise the U6+ is the sweet spot.</p>
+        <a href="https://www.amazon.com/s?k=ubiquiti+u7+pro+access+point&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============= BACKUP ============= -->
+  <div class="kit-section">
+    <h2>Backup — for when things go wrong</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      "I have a backup" and "my backup actually works" are very different statements. These are tested deployments.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <h3>Synology DS224+ NAS</h3>
+        <p>The right starter NAS for a small office. Two drive bays, runs SMB shares, includes Synology Active Backup for Business — solves the "OneDrive is not a backup" problem.</p>
+        <a href="https://www.amazon.com/s?k=synology+ds224%2B&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>WD Red Plus 4TB NAS Drive</h3>
+        <p>Pair of these in the Synology gives you redundant 4TB of usable storage. Built for 24/7 operation. Don't put desktop drives in a NAS — they'll fail in months.</p>
+        <a href="https://www.amazon.com/s?k=wd+red+plus+4tb&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>SanDisk Extreme Portable SSD</h3>
+        <p>For offsite/rotating backups. Fast, rugged, USB-C. I keep one in my bag for client work.</p>
+        <a href="https://www.amazon.com/s?k=sandisk+extreme+portable+ssd&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============= POWER ============= -->
+  <div class="kit-section">
+    <h2>Power & protection</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      The most overlooked piece of small-business IT. A $150 UPS prevents thousands in damage and around here, gets you through brief Texas wind events.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <h3>APC Back-UPS Pro 1500VA</h3>
+        <p>Battery backup plus surge protection for network gear and always-on machines. Software auto-shuts-down attached PCs cleanly.</p>
+        <a href="https://www.amazon.com/s?k=apc+back-ups+pro+1500va&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>Anker Prime 200W 6-Port Charging Station</h3>
+        <p>The one charger that replaced four on my desk. 200W across six ports, two USB-C ports each support 100W simultaneously — enough to charge two MacBook Pros at once. Built like a tank.</p>
+        <a href="https://www.amazon.com/dp/B0CT2NQ7WG?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>Tripp Lite Isobar Surge Protector</h3>
+        <p>Real surge protection (not the $10 power strip variety) with isolated outlet banks for sensitive equipment.</p>
+        <a href="https://www.amazon.com/s?k=tripp+lite+isobar+surge&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============= SECURITY ============= -->
+  <div class="kit-section">
+    <h2>Security — boring basics that work</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      You don't need a $50,000-a-year security suite. You need multi-factor on everything, hardware tokens for accounts that matter, and a password manager.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <h3>YubiKey 5C NFC</h3>
+        <p>Hardware MFA token, USB-C and NFC. Phishing-resistant in a way SMS codes are not. Works with Microsoft 365, Google, 1Password, Bitwarden. Get two per admin user — one for daily use, one as a recovery backup in a safe.</p>
+        <a href="https://www.amazon.com/s?k=yubikey+5c+nfc&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============= WORKSTATION ============= -->
+  <div class="kit-section">
+    <h2>Workstation essentials</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      The kit that turns a fine computer into a desk people actually want to sit at.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>Logitech MX Keys S Combo</h3>
+        <p>The keyboard and mouse combo I use every day. Multi-device pairing (laptop and desktop both), customizable buttons, backlit keys. The MX Master mouse alone justifies the price.</p>
+        <a href="https://www.amazon.com/dp/B0BKVY4WKT?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>Logitech C920x HD Pro Webcam</h3>
+        <p>The webcam on my desk for Zoom, Teams, and client calls. 1080p, autofocus, dual mics. Boring, reliable, and dramatically better than any laptop camera.</p>
+        <a href="https://www.amazon.com/dp/B085TFF7M1?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>Dell UltraSharp 27" Monitor</h3>
+        <p>The "boring just works" workstation monitor. IPS panel, USB-C dock built in, 3-year warranty. Cheap monitors cost more in the long run — your eyes are worth $80 more.</p>
+        <a href="https://www.amazon.com/s?k=dell+ultrasharp+27&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>Acer 2-in-1 USB-C / USB-A SD Card Reader</h3>
+        <p>Tiny dual-slot SD and microSD reader that works on Windows, Mac, Linux, iPad. Lives in my bag. Useful any time you need to pull from a Raspberry Pi card, dashcam, or security camera.</p>
+        <a href="https://www.amazon.com/dp/B0DQ71G4G4?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============= HOME LAB & SMART HOME ============= -->
+  <div class="kit-section">
+    <h2>Home lab & smart home</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      For aspiring sysadmins, remote workers, and clients who want IT around the house that works without thinking about it.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <h3>Raspberry Pi 5 (8GB)</h3>
+        <p>The Swiss-army-knife of home labs. DNS server, monitoring, dashboards, kiosk displays. I run several in my own setup — including the M3 Family Calendar kiosk for my house.</p>
+        <a href="https://www.amazon.com/s?k=raspberry+pi+5+8gb&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>Amazon Fire HD 10 Tablet</h3>
+        <p>The cheap-and-cheerful kiosk display. I use one mounted in our kitchen as the M3 Family Calendar — running a Fully Kiosk Browser locked to a shared dashboard. Perfect when you don't want to spend $500 on a smart display.</p>
+        <a href="https://www.amazon.com/dp/B0BHZWT2FR?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>GHome Wi-Fi Smart Plug</h3>
+        <p>Cheap Wi-Fi smart plug for remote power cycling — useful for resetting routers, modems, or lab gear without driving to the location. Works with Alexa and Google Home, no hub needed.</p>
+        <a href="https://www.amazon.com/dp/B0D7ZWGXGP?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>StarTech KVM Switch</h3>
+        <p>One monitor, keyboard, and mouse driving multiple machines. Daily-driver tool for sysadmins running test boxes alongside their main workstation.</p>
+        <a href="https://www.amazon.com/s?k=startech+kvm+switch&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <h3>Brother Label Maker (PT-D610BT)</h3>
+        <p>Bluetooth label maker. Cables, ports, server racks, network drops — if it isn't labeled, it isn't documented. Get one before your next cable cleanup.</p>
+        <a href="https://www.amazon.com/s?k=brother+pt-d610bt+label+maker&tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============= BOOKS / DESK FUN ============= -->
+  <div class="kit-section">
+    <h2>Books & desk gear</h2>
+    <p style="color: var(--slate); margin-bottom: 1.5rem;">
+      What I'm actually reading and what's on my desk right now.
+    </p>
+    <div class="kit-grid">
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>ISC2 CISSP Official Study Guide & Practice Tests Bundle</h3>
+        <p>The Chapple/Stewart/Gibson/Seidl bundle I'm currently working through for CISSP certification. Two-volume bundle covering all eight domains plus practice tests. If you're chasing CISSP, this is the canonical Sybex set.</p>
+        <a href="https://www.amazon.com/dp/1394258410?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+      <div class="kit-item">
+        <span class="marc-owns">✓ Marc owns this</span>
+        <h3>Linux Commands Cheat Sheet Mousepad</h3>
+        <p>Extra-large desk mat printed with Linux shell commands for Kali, Ubuntu, Red Hat, Debian. Equal parts useful reference and lab decor. Goes well with a fresh terminal and a cup of coffee.</p>
+        <a href="https://www.amazon.com/dp/B0B7XSWKDY?tag=marcstern521-20" target="_blank" rel="noopener nofollow">View on Amazon →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin: 4rem 0 2rem; padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--copper); border-radius: var(--r);">
+    <h2 style="margin: 0 0 0.75rem;">Need help picking?</h2>
+    <p style="margin-bottom: 1rem;">If you're sizing up a deployment for your business or home and want a second opinion before you spend, that's literally what I do. <a href="/contact.html">Reach out</a> — I'll give you a real recommendation, not a sales pitch.</p>
+  </div>
+
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">justask<span>major</span></div>
+        <p class="foot-tagline">Strategic IT for small businesses, nonprofits, and discerning homeowners. Based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="/services.html#advisor">Advisor</a></li>
+          <li><a href="/services.html#partner">Quarterly Partner</a></li>
+          <li><a href="/services.html#projects">Project work</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+          <li><a href="/contact.html">Start a project</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+      <div>Built with care · 10% pledged</div>
+    </div>
+    <div class="foot-disclosure">
+      As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
