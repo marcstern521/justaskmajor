@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Products — justaskmajor</title>
+<meta name="description" content="IT toolkits, sysadmin playbooks, and special needs caregiver resources — practical PDF guides built from twenty years of enterprise IT and our family's own life with Major.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+  .marc-owns {
+  display: inline-block;
+font-family: var(--mono);
+font-size: 0.65rem;
+color: var(--copper);
+background: rgba(201, 123, 62, 0.1);
+padding: 0.15rem 0.5rem;
+border-radius: 2px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+margin-bottom: 0.5rem;
+}
+.kit-item h3 { margin-top: 0.25rem; }
+.tier-links {
+  display: flex;
+flex-wrap: wrap;
+gap: 0.5rem;
+margin-top: 1rem;
+}
+.tier-link {
+  font-family: var(--mono);
+font-size: 0.78rem;
+letter-spacing: 0.03em;
+padding: 0.4rem 0.75rem;
+border-radius: var(--r);
+border: 1px solid var(--line);
+color: var(--navy);
+background: var(--paper);
+text-decoration: none;
+}
+.tier-link:hover { border-color: var(--copper); color: var(--copper); }
+.tier-basic { border-color: var(--line); }
+.tier-pro { border-color: var(--copper-dim); color: var(--copper-dim); }
+.tier-premium, .tier-bundle { background: var(--navy); color: var(--paper) !important; border-color: var(--navy); }
+.tier-premium:hover, .tier-bundle:hover { background: var(--copper); border-color: var(--copper); }
+.tier-pending {
+  font-family: var(--mono);
+font-size: 0.78rem;
+padding: 0.4rem 0.75rem;
+border-radius: var(--r);
+border: 1px dashed var(--line);
+color: var(--muted);
+cursor: not-allowed;
+}
+.bundle-includes {
+  list-style: none;
+margin: 0.75rem 0 0.25rem;
+padding: 0;
+font-size: 0.85rem;
+color: var(--slate);
+}
+.bundle-includes li { padding: 0.2rem 0; }
+.digital-products-nav {
+  display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+margin: 1.5rem 0 2.5rem;
+}
+.digital-products-nav a {
+  font-family: var(--mono);
+font-size: 0.78rem;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+color: var(--slate);
+border: 1px solid var(--line);
+padding: 0.5rem 1rem;
+border-radius: var(--r);
+border-bottom: 1px solid var(--line) !important;
+}
+.digital-products-nav a:hover { color: var(--copper); border-color: var(--copper); }
+</style>
+  <!-- Microsoft Clarity -->
+  <script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "wtlo5baagg");
+</script>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-inner">
+<a href="/" class="brand">justask<span>major</span></a>
+<button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<ul class="nav-links">
+<li><a href="/services.html">Services</a></li>
+<li><a href="/about.html">About</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/digital-products.html">Digital Products</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+</ul>
+</div>
+</nav>
+
+<article class="content" style="max-width: 1180px;">
+  <span class="eyebrow">Digital Products</span>
+<h1>Templates and playbooks, <em style="color: var(--copper);">not theory</em>.</h1>
+
+<p style="font-size: 1.15rem; color: var(--slate); margin-bottom: 1rem; max-width: 760px;">
+Practical PDF guides built two ways: from twenty years running enterprise IT, and from our own life raising a son with special needs. Basic covers the essentials. Pro adds the depth and templates. Premium is the complete, no-holds-barred edition. Same fixed-pricing philosophy as everything else on this site — no upsell tricks, no "call for pricing."
+</p>
+
+<div class="affiliate-disclosure">
+<strong>The Major pledge applies here too:</strong> 10% of revenue from every product on this page is donated to special needs nonprofits, same as the rest of justaskmajor.com.
+</div>
+
+<div class="digital-products-nav">
+<a href="#it-sysadmin-toolkits">IT & SysAdmin</a>
+<a href="#special-needs-caregiver-resources">Special Needs & Caregiver</a>
+<a href="#life-productivity-planners">Life & Productivity</a>
+<a href="#premium-bundles">Premium Bundles</a>
+</div>
+
+<!-- ============= IT & SYSADMIN TOOLKITS ============= -->
+<div class="kit-section" id="it-sysadmin-toolkits">
+<h2>IT & SysAdmin Toolkits</h2>
+<p style="color: var(--slate); margin-bottom: 1.5rem;">
+Built from twenty years running enterprise infrastructure — the actual templates, checklists, and playbooks, not theory.
+</p>
+<div class="kit-grid">
+
+<div class="kit-item">
+<h3>Active Directory Hardening Playbook</h3>
+<p>Lock down Kerberoasting-vulnerable service accounts, tiered admin access, and GPO baselines — the exact checklist I run in production AD environments.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="ad-hardening" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="ad-hardening" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>AWS Multi-Region Infrastructure</h3>
+<p>Design patterns and failover checklists for running production workloads across AWS regions without the 3am surprise.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="aws-multi-region" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="aws-multi-region" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Azure Administrator Toolkit</h3>
+<p>Core admin workflows for Azure AD, resource groups, and governance — organized the way you'd actually use them on the job.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="azure-toolkit" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="azure-toolkit" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="azure-toolkit" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Bridge Log Viewer (BLV) Tool</h3>
+<p>A standalone PowerShell WPF tool for parsing and searching incident bridge logs in real time. Setup guide plus advanced customization.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="blv-tool" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="blv-tool" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>CISSP Certification Study Guide</h3>
+<p>A 12-week structured study path across all eight domains — the plan I'm using for my own CISSP prep, not a repackaged syllabus.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="cissp-study-guide" data-tier="basic">Basic · $15</a>
+<span class="tier-link tier-pending" title="Pro edition is being corrected — check back soon">Pro · coming soon</span>
+</div>
+</div>
+<div class="kit-item">
+<h3>Cloud Cost Optimization Playbook</h3>
+<p>Multi-cloud cost-control tactics — rightsizing, reserved capacity, and the reporting habits that keep finance off your back.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="cloud-cost-optimization" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="cloud-cost-optimization" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="cloud-cost-optimization" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Cloud Migration Toolkit</h3>
+<p>Planning templates and sequencing checklists for moving workloads to the cloud without breaking production.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="cloud-migration" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="cloud-migration" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Home Lab Builder Blueprint</h3>
+<p>Hardware picks, network design, and a build order for a home lab that actually teaches you enterprise skills.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="home-lab" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="home-lab" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="home-lab" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Infrastructure as Code: Terraform + Ansible</h3>
+<p>Practical patterns for provisioning and configuration management — the templates I'd hand a junior admin on day one.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="iac-terraform-ansible" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="iac-terraform-ansible" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Incident Response Playbook Pack</h3>
+<p>The 7-phase incident lifecycle, severity classification, real case studies, and fillable templates — how major incidents actually get run.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="incident-response" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="incident-response" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="incident-response" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>IT Interview Success Kit</h3>
+<p>Real technical and behavioral questions with strong-answer frameworks, pulled from the interview side of enterprise IT hiring.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="it-interview" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="it-interview" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="it-interview" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>IT Manager Survival Kit</h3>
+<p>The first-90-days playbook for new IT managers — team assessment, stakeholder management, and the mistakes to skip.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="it-manager" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="it-manager" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Linux Server Hardening + Compliance</h3>
+<p>SELinux enforcement, CIS benchmark alignment, and audit-ready compliance checklists for production Linux hosts.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="linux-hardening" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="linux-hardening" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="linux-hardening" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Network & Server Security Scanning Guide</h3>
+<p>A practical approach to vulnerability scanning and remediation prioritization — signal over noise.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="network-security-scanning" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="network-security-scanning" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>PowerShell Automation Templates</h3>
+<p>Reusable scripts and templates for the automation work that actually eats your week — patching, reporting, decommissioning.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="powershell-templates" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="powershell-templates" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="powershell-templates" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>SysAdmin Documentation Kit</h3>
+<p>Templates for the documentation nobody wants to write but everybody needs during the next incident — runbooks, diagrams, SOPs.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="sysadmin-docs" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="sysadmin-docs" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="sysadmin-docs" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>VMware Operations Guide</h3>
+<p>Day-to-day vSphere administration, capacity planning, and the troubleshooting steps for the incidents that actually happen.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="vmware-operations" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="vmware-operations" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="vmware-operations" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Windows Server Build Standards</h3>
+<p>Golden-image build standards and hardening baselines so every server starts from the same known-good state.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="windows-server" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="windows-server" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============= SPECIAL NEEDS & CAREGIVER RESOURCES ============= -->
+<div class="kit-section" id="special-needs-caregiver-resources">
+<h2>Special Needs & Caregiver Resources</h2>
+<p style="color: var(--slate); margin-bottom: 1.5rem;">
+Built out of our own life with Major. Every one of these ships with 10% of its revenue donated to special needs nonprofits — same pledge as the rest of this site.
+</p>
+<div class="kit-grid">
+
+<div class="kit-item">
+<h3>Autism Communication Toolkit</h3>
+<p>Practical communication supports and scripts for home, school, and appointments — built for real days, not ideal ones.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="autism-comms" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="autism-comms" data-tier="pro">Pro · $75</a>
+</div>
+</div><div class="kit-item">
+<h3>Autism-Friendly Home Organization System</h3>
+<p>A room-by-room system for reducing sensory chaos and building predictability into the home environment.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="autism-home-org" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="autism-home-org" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Autism Daily Routine Planner</h3>
+<p>A structured framework for morning, school/work, and evening routines that reduce anxiety through predictability.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="autism-routine" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="autism-routine" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Caregiver Management System</h3>
+<p>Medication logs, appointment tracking, and the coordination system for managing care for a loved one without losing your own week.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="caregiver" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="caregiver" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Emotional Regulation Workbook</h3>
+<p>A regulation-levels framework (calm, alert, escalated) with concrete strategies for each stage — for the person and the people supporting them.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="emotional-regulation" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="emotional-regulation" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>IEP Meeting Organizer</h3>
+<p>Prep sheets and tracking tools for IEP meetings so you walk in with your goals organized, not scattered across three notebooks.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="iep-organizer" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="iep-organizer" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Sensory Tracking Journal</h3>
+<p>Trigger logs, sleep tracking, and pattern-spotting tools for understanding what causes dysregulation and what actually helps.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="sensory-journal" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="sensory-journal" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Special Needs Caregiver Binder</h3>
+<p>One place for medical records, therapy records, and emergency contacts — the binder every specialist visit asks you to have.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="special-needs-binder" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="special-needs-binder" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Special Needs Financial Planning Organizer</h3>
+<p>Organizing tools for ABLE accounts, benefits coordination, and the long-horizon financial planning specific to special needs families.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="special-needs-financial" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="special-needs-financial" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Transition Planning Toolkit</h3>
+<p>Planning tools for the transition to adulthood — services, guardianship considerations, and the milestones that sneak up on you.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="transition-planning" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="transition-planning" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Visual Schedule Cards Pack</h3>
+<p>Printable visual schedule cards for building routine predictability at home or in the classroom.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="visual-schedule-cards" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="visual-schedule-cards" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============= LIFE & PRODUCTIVITY PLANNERS ============= -->
+<div class="kit-section" id="life-productivity-planners">
+<h2>Life & Productivity Planners</h2>
+<p style="color: var(--slate); margin-bottom: 1.5rem;">
+The same fixed-pricing, no-jargon approach applied to the planning most families end up doing on the back of an envelope.
+</p>
+<div class="kit-grid">
+
+<div class="kit-item">
+<h3>Digital Life Organizer</h3>
+<p>A system for organizing passwords, subscriptions, and digital accounts so someone else could actually find things if they needed to.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="digital-life" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="digital-life" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Family Emergency Preparedness Planner</h3>
+<p>Emergency contacts, critical document checklists, and the prep work that turns a crisis into a inconvenience.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="emergency-prep" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="emergency-prep" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Home Maintenance Tracker</h3>
+<p>A seasonal maintenance schedule and tracker so small issues get caught before they become expensive ones.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="home-maintenance" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="home-maintenance" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>New Homeowner Bundle</h3>
+<p>The first-year checklist for new homeowners — what to inspect, schedule, and budget for that nobody tells you at closing.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="homeowner" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="homeowner" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Job Search Command Center</h3>
+<p>Application tracking, networking follow-ups, and interview prep organized in one system instead of six browser tabs.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="job-search" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="job-search" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Moving Planner Toolkit</h3>
+<p>A timeline-based moving checklist from 8 weeks out through settling in, so nothing gets left in a box marked 'misc.'</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="moving-planner" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="moving-planner" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Personal Budget System</h3>
+<p>A practical budgeting framework and tracking templates — built for how people actually spend, not a textbook budget.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="personal-budget" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="personal-budget" data-tier="pro">Pro · $75</a>
+<a href="#" class="tier-link tier-premium" data-product="personal-budget" data-tier="premium">Premium · $29</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Personal Productivity System</h3>
+<p>A weekly planning method built around 'big rocks' — the three things that actually matter, scheduled before everything else.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="productivity-system" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="productivity-system" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<h3>Side Hustle Starter Kit</h3>
+<p>A starter framework for validating and launching a side business without quitting your day job first.</p>
+<div class="tier-links">
+<a href="#" class="tier-link tier-basic" data-product="side-hustle" data-tier="basic">Basic · $15</a>
+<a href="#" class="tier-link tier-pro" data-product="side-hustle" data-tier="pro">Pro · $75</a>
+</div>
+</div>
+</div>
+</div>
+<!-- ============= PREMIUM BUNDLES ============= -->
+<div class="kit-section" id="premium-bundles">
+<h2>Premium Bundles</h2>
+<p style="color: var(--slate); margin-bottom: 1.5rem;">
+Five products' worth of Premium-depth content in one file, at Pro-tier pricing. Best value if more than one product in a bundle fits your situation.
+</p>
+<div class="kit-grid">
+
+<div class="kit-item">
+<span class="marc-owns">Premium Bundle · Products 11-15</span>
+<h3>Products 11-15 Premium Bundle</h3>
+<p>Family Emergency, Side Hustle, Homeowner, Job Search, Digital Life</p>
+<ul class="bundle-includes"><li>Family Emergency Preparedness Planner</li><li>Side Hustle Starter Kit</li><li>New Homeowner Bundle</li><li>Job Search Command Center</li><li>Digital Life Organizer</li></ul>
+<div class="tier-links">
+<a href="#" class="tier-link tier-bundle" data-product="bundle-11-15" data-tier="bundle">Bundle · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<span class="marc-owns">Premium Bundle · Products 16-20</span>
+<h3>Products 16-20 Premium Bundle</h3>
+<p>Productivity, Moving, Home Maintenance, Caregiver, Sensory Tracking</p>
+<ul class="bundle-includes"><li>Personal Productivity System</li><li>Moving Planner Toolkit</li><li>Home Maintenance Tracker</li><li>Caregiver Management System</li><li>Sensory Tracking Journal</li></ul>
+<div class="tier-links">
+<a href="#" class="tier-link tier-bundle" data-product="bundle-16-20" data-tier="bundle">Bundle · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<span class="marc-owns">Premium Bundle · Products 21-25</span>
+<h3>Products 21-25 Premium Bundle</h3>
+<p>Autism Routine, Visual Schedule, Autism Comms, IEP, Transitions</p>
+<ul class="bundle-includes"><li>Autism Daily Routine Planner</li><li>Visual Schedule Cards Pack</li><li>Autism Communication Toolkit</li><li>IEP Meeting Organizer</li><li>Transition Planning Toolkit</li></ul>
+<div class="tier-links">
+<a href="#" class="tier-link tier-bundle" data-product="bundle-21-25" data-tier="bundle">Bundle · $75</a>
+</div>
+</div>
+<div class="kit-item">
+<span class="marc-owns">Premium Bundle · Products 26-30</span>
+<h3>Products 26-30 Premium Bundle</h3>
+<p>Emotional Regulation, Special Needs Financial, Autism Home Org + bonus Sensory Regulation & Caregiver Self-Care content</p>
+<ul class="bundle-includes"><li>Emotional Regulation Workbook</li><li>Special Needs Financial Planning Organizer</li><li>Autism-Friendly Home Organization System</li><li>+ bonus: Sensory Regulation Toolkit</li><li>+ bonus: Caregiver Self-Care Guide</li></ul>
+<div class="tier-links">
+<a href="#" class="tier-link tier-bundle" data-product="bundle-26-30" data-tier="bundle">Bundle · $75</a>
+</div>
+</div>
+</div>
+</div>
+
+<div style="margin: 4rem 0 2rem; padding: 2rem; background: var(--paper-warm); border-left: 3px solid var(--copper); border-radius: var(--r);">
+<h2 style="margin: 0 0 0.75rem;">Not sure which tier fits?</h2>
+<p style="margin-bottom: 1rem;">Basic gets you the framework. Pro adds the fill-in templates and deeper detail. Premium is the complete edition with case studies, bonus tools, and everything in between. If you're still not sure, <a href="/contact.html">reach out</a> — I'll point you to the right one.</p>
+</div>
+
+</article>
+
+<footer>
+<div class="wrap">
+<div class="foot-grid">
+<div>
+<div class="foot-brand">justask<span>major</span></div>
+<p class="foot-tagline">Strategic IT for small businesses, nonprofits, and discerning homeowners. Based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+</div>
+<div>
+<h4>Services</h4>
+<ul>
+<li><a href="/services.html#advisor">Advisor</a></li>
+<li><a href="/services.html#partner">Quarterly Partner</a></li>
+<li><a href="/services.html#projects">Project work</a></li>
+</ul>
+</div>
+<div>
+<h4>Company</h4>
+<ul>
+<li><a href="/about.html">About</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/digital-products.html">Digital Products</a></li>
+<li><a href="/contact.html">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4>Connect</h4>
+<ul>
+<li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+<li><a href="/contact.html">Start a project</a></li>
+</ul>
+</div>
+</div>
+<div class="foot-bottom">
+<div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+<div>Built with care · 10% pledged</div>
+</div>
+<div class="foot-disclosure">
+Digital products are sold via Gumroad. All sales final due to the nature of digital downloads; see individual product pages for details.
+</div>
+</div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
