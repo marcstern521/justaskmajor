@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1.0">
+<title>M3 Family Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --accent: #e8a838;
+    --accent2: #58a6ff;
+    --accent3: #3fb950;
+    --accent4: #f78166;
+    --accent5: #bc8cff;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #484f58;
+    --marc: #58a6ff;
+    --mita: #f78166;
+    --major: #3fb950;
+    --family: #e8a838;
+    --chore: #a78bfa;
+    --maintain: #22d3ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 18px; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .logo span { color: var(--text-muted); font-weight: 400; font-size: 1rem; margin-left: 8px; }
+  .datetime { text-align: center; }
+  .clock {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .date-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+  .view-tabs { display: flex; gap: 6px; }
+  .tab {
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--accent); }
+  .tab.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+  .legend { display: flex; gap: 20px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .main { flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 16px 24px; }
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; flex-shrink: 0;
+  }
+  .nav-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); padding: 6px 16px; border-radius: 6px;
+    cursor: pointer; font-size: 1rem; transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--text); }
+  .view { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+  .view.active { display: flex; }
+  #day-view { display: none; flex-direction: row; gap: 16px; }
+  #day-view.active { display: flex; }
+  .day-timeline {
+    flex: 1; background: var(--surface); border-radius: 10px;
+    border: 1px solid var(--border); overflow-y: auto; padding: 8px 0; min-width: 0;
+  }
+  .hour-row {
+    display: flex; align-items: stretch; min-height: 52px;
+    border-bottom: 1px solid var(--border); position: relative;
+  }
+  .hour-row:last-child { border-bottom: none; }
+  .hour-label {
+    width: 60px; padding: 6px 12px; font-size: 0.72rem;
+    color: var(--text-dim); flex-shrink: 0; text-align: right; padding-top: 8px;
+  }
+  .hour-slots { flex: 1; padding: 4px 8px; display: flex; flex-direction: column; gap: 3px; }
+  .day-event {
+    border-radius: 5px; padding: 4px 10px; font-size: 0.82rem;
+    font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  }
+  .day-event .event-time { font-size: 0.72rem; opacity: 0.8; }
+  .day-sidebar { width: 50%; display: flex; flex-direction: column; gap: 12px; }
+  .sidebar-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px;
+  }
+  .sidebar-card h3 {
+    font-size: 0.9rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px;
+  }
+  .upcoming-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border); font-size: 1rem;
+  }
+  .upcoming-item:last-child { border-bottom: none; }
+  .upcoming-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .upcoming-info { flex: 1; }
+  .upcoming-name { color: var(--text); font-weight: 500; font-size: 1rem; }
+  .upcoming-meta { font-size: 0.85rem; color: var(--text-muted); }
+  .week-grid {
+    flex: 1; display: grid; grid-template-columns: 48px repeat(7, 1fr);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface);
+  }
+  .week-header-cell {
+    padding: 10px 6px; text-align: center; border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border); font-size: 0.8rem;
+  }
+  .week-header-cell .day-name { color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .week-header-cell .day-num {
+    font-size: 1.2rem; font-weight: 600; margin-top: 2px; width: 32px; height: 32px;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+  }
+  .week-header-cell.today .day-num { background: var(--accent); color: #000; }
+  .week-time-col { border-right: 1px solid var(--border); }
+  .week-hour-label {
+    height: 44px; display: flex; align-items: flex-start; justify-content: flex-end;
+    padding: 4px 8px 0 0; font-size: 0.65rem; color: var(--text-dim); border-bottom: 1px solid var(--border);
+  }
+  .week-cell {
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    height: 44px; padding: 2px 3px; position: relative; vertical-align: top;
+  }
+  .week-cell.today-col { background: rgba(232, 168, 56, 0.04); }
+  .week-event {
+    border-radius: 3px; padding: 2px 5px; font-size: 0.68rem; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px;
+  }
+  .month-grid {
+    flex: 1; display: flex; flex-direction: column; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .month-header-row { display: grid; grid-template-columns: repeat(7, 1fr); border-bottom: 1px solid var(--border); }
+  .month-day-header {
+    padding: 10px 8px; text-align: center; font-size: 0.9rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-muted); border-right: 1px solid var(--border);
+  }
+  .month-day-header:last-child { border-right: none; }
+  .month-weeks { flex: 1; display: flex; flex-direction: column; }
+  .month-week-row {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    flex: 1; border-bottom: 1px solid var(--border);
+  }
+  .month-week-row:last-child { border-bottom: none; }
+  .month-cell {
+    border-right: 1px solid var(--border); padding: 6px 8px;
+    display: flex; flex-direction: column; gap: 2px; overflow: hidden;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .month-cell:hover { background: var(--surface2); }
+  .month-cell:last-child { border-right: none; }
+  .month-cell.other-month .cell-num { color: var(--text-dim); }
+  .month-cell.today { background: rgba(232, 168, 56, 0.06); }
+  .cell-num { font-size: 1rem; color: var(--text-muted); margin-bottom: 3px; font-weight: 500; }
+  .cell-event {
+    border-radius: 3px; padding: 2px 6px; font-size: 0.8rem; font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .cell-more { font-size: 0.78rem; color: var(--text-muted); padding-left: 4px; }
+  .three-month-grid { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .mini-month {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .mini-month-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+  .mini-month.current .mini-month-title { color: var(--accent); }
+  .mini-header { display: grid; grid-template-columns: repeat(7, 1fr); margin-bottom: 4px; }
+  .mini-day-label { text-align: center; font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 0; }
+  .mini-grid { display: grid; grid-template-columns: repeat(7, 1fr); flex: 1; gap: 1px; }
+  .mini-cell {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; border-radius: 4px; cursor: pointer; position: relative;
+    transition: background 0.15s; flex-direction: column; gap: 1px;
+  }
+  .mini-cell:hover { background: var(--surface2); }
+  .mini-cell.other-month { color: var(--text-dim); }
+  .mini-cell.today { background: var(--accent); color: #000; font-weight: 700; }
+  .mini-cell.has-events::after {
+    content: ''; display: block; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--accent2); position: absolute; bottom: 2px;
+  }
+  .mini-cell.today.has-events::after { background: rgba(0,0,0,0.5); }
+  .mini-events-preview { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 8px; flex: 1; overflow: hidden; }
+  .mini-event-item {
+    display: flex; align-items: center; gap: 6px; padding: 3px 0;
+    font-size: 0.7rem; border-bottom: 1px solid var(--border);
+  }
+  .mini-event-item:last-child { border-bottom: none; }
+  .mini-event-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .color-marc    { background-color: var(--marc);   color: #000; }
+  .color-mita    { background-color: var(--mita);   color: #000; }
+  .color-major   { background-color: var(--major);  color: #000; }
+  .color-family   { background-color: var(--family);  color: #000; }
+  .color-chore    { background-color: var(--chore);   color: #000; }
+  .color-maintain { background-color: var(--maintain); color: #000; }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px; width: 480px; max-width: 90vw; animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+  .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 20px; }
+  .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .form-row label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .form-row input, .form-row select {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 12px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  }
+  .form-row input:focus, .form-row select:focus { outline: none; border-color: var(--accent); }
+  .form-row select option { background: var(--surface); }
+  .form-row-inline { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+  .btn-cancel {
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 9px 20px; border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+  }
+  .btn-save {
+    background: var(--accent); border: none; color: #000; padding: 9px 24px;
+    border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+  }
+  .btn-delete {
+    background: transparent; border: 1px solid var(--accent4); color: var(--accent4);
+    padding: 9px 16px; border-radius: 6px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem; margin-right: auto;
+  }
+  .add-btn {
+    background: var(--accent); border: none; color: #000; padding: 8px 18px;
+    border-radius: 6px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 600; transition: opacity 0.15s;
+  }
+  .add-btn:hover { opacity: 0.85; }
+  /* Day list items */
+  .day-list-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 16px; border-radius: 7px; margin-bottom: 8px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 500;
+  }
+  .day-list-left {
+    min-width: 110px; font-size: 0.95rem; opacity: 0.85; padding-top: 2px;
+  }
+  .day-list-title { flex: 1; line-height: 1.5; }
+
+  /* Week list items */
+  .week-list-item {
+    border-radius: 5px; padding: 7px 9px; margin-bottom: 5px;
+    cursor: pointer; font-size: 0.95rem;
+  }
+
+  /* Three month event items */
+  .three-event-item {
+    border-radius: 4px; padding: 5px 9px; margin-bottom: 5px;
+    font-size: 0.88rem; font-weight: 500; cursor: pointer;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .dash-col { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; }
+  .dash-col-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .dash-col-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
+  .dash-col-body { flex: 1; overflow-y: auto; padding: 8px; }
+  .dash-event { border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; cursor: pointer; }
+  .dash-event-title { font-size: 0.9rem; font-weight: 600; line-height: 1.3; }
+  .dash-event-meta { font-size: 0.75rem; opacity: 0.8; margin-top: 2px; }
+  .dash-date-sep { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-dim); padding: 8px 4px 4px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="M3 Calendar">
+<meta name="theme-color" content="#e8a838">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='20' fill='%230d1117'/><text x='90' y='75' font-family='serif' font-size='60' font-weight='bold' fill='%23e8a838' text-anchor='middle'>M3</text><text x='90' y='130' font-family='serif' font-size='26' fill='%238b949e' text-anchor='middle'>Calendar</text></svg>">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">M3 Family <span>Calendar</span></div>
+  <div id="weather-widget" style="display:flex;align-items:center;gap:16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 20px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div id="weather-icon" style="font-size:2rem;line-height:1;">⏳</div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent);">Today</div>
+        <div style="display:flex;align-items:baseline;gap:6px;">
+          <span id="weather-temp" style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--text);">--°</span>
+          <span id="weather-desc" style="font-size:0.78rem;color:var(--text-muted);">Loading...</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <span id="weather-hilo" style="font-size:0.72rem;color:var(--text-muted);">H:--° L:--°</span>
+          <span id="weather-rain" style="font-size:0.72rem;color:var(--accent2);">💧 --%</span>
+          <span id="weather-wind" style="font-size:0.72rem;color:var(--text-muted);">💨 --</span>
+        </div>
+      </div>
+    </div>
+    <div style="width:1px;height:48px;background:var(--border);"></div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div id="weather-icon-tmr" style="font-size:2rem;line-height:1;">⏳</div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);">Tomorrow</div>
+        <div style="display:flex;align-items:baseline;gap:6px;">
+          <span id="weather-temp-tmr" style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--text);">--°</span>
+          <span id="weather-desc-tmr" style="font-size:0.78rem;color:var(--text-muted);">--</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <span id="weather-hilo-tmr" style="font-size:0.72rem;color:var(--text-muted);">H:--° L:--°</span>
+          <span id="weather-rain-tmr" style="font-size:0.72rem;color:var(--accent2);">💧 --%</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:0.62rem;color:var(--text-dim);align-self:flex-end;" id="weather-updated"></div>
+  </div>
+  <div class="datetime">
+    <div class="clock" id="clock">--:--</div>
+    <div class="date-label" id="date-label">Loading...</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+    <div class="view-tabs">
+      <button class="tab active" onclick="setView('day')">Day</button>
+      <button class="tab" onclick="setView('week')">Week</button>
+      <button class="tab" onclick="setView('month')">Month</button>
+      <button class="tab" onclick="setView('three')">3 Month</button>
+      <button class="tab" onclick="setView('dash')">Dashboard</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--marc)"></div> Marc</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--mita)"></div> Mita</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--major)"></div> Major</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--family)"></div> Family</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--chore)"></div> Chores</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--maintain)"></div> Home Maint.</div>
+      </div>
+      <button class="add-btn" onclick="openAddModal()">+ Add Event</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="nav-row">
+    <button class="nav-btn" onclick="navPrev()">&#8592; Prev</button>
+    <div class="nav-title" id="nav-title"></div>
+    <button class="nav-btn" onclick="navNext()">Next &#8594;</button>
+  </div>
+
+  <div class="view active" id="day-view">
+    <div class="day-timeline" id="day-timeline"></div>
+    <div class="day-sidebar">
+      <div class="sidebar-card" style="flex:0 0 auto;">
+        <h3 id="quote-label">Daily Inspiration</h3>
+        <div id="daily-quote" style="font-size:0.95rem;line-height:1.6;color:var(--text);font-style:italic;padding:4px 0;">“Loading...”</div>
+        <div id="daily-quote-source" style="font-size:0.78rem;color:var(--text-muted);margin-top:6px;text-align:right;"></div>
+      </div>
+      <div class="sidebar-card">
+        <h3>Upcoming Events</h3>
+        <div id="upcoming-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="view" id="week-view">
+    <div id="week-header-grid" style="display:none;"></div>
+    <div id="week-body" style="display:none;"></div>
+  </div>
+
+  <div class="view" id="month-view">
+    <div class="month-grid">
+      <div class="month-header-row" id="month-header"></div>
+      <div class="month-weeks" id="month-weeks"></div>
+    </div>
+  </div>
+
+  <div class="view" id="three-view">
+    <div class="three-month-grid" id="three-month-grid"></div>
+  </div>
+  <div class="view" id="dash-view">
+    <div id="dash-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:1;overflow:hidden;"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h2 id="modal-title">Add Event</h2>
+    <div class="form-row">
+      <label>Event Title</label>
+      <input type="text" id="input-title" placeholder="e.g. Soccer Practice">
+    </div>
+    <div class="form-row-inline">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Date</label>
+        <input type="date" id="input-date">
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Who</label>
+        <select id="input-who">
+          <option value="family">Family</option>
+          <option value="marc">Marc</option>
+          <option value="mita">Mita</option>
+          <option value="major">Major</option>
+          <option value="chore">Chore</option>
+          <option value="maintain">Home Maint.</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row-inline" style="margin-top:14px;">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Start Time</label>
+        <input type="time" id="input-start">
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>End Time</label>
+        <input type="time" id="input-end">
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:14px;">
+      <label>Notes (optional)</label>
+      <input type="text" id="input-notes" placeholder="Location, details...">
+    </div>
+    <div class="modal-actions" id="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveEvent()">Save Event</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== SEED DATA =====
+const SEED_EVENTS = [
+
+  // ── US FEDERAL HOLIDAYS 2025 ──
+  {id:1001,title:"New Year's Day",date:"2025-01-01",who:"family",notes:"Federal Holiday"},
+  {id:1002,title:"Martin Luther King Jr. Day",date:"2025-01-20",who:"family",notes:"Federal Holiday"},
+  {id:1003,title:"Presidents' Day",date:"2025-02-17",who:"family",notes:"Federal Holiday"},
+  {id:1004,title:"Memorial Day",date:"2025-05-26",who:"family",notes:"Federal Holiday"},
+  {id:1005,title:"Juneteenth",date:"2025-06-19",who:"family",notes:"Federal Holiday"},
+  {id:1006,title:"Independence Day",date:"2025-07-04",who:"family",notes:"Federal Holiday 🎆"},
+  {id:1007,title:"Labor Day",date:"2025-09-01",who:"family",notes:"Federal Holiday"},
+  {id:1008,title:"Columbus Day",date:"2025-10-13",who:"family",notes:"Federal Holiday"},
+  {id:1009,title:"Veterans Day",date:"2025-11-11",who:"family",notes:"Federal Holiday"},
+  {id:1010,title:"Thanksgiving Day",date:"2025-11-27",who:"family",notes:"Federal Holiday 🦃"},
+  {id:1011,title:"Christmas Day",date:"2025-12-25",who:"family",notes:"Federal Holiday 🎄"},
+
+  // ── US FEDERAL HOLIDAYS 2026 ──
+  {id:1020,title:"New Year's Day",date:"2026-01-01",who:"family",notes:"Federal Holiday"},
+  {id:1021,title:"Martin Luther King Jr. Day",date:"2026-01-19",who:"family",notes:"Federal Holiday"},
+  {id:1022,title:"Presidents' Day",date:"2026-02-16",who:"family",notes:"Federal Holiday"},
+  {id:1023,title:"Memorial Day",date:"2026-05-25",who:"family",notes:"Federal Holiday"},
+  {id:1024,title:"Juneteenth",date:"2026-06-19",who:"family",notes:"Federal Holiday"},
+  {id:1025,title:"Independence Day",date:"2026-07-04",who:"family",notes:"Federal Holiday 🎆"},
+  {id:1026,title:"Labor Day",date:"2026-09-07",who:"family",notes:"Federal Holiday"},
+  {id:1027,title:"Columbus Day",date:"2026-10-12",who:"family",notes:"Federal Holiday"},
+  {id:1028,title:"Veterans Day",date:"2026-11-11",who:"family",notes:"Federal Holiday"},
+  {id:1029,title:"Thanksgiving Day",date:"2026-11-26",who:"family",notes:"Federal Holiday 🦃"},
+  {id:1030,title:"Christmas Day",date:"2026-12-25",who:"family",notes:"Federal Holiday 🎄"},
+
+  // ── INDIA HOLIDAYS 2025 ──
+  {id:2001,title:"Republic Day 🇮🇳",date:"2025-01-26",who:"family",notes:"India National Holiday"},
+  {id:2002,title:"Holi 🎨",date:"2025-03-14",who:"family",notes:"India Holiday"},
+  {id:2003,title:"Good Friday",date:"2025-04-18",who:"family",notes:"India Holiday"},
+  {id:2004,title:"Ram Navami",date:"2025-04-06",who:"family",notes:"India Holiday"},
+  {id:2005,title:"Eid ul-Fitr 🌙",date:"2025-03-31",who:"family",notes:"India Holiday"},
+  {id:2006,title:"Mahavir Jayanti",date:"2025-04-10",who:"family",notes:"India Holiday"},
+  {id:2007,title:"Buddha Purnima",date:"2025-05-12",who:"family",notes:"India Holiday"},
+  {id:2008,title:"Eid ul-Adha 🌙",date:"2025-06-07",who:"family",notes:"India Holiday"},
+  {id:2009,title:"Independence Day 🇮🇳",date:"2025-08-15",who:"family",notes:"India National Holiday"},
+  {id:2010,title:"Janmashtami",date:"2025-08-16",who:"family",notes:"India Holiday"},
+  {id:2011,title:"Ganesh Chaturthi",date:"2025-08-27",who:"family",notes:"India Holiday"},
+  {id:2012,title:"Gandhi Jayanti 🇮🇳",date:"2025-10-02",who:"family",notes:"India National Holiday"},
+  {id:2013,title:"Dussehra",date:"2025-10-02",who:"family",notes:"India Holiday"},
+  {id:2014,title:"Diwali 🪔",date:"2025-10-20",who:"family",notes:"India Holiday"},
+  {id:2015,title:"Guru Nanak Jayanti",date:"2025-11-05",who:"family",notes:"India Holiday"},
+  {id:2016,title:"Christmas Day",date:"2025-12-25",who:"family",notes:"India Holiday"},
+
+  // ── INDIA HOLIDAYS 2026 ──
+  {id:2020,title:"Republic Day 🇮🇳",date:"2026-01-26",who:"family",notes:"India National Holiday"},
+  {id:2021,title:"Holi 🎨",date:"2026-03-03",who:"family",notes:"India Holiday"},
+  {id:2022,title:"Good Friday",date:"2026-04-03",who:"family",notes:"India Holiday"},
+  {id:2023,title:"Eid ul-Fitr 🌙",date:"2026-03-20",who:"family",notes:"India Holiday"},
+  {id:2024,title:"Ram Navami",date:"2026-03-26",who:"family",notes:"India Holiday"},
+  {id:2025,title:"Mahavir Jayanti",date:"2026-03-31",who:"family",notes:"India Holiday"},
+  {id:2026,title:"Buddha Purnima",date:"2026-05-01",who:"family",notes:"India Holiday"},
+  {id:2027,title:"Independence Day 🇮🇳",date:"2026-08-15",who:"family",notes:"India National Holiday"},
+  {id:2028,title:"Gandhi Jayanti 🇮🇳",date:"2026-10-02",who:"family",notes:"India National Holiday"},
+  {id:2029,title:"Diwali 🪔",date:"2026-11-08",who:"family",notes:"India Holiday"},
+  {id:2030,title:"Guru Nanak Jayanti",date:"2026-11-25",who:"family",notes:"India Holiday"},
+  {id:2031,title:"Christmas Day",date:"2026-12-25",who:"family",notes:"India Holiday"},
+
+  // ── BIRTHDAYS 2025 ──
+  {id:3001,title:"🎂 Whitney's Birthday",date:"2025-01-14",who:"family",notes:"Birthday"},
+  {id:3002,title:"🎂 Becky Williams' Birthday",date:"2025-01-20",who:"family",notes:"Birthday"},
+  {id:3003,title:"🎂 Fernando's Birthday",date:"2025-01-23",who:"family",notes:"Birthday"},
+  {id:3004,title:"🎂 Major's Birthday 🎉",date:"2025-01-26",who:"major",notes:"Birthday"},
+  {id:3005,title:"🎂 Robert Stern's Birthday",date:"2025-02-02",who:"family",notes:"Birthday"},
+  {id:3006,title:"🎂 Neetal's Birthday",date:"2025-02-04",who:"family",notes:"Birthday"},
+  {id:3007,title:"🎂 Tom Williams' Birthday",date:"2025-02-11",who:"family",notes:"Birthday"},
+  {id:3008,title:"🎂 Briyana's Birthday",date:"2025-02-20",who:"family",notes:"Birthday"},
+  {id:3009,title:"🎂 Marc's Birthday 🎉",date:"2025-03-28",who:"marc",notes:"Birthday"},
+  {id:3010,title:"🎂 Rocky's Birthday",date:"2025-03-29",who:"family",notes:"Birthday"},
+  {id:3011,title:"🎂 Sarla's Birthday",date:"2025-04-09",who:"family",notes:"Birthday"},
+  {id:3012,title:"🎂 Patti's Birthday",date:"2025-04-10",who:"family",notes:"Birthday"},
+  {id:3013,title:"🎂 Stacy's Birthday",date:"2025-04-16",who:"family",notes:"Birthday"},
+  {id:3014,title:"🎂 Jonathan's Birthday",date:"2025-04-18",who:"family",notes:"Birthday"},
+  {id:3015,title:"🎂 Tifani's Birthday",date:"2025-05-05",who:"family",notes:"Birthday"},
+  {id:3016,title:"🎂 Leah's Birthday",date:"2025-05-05",who:"family",notes:"Birthday"},
+  {id:3017,title:"🎂 David Goins' Birthday",date:"2025-05-14",who:"family",notes:"Birthday"},
+  {id:3018,title:"🎂 Doug's Birthday",date:"2025-05-14",who:"family",notes:"Birthday"},
+  {id:3019,title:"🎂 Renee's Birthday",date:"2025-05-19",who:"family",notes:"Birthday"},
+  {id:3020,title:"🎂 Clint's Birthday",date:"2025-06-10",who:"family",notes:"Birthday"},
+  {id:3021,title:"🎂 Ashley's Birthday",date:"2025-06-25",who:"family",notes:"Birthday"},
+  {id:3022,title:"🎂 Alora's Birthday",date:"2025-07-06",who:"family",notes:"Birthday"},
+  {id:3023,title:"🎂 Leila's Birthday",date:"2025-07-17",who:"family",notes:"Birthday"},
+  {id:3024,title:"🎂 Sanjaybhai's Birthday",date:"2025-08-02",who:"family",notes:"Birthday"},
+  {id:3025,title:"🎂 Andy's Birthday",date:"2025-08-05",who:"family",notes:"Birthday"},
+  {id:3026,title:"🎂 Bhabhi's Birthday",date:"2025-08-16",who:"family",notes:"Birthday"},
+  {id:3027,title:"🎂 Risha & Rohan's Birthdays",date:"2025-08-20",who:"family",notes:"Birthday"},
+  {id:3028,title:"🎂 Mita's Birthday 🎉",date:"2025-08-23",who:"mita",notes:"Birthday"},
+  {id:3029,title:"🎂 Michael's Birthday",date:"2025-08-30",who:"family",notes:"Birthday"},
+  {id:3030,title:"🎂 BJ Anderson's Birthday",date:"2025-09-03",who:"family",notes:"Birthday"},
+  {id:3031,title:"🎂 Dada's Birthday",date:"2025-09-09",who:"family",notes:"Birthday"},
+  {id:3032,title:"🎂 Sean Golden's Birthday",date:"2025-09-15",who:"family",notes:"Birthday"},
+  {id:3033,title:"🎂 George's Birthday",date:"2025-09-25",who:"family",notes:"Birthday"},
+  {id:3034,title:"🎂 Ellen's Birthday",date:"2025-09-28",who:"family",notes:"Birthday"},
+  {id:3035,title:"🎂 Natalie Diaz's Birthday",date:"2025-09-29",who:"family",notes:"Birthday"},
+  {id:3036,title:"🎂 Gage's Birthday",date:"2025-10-05",who:"family",notes:"Birthday"},
+  {id:3037,title:"🎂 Neal Bhakta's Birthday",date:"2025-10-14",who:"family",notes:"Birthday"},
+  {id:3038,title:"🎂 Piper's Birthday",date:"2025-10-20",who:"family",notes:"Birthday"},
+  {id:3039,title:"🎂 Riley's Birthday",date:"2025-11-13",who:"family",notes:"Birthday"},
+  {id:3040,title:"🎂 Alison's Birthday",date:"2025-11-16",who:"family",notes:"Birthday"},
+  {id:3041,title:"🎂 Houston Oates' Birthday",date:"2025-11-22",who:"family",notes:"Birthday"},
+  {id:3042,title:"🎂 Philip's Birthday",date:"2025-12-04",who:"family",notes:"Birthday"},
+  {id:3043,title:"🎂 Claudette's Birthday",date:"2025-12-11",who:"family",notes:"Birthday"},
+  {id:3044,title:"🎂 Kennie's Birthday",date:"2025-12-21",who:"family",notes:"Birthday"},
+
+  // ── BIRTHDAYS 2026 ──
+  {id:4001,title:"🎂 Whitney's Birthday",date:"2026-01-14",who:"family",notes:"Birthday"},
+  {id:4002,title:"🎂 Becky Williams' Birthday",date:"2026-01-20",who:"family",notes:"Birthday"},
+  {id:4003,title:"🎂 Fernando's Birthday",date:"2026-01-23",who:"family",notes:"Birthday"},
+  {id:4004,title:"🎂 Major's Birthday 🎉",date:"2026-01-26",who:"major",notes:"Birthday"},
+  {id:4005,title:"🎂 Robert Stern's Birthday",date:"2026-02-02",who:"family",notes:"Birthday"},
+  {id:4006,title:"🎂 Neetal's Birthday",date:"2026-02-04",who:"family",notes:"Birthday"},
+  {id:4007,title:"🎂 Tom Williams' Birthday",date:"2026-02-11",who:"family",notes:"Birthday"},
+  {id:4008,title:"🎂 Briyana's Birthday",date:"2026-02-20",who:"family",notes:"Birthday"},
+  {id:4009,title:"🎂 Marc's Birthday 🎉",date:"2026-03-28",who:"marc",notes:"Birthday"},
+  {id:4010,title:"🎂 Rocky's Birthday",date:"2026-03-29",who:"family",notes:"Birthday"},
+  {id:4011,title:"🎂 Sarla's Birthday",date:"2026-04-09",who:"family",notes:"Birthday"},
+  {id:4012,title:"🎂 Patti's Birthday",date:"2026-04-10",who:"family",notes:"Birthday"},
+  {id:4013,title:"🎂 Stacy's Birthday",date:"2026-04-16",who:"family",notes:"Birthday"},
+  {id:4014,title:"🎂 Jonathan's Birthday",date:"2026-04-18",who:"family",notes:"Birthday"},
+  {id:4015,title:"🎂 Tifani's Birthday",date:"2026-05-05",who:"family",notes:"Birthday"},
+  {id:4016,title:"🎂 Leah's Birthday",date:"2026-05-05",who:"family",notes:"Birthday"},
+  {id:4017,title:"🎂 David Goins' Birthday",date:"2026-05-14",who:"family",notes:"Birthday"},
+  {id:4018,title:"🎂 Doug's Birthday",date:"2026-05-14",who:"family",notes:"Birthday"},
+  {id:4019,title:"🎂 Renee's Birthday",date:"2026-05-19",who:"family",notes:"Birthday"},
+  {id:4020,title:"🎂 Clint's Birthday",date:"2026-06-10",who:"family",notes:"Birthday"},
+  {id:4021,title:"🎂 Ashley's Birthday",date:"2026-06-25",who:"family",notes:"Birthday"},
+  {id:4022,title:"🎂 Alora's Birthday",date:"2026-07-06",who:"family",notes:"Birthday"},
+  {id:4023,title:"🎂 Leila's Birthday",date:"2026-07-17",who:"family",notes:"Birthday"},
+  {id:4024,title:"🎂 Sanjaybhai's Birthday",date:"2026-08-02",who:"family",notes:"Birthday"},
+  {id:4025,title:"🎂 Andy's Birthday",date:"2026-08-05",who:"family",notes:"Birthday"},
+  {id:4026,title:"🎂 Bhabhi's Birthday",date:"2026-08-16",who:"family",notes:"Birthday"},
+  {id:4027,title:"🎂 Risha & Rohan's Birthdays",date:"2026-08-20",who:"family",notes:"Birthday"},
+  {id:4028,title:"🎂 Mita's Birthday 🎉",date:"2026-08-23",who:"mita",notes:"Birthday"},
+  {id:4029,title:"🎂 Michael's Birthday",date:"2026-08-30",who:"family",notes:"Birthday"},
+  {id:4030,title:"🎂 BJ Anderson's Birthday",date:"2026-09-03",who:"family",notes:"Birthday"},
+  {id:4031,title:"🎂 Dada's Birthday",date:"2026-09-09",who:"family",notes:"Birthday"},
+  {id:4032,title:"🎂 Sean Golden's Birthday",date:"2026-09-15",who:"family",notes:"Birthday"},
+  {id:4033,title:"🎂 George's Birthday",date:"2026-09-25",who:"family",notes:"Birthday"},
+  {id:4034,title:"🎂 Ellen's Birthday",date:"2026-09-28",who:"family",notes:"Birthday"},
+  {id:4035,title:"🎂 Natalie Diaz's Birthday",date:"2026-09-29",who:"family",notes:"Birthday"},
+  {id:4036,title:"🎂 Gage's Birthday",date:"2026-10-05",who:"family",notes:"Birthday"},
+  {id:4037,title:"🎂 Neal Bhakta's Birthday",date:"2026-10-14",who:"family",notes:"Birthday"},
+  {id:4038,title:"🎂 Piper's Birthday",date:"2026-10-20",who:"family",notes:"Birthday"},
+  {id:4039,title:"🎂 Riley's Birthday",date:"2026-11-13",who:"family",notes:"Birthday"},
+  {id:4040,title:"🎂 Alison's Birthday",date:"2026-11-16",who:"family",notes:"Birthday"},
+  {id:4041,title:"🎂 Houston Oates' Birthday",date:"2026-11-22",who:"family",notes:"Birthday"},
+  {id:4042,title:"🎂 Philip's Birthday",date:"2026-12-04",who:"family",notes:"Birthday"},
+  {id:4043,title:"🎂 Claudette's Birthday",date:"2026-12-11",who:"family",notes:"Birthday"},
+  {id:4044,title:"🎂 Kennie's Birthday",date:"2026-12-21",who:"family",notes:"Birthday"},
+
+  // ── ANNIVERSARIES ──
+  {id:5001,title:"💍 Andy & Kennie Anniversary",date:"2025-02-21",who:"family",notes:"Anniversary"},
+  {id:5002,title:"💍 Marc & Mita Anniversary ❤️",date:"2025-04-20",who:"family",notes:"Our Anniversary"},
+  {id:5003,title:"💍 Crowsons' Anniversary",date:"2025-07-16",who:"family",notes:"Anniversary"},
+  {id:5004,title:"💍 Andy & Kennie Anniversary",date:"2026-02-21",who:"family",notes:"Anniversary"},
+  {id:5005,title:"💍 Marc & Mita Anniversary ❤️",date:"2026-04-20",who:"family",notes:"Our Anniversary"},
+  {id:5006,title:"💍 Crowsons' Anniversary",date:"2026-07-16",who:"family",notes:"Anniversary"},
+
+  // ── MEDICAL / HEALTH ──
+  {id:8001,title:"❤️ Heart Stress Test - Park",date:"2025-04-20",start:"09:00",who:"marc",notes:"9am with Dr. Park"},
+  {id:8002,title:"Mita Knot Procedure",date:"2025-04-23",who:"mita",notes:"Procedure scheduled"},
+  {id:8003,title:"Jillian Appointment",date:"2025-04-27",start:"08:00",who:"family",notes:"8am"},
+  {id:8004,title:"Mita Colonoscopy",date:"2025-05-07",who:"mita",notes:"Colonoscopy"},
+  {id:8005,title:"🦷 Dentist - Marc",date:"2025-05-07",start:"10:30",who:"marc",notes:"10:30am"},
+  {id:8006,title:"Mita Colonoscopy Follow-up",date:"2025-05-14",who:"mita",notes:"Follow-up"},
+  {id:8007,title:"🩸 Blood Work - Marc",date:"2025-05-19",start:"08:30",who:"marc",notes:"8:30am"},
+  {id:8008,title:"Doctor Appointment - Marc",date:"2025-05-26",start:"08:30",who:"marc",notes:"8:30am"},
+  {id:8009,title:"🦷 Dentist - Marc",date:"2025-06-09",start:"10:15",who:"marc",notes:"10:15am"},
+  {id:8010,title:"🦷 Dentist - Marc",date:"2025-07-27",start:"08:00",who:"marc",notes:"8:00am"},
+  {id:8011,title:"❤️ Park Heart Dr - Marc",date:"2025-09-14",start:"08:00",who:"marc",notes:"8:00am"},
+  {id:8012,title:"🔧 Clean AC & Change Filter",date:"2025-05-07",who:"family",notes:"Repeat every 6 months"},
+  {id:8013,title:"🔧 Clean AC & Change Filter",date:"2025-11-07",who:"family",notes:"Repeat every 6 months"},
+  {id:8014,title:"🔧 Clean AC & Change Filter",date:"2026-05-07",who:"family",notes:"Repeat every 6 months"},
+
+  // ── WORK / ON-CALL ──
+  {id:6001,title:"🔴 On-Call - Marc",date:"2025-04-30",who:"marc",notes:"On-call through May 7"},
+  {id:6002,title:"🔴 On-Call - Marc",date:"2025-05-01",who:"marc",notes:"On-call week"},
+  {id:6003,title:"🔴 On-Call - Marc",date:"2025-05-02",who:"marc",notes:"On-call week"},
+  {id:6004,title:"🔴 On-Call - Marc",date:"2025-05-03",who:"marc",notes:"On-call week"},
+  {id:6005,title:"🔴 On-Call - Marc",date:"2025-05-04",who:"marc",notes:"On-call week"},
+  {id:6006,title:"🔴 On-Call - Marc",date:"2025-05-05",who:"marc",notes:"On-call week"},
+  {id:6007,title:"🔴 On-Call - Marc",date:"2025-05-06",who:"marc",notes:"On-call week"},
+  {id:6008,title:"🔴 On-Call - Marc",date:"2025-05-07",who:"marc",notes:"On-call ends"},
+  {id:6009,title:"🔴 On-Call - Marc",date:"2025-06-18",who:"marc",notes:"On-call through June 24"},
+  {id:6010,title:"🔴 On-Call - Marc",date:"2025-06-19",who:"marc",notes:"On-call week"},
+  {id:6011,title:"🔴 On-Call - Marc",date:"2025-06-20",who:"marc",notes:"On-call week"},
+  {id:6012,title:"🔴 On-Call - Marc",date:"2025-06-21",who:"marc",notes:"On-call week"},
+  {id:6013,title:"🔴 On-Call - Marc",date:"2025-06-22",who:"marc",notes:"On-call week"},
+  {id:6014,title:"🔴 On-Call - Marc",date:"2025-06-23",who:"marc",notes:"On-call week"},
+  {id:6015,title:"🔴 On-Call - Marc",date:"2025-06-24",who:"marc",notes:"On-call ends"},
+  {id:6016,title:"🔴 On-Call - Marc",date:"2026-08-06",who:"marc",notes:"On-call through Aug 12"},
+  {id:6017,title:"🔴 On-Call - Marc",date:"2026-08-07",who:"marc",notes:"On-call week"},
+  {id:6018,title:"🔴 On-Call - Marc",date:"2026-08-08",who:"marc",notes:"On-call week"},
+  {id:6019,title:"🔴 On-Call - Marc",date:"2026-08-09",who:"marc",notes:"On-call week"},
+  {id:6020,title:"🔴 On-Call - Marc",date:"2026-08-10",who:"marc",notes:"On-call week"},
+  {id:6021,title:"🔴 On-Call - Marc",date:"2026-08-11",who:"marc",notes:"On-call week"},
+  {id:6022,title:"🔴 On-Call - Marc",date:"2026-08-12",who:"marc",notes:"On-call ends"},
+  {id:6023,title:"🔴 On-Call - Marc",date:"2026-09-24",who:"marc",notes:"On-call through Sep 30"},
+  {id:6024,title:"🔴 On-Call - Marc",date:"2026-09-25",who:"marc",notes:"On-call week"},
+  {id:6025,title:"🔴 On-Call - Marc",date:"2026-09-26",who:"marc",notes:"On-call week"},
+  {id:6026,title:"🔴 On-Call - Marc",date:"2026-09-27",who:"marc",notes:"On-call week"},
+  {id:6027,title:"🔴 On-Call - Marc",date:"2026-09-28",who:"marc",notes:"On-call week"},
+  {id:6028,title:"🔴 On-Call - Marc",date:"2026-09-29",who:"marc",notes:"On-call week"},
+  {id:6029,title:"🔴 On-Call - Marc",date:"2026-09-30",who:"marc",notes:"On-call ends"},
+  {id:6030,title:"🔴 On-Call - Marc",date:"2026-11-12",who:"marc",notes:"On-call through Nov 18"},
+  {id:6031,title:"🔴 On-Call - Marc",date:"2026-11-13",who:"marc",notes:"On-call week"},
+  {id:6032,title:"🔴 On-Call - Marc",date:"2026-11-14",who:"marc",notes:"On-call week"},
+  {id:6033,title:"🔴 On-Call - Marc",date:"2026-11-15",who:"marc",notes:"On-call week"},
+  {id:6034,title:"🔴 On-Call - Marc",date:"2026-11-16",who:"marc",notes:"On-call week"},
+  {id:6035,title:"🔴 On-Call - Marc",date:"2026-11-17",who:"marc",notes:"On-call week"},
+  {id:6036,title:"🔴 On-Call - Marc",date:"2026-11-18",who:"marc",notes:"On-call ends"},
+  {id:6037,title:"🔴 On-Call - Marc",date:"2026-12-31",who:"marc",notes:"On-call through Jan 6"},
+  {id:6038,title:"🔴 On-Call - Marc",date:"2027-01-01",who:"marc",notes:"On-call week"},
+  {id:6039,title:"🔴 On-Call - Marc",date:"2027-01-02",who:"marc",notes:"On-call week"},
+  {id:6040,title:"🔴 On-Call - Marc",date:"2027-01-03",who:"marc",notes:"On-call week"},
+  {id:6041,title:"🔴 On-Call - Marc",date:"2027-01-04",who:"marc",notes:"On-call week"},
+  {id:6042,title:"🔴 On-Call - Marc",date:"2027-01-05",who:"marc",notes:"On-call week"},
+  {id:6043,title:"🔴 On-Call - Marc",date:"2027-01-06",who:"marc",notes:"On-call ends"},
+
+  // ── MITA - DALLAS ART FAIR ──
+  {id:9050,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-12",who:"mita",notes:"Dallas Art Fair"},
+  {id:9051,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-13",who:"mita",notes:"Dallas Art Fair"},
+  {id:9052,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-14",who:"mita",notes:"Dallas Art Fair"},
+  {id:9053,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-15",who:"mita",notes:"Dallas Art Fair"},
+  {id:9054,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-16",who:"mita",notes:"Dallas Art Fair"},
+  {id:9055,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-17",who:"mita",notes:"Dallas Art Fair"},
+  {id:9056,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-18",who:"mita",notes:"Dallas Art Fair"},
+  {id:9057,title:"🎨 Mita - Dallas Art Fair",date:"2025-04-19",who:"mita",notes:"Dallas Art Fair"},
+
+  // ── PERSONAL / FAMILY EVENTS ──
+  {id:9001,title:"✈️ Pick up Andy at DFW",date:"2025-04-17",start:"11:00",who:"family",notes:"Flight AA2521 - 11am"},
+  {id:9002,title:"Kairos Coffield Closing",date:"2025-04-19",start:"12:00",who:"marc",notes:"Noon - 7pm"},
+  {id:9003,title:"💍 Marc & Mita Anniversary ❤️",date:"2025-04-20",who:"family",notes:"Our Anniversary"},
+  {id:9004,title:"Rice for SFA",date:"2025-04-25",who:"marc",notes:""},
+  {id:9005,title:"Feed Kairos Beto Lunch - FUMCR",date:"2025-05-02",start:"12:00",who:"marc",notes:"Noon at FUMCR"},
+  {id:9006,title:"🎓 Gage Graduation - U of Arkansas",date:"2025-05-08",who:"family",notes:"Graduation weekend - all three"},
+  {id:9007,title:"🎓 Gage Graduation - U of Arkansas",date:"2025-05-09",who:"family",notes:"Graduation weekend - all three"},
+  {id:9008,title:"🔨 Ramp Build",date:"2025-05-16",start:"05:00",who:"marc",notes:"Early start 5am"},
+  {id:9009,title:"⚽ World Cup - Marc & Mita",date:"2025-06-14",start:"15:00",who:"family",notes:"3pm"},
+  {id:9010,title:"⚽ World Cup - Marc & Opa",date:"2025-06-30",start:"12:00",who:"family",notes:"Noon"},
+  {id:9011,title:"⚽ World Cup - Marc & Opa",date:"2025-07-03",start:"13:00",who:"family",notes:"1pm"},
+  {id:9012,title:"⚽ World Cup - Marc & Opa",date:"2025-07-06",start:"14:00",who:"family",notes:"2pm"},
+
+  // ── H.E.R.O.E.S. BOARD MEETINGS ──
+  {id:9020,title:"🦸 H.E.R.O.E.S. Board Meeting",date:"2025-05-12",start:"19:00",who:"marc",notes:"7pm"},
+  {id:9021,title:"🦸 H.E.R.O.E.S. Board Meeting",date:"2025-09-15",start:"19:00",who:"marc",notes:"7pm"},
+  {id:9022,title:"🦸 H.E.R.O.E.S. Board Meeting",date:"2025-12-16",start:"19:00",who:"marc",notes:"7pm"},
+
+  // ── H.E.R.O.E.S. SUMMER CAMP ──
+  {id:7001,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-22",who:"major",notes:"Summer Camp Week 1"},
+  {id:7002,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-23",who:"major",notes:"Summer Camp Week 1"},
+  {id:7003,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-24",who:"major",notes:"Summer Camp Week 1"},
+  {id:7004,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-25",who:"major",notes:"Summer Camp Week 1"},
+  {id:7005,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-26",who:"major",notes:"Summer Camp Week 1"},
+  {id:7006,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-29",who:"major",notes:"Summer Camp Week 2"},
+  {id:7007,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-06-30",who:"major",notes:"Summer Camp Week 2"},
+  {id:7008,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-01",who:"major",notes:"Summer Camp Week 2"},
+  {id:7009,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-02",who:"major",notes:"Summer Camp Week 2"},
+  {id:7010,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-06",who:"major",notes:"Summer Camp Week 3"},
+  {id:7011,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-07",who:"major",notes:"Summer Camp Week 3"},
+  {id:7012,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-08",who:"major",notes:"Summer Camp Week 3"},
+  {id:7013,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-09",who:"major",notes:"Summer Camp Week 3"},
+  {id:7014,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-10",who:"major",notes:"Summer Camp Week 3"},
+  {id:7015,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-13",who:"major",notes:"Summer Camp Week 4"},
+  {id:7016,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-14",who:"major",notes:"Summer Camp Week 4"},
+  {id:7017,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-15",who:"major",notes:"Summer Camp Week 4"},
+  {id:7018,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-16",who:"major",notes:"Summer Camp Week 4"},
+  {id:7019,title:"🦸 H.E.R.O.E.S. Summer Camp",date:"2025-07-17",who:"major",notes:"Summer Camp Week 4"},
+
+  // ══ MONTHLY CHORES 2025 ══
+  {id:20001,title:"🧹 Chores: Wipe baseboards & door frames",date:"2025-01-01",who:"chore",notes:"Adults — full house"},
+  {id:20002,title:"🧹 Chores: Clean inside oven & microwave",date:"2025-01-01",who:"chore",notes:"Adults"},
+  {id:20003,title:"🧹 Chores: Wash shower curtains & bath mats",date:"2025-01-01",who:"chore",notes:"Adults"},
+  {id:20004,title:"⭐ Major: Tidy bedroom, wipe desk, organize backpack",date:"2025-01-01",who:"chore",notes:"Major"},
+  {id:20010,title:"🧹 Chores: Clean refrigerator (shelves, drawers, seals)",date:"2025-02-01",who:"chore",notes:"Adults"},
+  {id:20011,title:"🧹 Chores: Dust ceiling fans & light fixtures",date:"2025-02-01",who:"chore",notes:"Adults — all rooms"},
+  {id:20012,title:"🧹 Chores: Wash all bed pillows",date:"2025-02-01",who:"chore",notes:"Adults"},
+  {id:20013,title:"⭐ Major: Wipe bathroom sink & mirror, sweep room",date:"2025-02-01",who:"chore",notes:"Major"},
+  {id:20020,title:"🧹 Chores: Deep clean bathrooms (grout, caulk, toilet base)",date:"2025-03-01",who:"chore",notes:"Adults"},
+  {id:20021,title:"🧹 Chores: Clean dishwasher filter & run empty hot cycle",date:"2025-03-01",who:"chore",notes:"Adults"},
+  {id:20022,title:"🧹 Chores: Launder all blankets & throws",date:"2025-03-01",who:"chore",notes:"Adults"},
+  {id:20023,title:"⭐ Major: Clean out backpack & school binder, tidy closet",date:"2025-03-01",who:"chore",notes:"Major"},
+  {id:20030,title:"🧹 Chores: Wash windows inside (all rooms)",date:"2025-04-01",who:"chore",notes:"Adults — spring cleaning"},
+  {id:20031,title:"🧹 Chores: Clean stovetop drip pans & vent hood filter",date:"2025-04-01",who:"chore",notes:"Adults"},
+  {id:20032,title:"🧹 Chores: Rotate mattresses",date:"2025-04-01",who:"chore",notes:"Adults"},
+  {id:20033,title:"⭐ Major: Organize shoes & coat closet",date:"2025-04-01",who:"chore",notes:"Major"},
+  {id:20040,title:"🧹 Chores: Deep vacuum all carpets & area rugs",date:"2025-05-01",who:"chore",notes:"Adults — move furniture"},
+  {id:20041,title:"🧹 Chores: Clean garage floor & organize storage",date:"2025-05-01",who:"chore",notes:"Adults"},
+  {id:20042,title:"🧹 Chores: Clean patio furniture",date:"2025-05-01",who:"chore",notes:"Adults — summer prep"},
+  {id:20043,title:"⭐ Major: Help organize garage, wipe baseboards in bedroom",date:"2025-05-01",who:"chore",notes:"Major"},
+  {id:20050,title:"🧹 Chores: Deep clean laundry room (washer drum, dryer lint)",date:"2025-06-01",who:"chore",notes:"Adults"},
+  {id:20051,title:"🧹 Chores: Mop all hard floors",date:"2025-06-01",who:"chore",notes:"Adults"},
+  {id:20052,title:"🧹 Chores: Wash all window treatments",date:"2025-06-01",who:"chore",notes:"Adults"},
+  {id:20053,title:"⭐ Major: Vacuum living room, wipe TV remotes & controllers",date:"2025-06-01",who:"chore",notes:"Major"},
+  {id:20060,title:"🧹 Chores: Clean inside all cabinets & pantry (discard expired)",date:"2025-07-01",who:"chore",notes:"Adults"},
+  {id:20061,title:"🧹 Chores: Dust all vents & return air registers",date:"2025-07-01",who:"chore",notes:"Adults"},
+  {id:20062,title:"🧹 Chores: Clean garbage disposal",date:"2025-07-01",who:"chore",notes:"Adults — ice + salt method"},
+  {id:20063,title:"⭐ Major: Wipe down bathroom, fold & put away laundry",date:"2025-07-01",who:"chore",notes:"Major"},
+  {id:20070,title:"🧹 Chores: Deep clean all bathrooms + re-caulk check",date:"2025-08-01",who:"chore",notes:"Adults"},
+  {id:20071,title:"🧹 Chores: Clean refrigerator coils (pull out fridge)",date:"2025-08-01",who:"chore",notes:"Adults"},
+  {id:20072,title:"🧹 Chores: Launder all decorative pillows",date:"2025-08-01",who:"chore",notes:"Adults"},
+  {id:20073,title:"⭐ Major: Back to school — organize desk, supplies & room reset",date:"2025-08-01",who:"chore",notes:"Major"},
+  {id:20080,title:"🧹 Chores: Wash all exterior windows",date:"2025-09-01",who:"chore",notes:"Adults — fall prep"},
+  {id:20081,title:"🧹 Chores: Check & restock first aid kits",date:"2025-09-01",who:"chore",notes:"Adults"},
+  {id:20082,title:"🧹 Chores: Declutter & donate — one room focus",date:"2025-09-01",who:"chore",notes:"Adults"},
+  {id:20083,title:"⭐ Major: Tidy locker/backpack, organize school papers",date:"2025-09-01",who:"chore",notes:"Major"},
+  {id:20090,title:"🧹 Chores: Flip & vacuum mattresses",date:"2025-10-01",who:"chore",notes:"Adults"},
+  {id:20091,title:"🧹 Chores: Wipe all baseboards",date:"2025-10-01",who:"chore",notes:"Adults"},
+  {id:20092,title:"🧹 Chores: Put away summer gear, pull out winter gear",date:"2025-10-01",who:"chore",notes:"Adults — seasonal swap"},
+  {id:20093,title:"⭐ Major: Swap seasonal clothes, organize dresser",date:"2025-10-01",who:"chore",notes:"Major"},
+  {id:20100,title:"🧹 Chores: Deep clean kitchen before holidays",date:"2025-11-01",who:"chore",notes:"Adults"},
+  {id:20101,title:"🧹 Chores: Dust all blinds & window sills",date:"2025-11-01",who:"chore",notes:"Adults"},
+  {id:20102,title:"🧹 Chores: Reorganize pantry before holiday cooking",date:"2025-11-01",who:"chore",notes:"Adults"},
+  {id:20103,title:"⭐ Major: Help decorate, tidy bonus room",date:"2025-11-01",who:"chore",notes:"Major"},
+  {id:20110,title:"🧹 Chores: Full house tidy before holidays",date:"2025-12-01",who:"chore",notes:"Adults"},
+  {id:20111,title:"🧹 Chores: Wash all bedding & guest towels",date:"2025-12-01",who:"chore",notes:"Adults — guest prep"},
+  {id:20112,title:"🧹 Chores: Discard expired pantry & medicine cabinet items",date:"2025-12-01",who:"chore",notes:"Adults"},
+  {id:20113,title:"⭐ Major: Wrap gifts area, organize toys to donate",date:"2025-12-01",who:"chore",notes:"Major"},
+
+  // ══ MONTHLY CHORES 2026 ══
+  {id:21001,title:"🧹 Chores: Wipe baseboards & door frames",date:"2026-01-01",who:"chore",notes:"Adults"},
+  {id:21002,title:"🧹 Chores: Clean inside oven & microwave",date:"2026-01-01",who:"chore",notes:"Adults"},
+  {id:21003,title:"⭐ Major: Tidy bedroom, wipe desk, organize backpack",date:"2026-01-01",who:"chore",notes:"Major"},
+  {id:21010,title:"🧹 Chores: Clean refrigerator (shelves, drawers, seals)",date:"2026-02-01",who:"chore",notes:"Adults"},
+  {id:21011,title:"🧹 Chores: Dust ceiling fans & light fixtures",date:"2026-02-01",who:"chore",notes:"Adults"},
+  {id:21012,title:"⭐ Major: Wipe bathroom sink & mirror, sweep room",date:"2026-02-01",who:"chore",notes:"Major"},
+  {id:21020,title:"🧹 Chores: Deep clean bathrooms",date:"2026-03-01",who:"chore",notes:"Adults"},
+  {id:21021,title:"🧹 Chores: Clean dishwasher filter & run empty hot cycle",date:"2026-03-01",who:"chore",notes:"Adults"},
+  {id:21022,title:"⭐ Major: Clean out backpack & school binder, tidy closet",date:"2026-03-01",who:"chore",notes:"Major"},
+  {id:21030,title:"🧹 Chores: Wash windows inside (all rooms)",date:"2026-04-01",who:"chore",notes:"Adults — spring cleaning"},
+  {id:21031,title:"🧹 Chores: Rotate mattresses",date:"2026-04-01",who:"chore",notes:"Adults"},
+  {id:21032,title:"⭐ Major: Organize shoes & coat closet",date:"2026-04-01",who:"chore",notes:"Major"},
+  {id:21040,title:"🧹 Chores: Deep vacuum all carpets & area rugs",date:"2026-05-01",who:"chore",notes:"Adults"},
+  {id:21041,title:"🧹 Chores: Clean garage floor & organize storage",date:"2026-05-01",who:"chore",notes:"Adults"},
+  {id:21042,title:"⭐ Major: Help organize garage",date:"2026-05-01",who:"chore",notes:"Major"},
+  {id:21050,title:"🧹 Chores: Deep clean laundry room",date:"2026-06-01",who:"chore",notes:"Adults"},
+  {id:21051,title:"🧹 Chores: Mop all hard floors",date:"2026-06-01",who:"chore",notes:"Adults"},
+  {id:21052,title:"⭐ Major: Vacuum living room, wipe remotes & controllers",date:"2026-06-01",who:"chore",notes:"Major"},
+  {id:21060,title:"🧹 Chores: Clean inside all cabinets & pantry",date:"2026-07-01",who:"chore",notes:"Adults"},
+  {id:21061,title:"🧹 Chores: Dust all vents & return air registers",date:"2026-07-01",who:"chore",notes:"Adults"},
+  {id:21062,title:"⭐ Major: Wipe down bathroom, fold & put away laundry",date:"2026-07-01",who:"chore",notes:"Major"},
+  {id:21070,title:"🧹 Chores: Deep clean all bathrooms + re-caulk check",date:"2026-08-01",who:"chore",notes:"Adults"},
+  {id:21071,title:"🧹 Chores: Clean refrigerator coils",date:"2026-08-01",who:"chore",notes:"Adults"},
+  {id:21072,title:"⭐ Major: Back to school — organize desk & room reset",date:"2026-08-01",who:"chore",notes:"Major"},
+  {id:21080,title:"🧹 Chores: Wash all exterior windows",date:"2026-09-01",who:"chore",notes:"Adults"},
+  {id:21081,title:"🧹 Chores: Check & restock first aid kits",date:"2026-09-01",who:"chore",notes:"Adults"},
+  {id:21082,title:"⭐ Major: Tidy locker/backpack, organize school papers",date:"2026-09-01",who:"chore",notes:"Major"},
+  {id:21090,title:"🧹 Chores: Flip & vacuum mattresses",date:"2026-10-01",who:"chore",notes:"Adults"},
+  {id:21091,title:"🧹 Chores: Put away summer gear, pull out winter gear",date:"2026-10-01",who:"chore",notes:"Adults"},
+  {id:21092,title:"⭐ Major: Swap seasonal clothes, organize dresser",date:"2026-10-01",who:"chore",notes:"Major"},
+  {id:21100,title:"🧹 Chores: Deep clean kitchen before holidays",date:"2026-11-01",who:"chore",notes:"Adults"},
+  {id:21101,title:"🧹 Chores: Reorganize pantry before holiday cooking",date:"2026-11-01",who:"chore",notes:"Adults"},
+  {id:21102,title:"⭐ Major: Help decorate, tidy bonus room",date:"2026-11-01",who:"chore",notes:"Major"},
+  {id:21110,title:"🧹 Chores: Full house tidy before holidays",date:"2026-12-01",who:"chore",notes:"Adults"},
+  {id:21111,title:"🧹 Chores: Wash all bedding & guest towels",date:"2026-12-01",who:"chore",notes:"Adults"},
+  {id:21112,title:"⭐ Major: Wrap gifts area, organize toys to donate",date:"2026-12-01",who:"chore",notes:"Major"},
+
+  // ══ YEARLY HOME MAINTENANCE 2025 ══
+  {id:30001,title:"🏠 Maint: Test all smoke & CO detectors",date:"2025-01-15",who:"maintain",notes:"Replace batteries — do every January"},
+  {id:30002,title:"🏠 Maint: Flush water heater sediment",date:"2025-01-20",who:"maintain",notes:"Attach hose to drain valve — extends life"},
+  {id:30003,title:"🏠 Maint: Check & caulk windows/doors for drafts",date:"2025-01-15",who:"maintain",notes:"Winter heat loss check"},
+  {id:30010,title:"🏠 Maint: Check roof & attic after winter storms",date:"2025-02-10",who:"maintain",notes:"Look for damaged shingles, leaks"},
+  {id:30011,title:"🏠 Maint: Clean dryer vent all the way to exterior",date:"2025-02-10",who:"maintain",notes:"Leading cause of house fires — do annually"},
+  {id:30012,title:"🏠 Maint: Test GFCI outlets (bathrooms, kitchen, garage)",date:"2025-02-15",who:"maintain",notes:"Press Test button — should cut power"},
+  {id:30020,title:"🏠 Maint: Service HVAC before summer",date:"2025-03-01",who:"maintain",notes:"Schedule pro tune-up — before TX heat hits"},
+  {id:30021,title:"🏠 Maint: Clean AC condenser coils outside",date:"2025-03-01",who:"maintain",notes:"Rinse with hose — improves efficiency"},
+  {id:30022,title:"🏠 Maint: Check irrigation system & sprinkler heads",date:"2025-03-15",who:"maintain",notes:"Spring activation — check for broken heads"},
+  {id:30023,title:"🏠 Maint: Fertilize lawn (spring)",date:"2025-03-15",who:"maintain",notes:"Bermuda/St. Augustine spring feed"},
+  {id:30030,title:"🏠 Maint: Power wash driveway, sidewalks & patio",date:"2025-04-01",who:"maintain",notes:"Annual spring clean"},
+  {id:30031,title:"🏠 Maint: Inspect foundation for cracks",date:"2025-04-01",who:"maintain",notes:"Walk the perimeter — note any new cracks"},
+  {id:30032,title:"🏠 Maint: Clean gutters (spring — after pollen season)",date:"2025-04-15",who:"maintain",notes:"Clear pollen & debris buildup"},
+  {id:30033,title:"🏠 Maint: Check exterior paint & caulk around windows",date:"2025-04-15",who:"maintain",notes:"Touch up before summer heat bakes it in"},
+  {id:30040,title:"🏠 Maint: Replace HVAC filter (pre-summer)",date:"2025-05-01",who:"maintain",notes:"MERV-11 or higher — system runs hard May-Sept in TX"},
+  {id:30041,title:"🏠 Maint: Check attic insulation & ventilation",date:"2025-05-01",who:"maintain",notes:"Good attic ventilation cuts cooling costs 10-15%"},
+  {id:30042,title:"🏠 Maint: Inspect & treat wood fence for rot/pests",date:"2025-05-15",who:"maintain",notes:"Apply sealer or stain before summer sun"},
+  {id:30043,title:"🏠 Maint: Check garage door springs & auto-reverse safety",date:"2025-05-15",who:"maintain",notes:"Put hand in path to test auto-reverse"},
+  {id:30050,title:"🏠 Maint: Check window & door weatherstripping",date:"2025-06-01",who:"maintain",notes:"Replace if letting AC out — big energy savings"},
+  {id:30051,title:"🏠 Maint: Trim trees away from house & power lines",date:"2025-06-15",who:"maintain",notes:"Before summer storm season"},
+  {id:30060,title:"🏠 Maint: Deep clean range hood & kitchen exhaust fan",date:"2025-07-01",who:"maintain",notes:"Grease buildup is a fire hazard"},
+  {id:30061,title:"🏠 Maint: Inspect washing machine hoses for bulges/cracks",date:"2025-07-01",who:"maintain",notes:"Rubber hoses — replace every 5 years"},
+  {id:30062,title:"🏠 Maint: Check under all sinks for slow leaks",date:"2025-07-15",who:"maintain",notes:"Look for water stains, soft spots, mold"},
+  {id:30070,title:"🏠 Maint: Replace HVAC filter (mid-summer)",date:"2025-08-01",who:"maintain",notes:"Filter working overtime in TX summer"},
+  {id:30071,title:"🏠 Maint: Check for pest entry points (pre-fall)",date:"2025-08-01",who:"maintain",notes:"Seal gaps at foundation, pipes & exterior walls"},
+  {id:30072,title:"🏠 Maint: Inspect attic for moisture or pest activity",date:"2025-08-15",who:"maintain",notes:"Peak heat drives pests into attics"},
+  {id:30080,title:"🏠 Maint: Service HVAC for fall (flush condensate drain)",date:"2025-09-01",who:"maintain",notes:"Pour vinegar in drain line — prevents backups"},
+  {id:30081,title:"🏠 Maint: Clean gutters (fall — before leaf drop)",date:"2025-09-15",who:"maintain",notes:"Clear summer debris"},
+  {id:30082,title:"🏠 Maint: Test & reset water softener",date:"2025-09-15",who:"maintain",notes:"Check salt level & regeneration cycle"},
+  {id:30090,title:"🏠 Maint: Replace HVAC filter (fall)",date:"2025-10-01",who:"maintain",notes:"Heating season starting"},
+  {id:30091,title:"🏠 Maint: Winterize irrigation system",date:"2025-10-15",who:"maintain",notes:"Drain & shut off before first TX freeze"},
+  {id:30092,title:"🏠 Maint: Check fireplace/chimney flue & damper",date:"2025-10-15",who:"maintain",notes:"Clean creosote — call sweep if used regularly"},
+  {id:30093,title:"🏠 Maint: Seal attic hatch & door to garage",date:"2025-10-15",who:"maintain",notes:"Big source of energy loss"},
+  {id:30100,title:"🏠 Maint: Test smoke & CO detectors (6-month check)",date:"2025-11-01",who:"maintain",notes:"Do at Daylight Saving time change"},
+  {id:30101,title:"🏠 Maint: Insulate exposed pipes in garage",date:"2025-11-01",who:"maintain",notes:"TX freeze prep — garage pipes are vulnerable"},
+  {id:30102,title:"🏠 Maint: Know how to shut off main water valve",date:"2025-11-01",who:"maintain",notes:"Verify location & function — freeze emergency prep"},
+  {id:30103,title:"🏠 Maint: Check roof flashing & caulk around vents",date:"2025-11-15",who:"maintain",notes:"Before winter rain season"},
+  {id:30110,title:"🏠 Maint: Check holiday lights & extension cord safety",date:"2025-12-01",who:"maintain",notes:"No overloaded outlets — outdoor-rated cords outside"},
+  {id:30111,title:"🏠 Maint: Flush all drains (boiling water + baking soda)",date:"2025-12-01",who:"maintain",notes:"Annual drain maintenance — prevents slow drains"},
+  {id:30112,title:"🏠 Maint: Restock emergency kit (water, batteries, first aid)",date:"2025-12-15",who:"maintain",notes:"Check expiry dates on food & meds"},
+  {id:30113,title:"🏠 Maint: Year-end — book contractors for next year",date:"2025-12-15",who:"maintain",notes:"HVAC, pest control, roofer, landscaper — book early"},
+
+  // ══ YEARLY HOME MAINTENANCE 2026 ══
+  {id:31001,title:"🏠 Maint: Test all smoke & CO detectors",date:"2026-01-15",who:"maintain",notes:"Annual January check"},
+  {id:31002,title:"🏠 Maint: Flush water heater sediment",date:"2026-01-20",who:"maintain",notes:"Annual maintenance"},
+  {id:31010,title:"🏠 Maint: Clean dryer vent to exterior",date:"2026-02-10",who:"maintain",notes:"Annual — fire safety"},
+  {id:31011,title:"🏠 Maint: Test GFCI outlets",date:"2026-02-15",who:"maintain",notes:"Bathrooms, kitchen, garage"},
+  {id:31020,title:"🏠 Maint: Service HVAC before summer",date:"2026-03-01",who:"maintain",notes:"Schedule pro tune-up"},
+  {id:31021,title:"🏠 Maint: Check irrigation system & sprinkler heads",date:"2026-03-15",who:"maintain",notes:"Spring activation"},
+  {id:31022,title:"🏠 Maint: Fertilize lawn (spring)",date:"2026-03-15",who:"maintain",notes:"Spring feed"},
+  {id:31030,title:"🏠 Maint: Power wash driveway & patio",date:"2026-04-01",who:"maintain",notes:"Annual spring clean"},
+  {id:31031,title:"🏠 Maint: Clean gutters (spring)",date:"2026-04-15",who:"maintain",notes:"After pollen season"},
+  {id:31032,title:"🏠 Maint: Inspect foundation for cracks",date:"2026-04-01",who:"maintain",notes:"Walk the perimeter"},
+  {id:31040,title:"🏠 Maint: Replace HVAC filter (pre-summer)",date:"2026-05-01",who:"maintain",notes:"MERV-11 or higher"},
+  {id:31041,title:"🏠 Maint: Inspect & treat wood fence",date:"2026-05-15",who:"maintain",notes:"Seal before summer sun"},
+  {id:31042,title:"🏠 Maint: Check garage door springs & auto-reverse",date:"2026-05-15",who:"maintain",notes:"Annual safety check"},
+  {id:31050,title:"🏠 Maint: Trim trees away from house & power lines",date:"2026-06-15",who:"maintain",notes:"Pre-storm season"},
+  {id:31060,title:"🏠 Maint: Check under all sinks for leaks",date:"2026-07-15",who:"maintain",notes:"Annual check"},
+  {id:31061,title:"🏠 Maint: Inspect washing machine hoses",date:"2026-07-01",who:"maintain",notes:"Replace every 5 years"},
+  {id:31070,title:"🏠 Maint: Replace HVAC filter (mid-summer)",date:"2026-08-01",who:"maintain",notes:"Summer peak usage"},
+  {id:31071,title:"🏠 Maint: Check for pest entry points",date:"2026-08-01",who:"maintain",notes:"Seal gaps before fall"},
+  {id:31080,title:"🏠 Maint: Service HVAC for fall (flush condensate drain)",date:"2026-09-01",who:"maintain",notes:"Annual fall service"},
+  {id:31081,title:"🏠 Maint: Clean gutters (fall)",date:"2026-09-15",who:"maintain",notes:"Before leaves drop"},
+  {id:31082,title:"🏠 Maint: Test & reset water softener",date:"2026-09-15",who:"maintain",notes:"Check salt & cycle"},
+  {id:31090,title:"🏠 Maint: Replace HVAC filter (fall)",date:"2026-10-01",who:"maintain",notes:"Heating season"},
+  {id:31091,title:"🏠 Maint: Winterize irrigation system",date:"2026-10-15",who:"maintain",notes:"Before first TX freeze"},
+  {id:31092,title:"🏠 Maint: Check fireplace/chimney flue",date:"2026-10-15",who:"maintain",notes:"Annual inspection"},
+  {id:31093,title:"🏠 Maint: Seal attic hatch & garage door",date:"2026-10-15",who:"maintain",notes:"Energy loss prevention"},
+  {id:31100,title:"🏠 Maint: Test smoke & CO detectors (6-month)",date:"2026-11-01",who:"maintain",notes:"Replace batteries"},
+  {id:31101,title:"🏠 Maint: Insulate exposed pipes in garage",date:"2026-11-01",who:"maintain",notes:"TX freeze prep"},
+  {id:31102,title:"🏠 Maint: Check roof flashing & caulk around vents",date:"2026-11-15",who:"maintain",notes:"Before winter rain"},
+  {id:31110,title:"🏠 Maint: Flush all drains (boiling water + baking soda)",date:"2026-12-01",who:"maintain",notes:"Annual drain maintenance"},
+  {id:31111,title:"🏠 Maint: Restock emergency kit",date:"2026-12-15",who:"maintain",notes:"Check expiry dates"},
+  {id:31112,title:"🏠 Maint: Year-end — book contractors for next year",date:"2026-12-15",who:"maintain",notes:"Book early"},
+
+  // ══ DOG MEDS — Heartworm & Flea pill on the 3rd of every month ══
+  {id:40001,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-01-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40002,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-02-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40003,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-03-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40004,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-04-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40005,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-05-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40006,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-06-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40007,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-07-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40008,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-08-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40009,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-09-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40010,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-10-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40011,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-11-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40012,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2025-12-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40013,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-01-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40014,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-02-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40015,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-03-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40016,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-04-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40017,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-05-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40018,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-06-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40019,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-07-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40020,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-08-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40021,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-09-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40022,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-10-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40023,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-11-03",who:"family",notes:"Give both dogs their monthly pill"},
+  {id:40024,title:"🐾 Dog Meds: Heartworm & Flea Pill",date:"2026-12-03",who:"family",notes:"Give both dogs their monthly pill"},
+
+  // ── NEW BIRTHDAYS ──
+  {id:50001,title:"🎂 Briyana's Birthday",date:"2025-02-20",who:"family",notes:"Birthday"},
+  {id:50002,title:"🎂 Sonya's Birthday (Mom)",date:"2025-04-09",who:"family",notes:"Birthday - Mom"},
+  {id:50003,title:"🎂 Sanjaibhai's Birthday",date:"2025-08-02",who:"family",notes:"Birthday"},
+  {id:50004,title:"🎂 Bhabhi's Birthday",date:"2025-08-16",who:"family",notes:"Birthday"},
+  {id:50005,title:"🎂 Dada's Birthday",date:"2025-09-09",who:"family",notes:"Birthday"},
+  {id:50006,title:"🎂 Briyana's Birthday",date:"2026-02-20",who:"family",notes:"Birthday"},
+  {id:50007,title:"🎂 Sonya's Birthday (Mom)",date:"2026-04-09",who:"family",notes:"Birthday - Mom"},
+  {id:50008,title:"🎂 Sanjaibhai's Birthday",date:"2026-08-02",who:"family",notes:"Birthday"},
+  {id:50009,title:"🎂 Bhabhi's Birthday",date:"2026-08-16",who:"family",notes:"Birthday"},
+  {id:50010,title:"🎂 Dada's Birthday",date:"2026-09-09",who:"family",notes:"Birthday"},
+
+  // ── ANNIVERSARY ──
+  {id:50020,title:"💍 Marc & Mita Anniversary ❤️",date:"2025-04-26",who:"family",notes:"Anniversary"},
+  {id:50021,title:"💍 Marc & Mita Anniversary ❤️",date:"2026-04-26",who:"family",notes:"Anniversary"},
+
+  // ── DALLAS ART FAIR ──
+  {id:50030,title:"🎨 Dallas Art Fair",date:"2025-04-13",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+  {id:50031,title:"🎨 Dallas Art Fair",date:"2025-04-14",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+  {id:50032,title:"🎨 Dallas Art Fair — Preview",date:"2025-04-15",start:"12:30",end:"14:30",who:"family",notes:"Marc & Mita 12:30pm - 2:30pm"},
+  {id:50033,title:"🎨 Dallas Art Fair — Preview Gala",date:"2025-04-15",start:"16:00",end:"22:00",who:"mita",notes:"4pm - 10pm"},
+  {id:50034,title:"🎨 Dallas Art Fair",date:"2025-04-15",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+  {id:50035,title:"🎨 Dallas Art Fair",date:"2025-04-16",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+  {id:50036,title:"🎨 Dallas Art Fair",date:"2025-04-17",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+  {id:50037,title:"🎨 Dallas Art Fair",date:"2025-04-18",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+  {id:50038,title:"🎨 Dallas Art Fair",date:"2025-04-19",start:"07:00",end:"16:00",who:"mita",notes:"7am - 4pm"},
+
+  // ── ON-CALL (all individual days) ──
+  {id:50050,title:"🔴 On-Call",date:"2025-04-30",who:"marc",notes:"On-call week 1"},
+  {id:50051,title:"🔴 On-Call",date:"2025-05-01",who:"marc",notes:"On-call week 1"},
+  {id:50052,title:"🔴 On-Call",date:"2025-05-02",who:"marc",notes:"On-call week 1"},
+  {id:50053,title:"🔴 On-Call",date:"2025-05-03",who:"marc",notes:"On-call week 1"},
+  {id:50054,title:"🔴 On-Call",date:"2025-05-04",who:"marc",notes:"On-call week 1"},
+  {id:50055,title:"🔴 On-Call",date:"2025-05-05",who:"marc",notes:"On-call week 1"},
+  {id:50056,title:"🔴 On-Call",date:"2025-05-06",who:"marc",notes:"On-call week 1"},
+  {id:50057,title:"🔴 On-Call",date:"2025-05-07",who:"marc",notes:"On-call week 1"},
+  {id:50060,title:"🔴 On-Call",date:"2025-06-18",who:"marc",notes:"On-call week 2"},
+  {id:50061,title:"🔴 On-Call",date:"2025-06-19",who:"marc",notes:"On-call week 2"},
+  {id:50062,title:"🔴 On-Call",date:"2025-06-20",who:"marc",notes:"On-call week 2"},
+  {id:50063,title:"🔴 On-Call",date:"2025-06-21",who:"marc",notes:"On-call week 2"},
+  {id:50064,title:"🔴 On-Call",date:"2025-06-22",who:"marc",notes:"On-call week 2"},
+  {id:50065,title:"🔴 On-Call",date:"2025-06-23",who:"marc",notes:"On-call week 2"},
+  {id:50066,title:"🔴 On-Call",date:"2025-06-24",who:"marc",notes:"On-call week 2"},
+
+  // DALLAS COWBOYS 2025 SEASON
+  {id:50001,title:"Cowboys vs Browns",date:"2025-09-07",start:"19:20",who:"family",notes:"NFL Week 1 - Sunday Night"},
+  {id:50002,title:"Cowboys vs Saints",date:"2025-09-14",start:"12:00",who:"family",notes:"NFL Week 2"},
+  {id:50003,title:"Cowboys vs Seahawks",date:"2025-09-21",start:"15:25",who:"family",notes:"NFL Week 3"},
+  {id:50004,title:"Cowboys vs Giants",date:"2025-09-28",start:"15:25",who:"family",notes:"NFL Week 4"},
+  {id:50005,title:"Cowboys vs Commanders",date:"2025-10-05",start:"12:00",who:"family",notes:"NFL Week 5"},
+  {id:50006,title:"Cowboys vs Vikings",date:"2025-10-12",start:"15:25",who:"family",notes:"NFL Week 6"},
+  {id:50007,title:"Cowboys BYE Week",date:"2025-10-19",who:"family",notes:"NFL Bye Week"},
+  {id:50008,title:"Cowboys vs Eagles",date:"2025-10-26",start:"15:25",who:"family",notes:"NFL Week 8"},
+  {id:50009,title:"Cowboys vs Falcons",date:"2025-11-02",start:"12:00",who:"family",notes:"NFL Week 9"},
+  {id:50010,title:"Cowboys vs 49ers",date:"2025-11-09",start:"15:25",who:"family",notes:"NFL Week 10"},
+  {id:50011,title:"Cowboys vs Packers",date:"2025-11-16",start:"12:00",who:"family",notes:"NFL Week 11"},
+  {id:50012,title:"Cowboys vs Commanders",date:"2025-11-23",start:"15:25",who:"family",notes:"NFL Week 12"},
+  {id:50013,title:"Cowboys vs Giants (Thanksgiving)",date:"2025-11-27",start:"15:30",who:"family",notes:"NFL Thanksgiving Game"},
+  {id:50014,title:"Cowboys vs Eagles",date:"2025-12-07",start:"19:20",who:"family",notes:"NFL Week 14 - SNF"},
+  {id:50015,title:"Cowboys vs Buccaneers",date:"2025-12-14",start:"12:00",who:"family",notes:"NFL Week 15"},
+  {id:50016,title:"Cowboys vs Ravens",date:"2025-12-21",start:"15:25",who:"family",notes:"NFL Week 16"},
+  {id:50017,title:"Cowboys vs Redskins",date:"2025-12-28",start:"12:00",who:"family",notes:"NFL Week 17"},
+  // TAMPA BAY BUCCANEERS 2025 SEASON
+  {id:51001,title:"Buccaneers vs Falcons",date:"2025-09-07",start:"13:00",who:"family",notes:"NFL Week 1"},
+  {id:51002,title:"Buccaneers vs Rams",date:"2025-09-14",start:"16:05",who:"family",notes:"NFL Week 2"},
+  {id:51003,title:"Buccaneers vs Saints",date:"2025-09-21",start:"13:00",who:"family",notes:"NFL Week 3"},
+  {id:51004,title:"Buccaneers vs Panthers",date:"2025-09-28",start:"13:00",who:"family",notes:"NFL Week 4"},
+  {id:51005,title:"Buccaneers vs Eagles",date:"2025-10-05",start:"16:25",who:"family",notes:"NFL Week 5"},
+  {id:51006,title:"Buccaneers BYE Week",date:"2025-10-12",who:"family",notes:"NFL Bye Week"},
+  {id:51007,title:"Buccaneers vs Cowboys",date:"2025-12-14",start:"12:00",who:"family",notes:"NFL Week 15"},
+  // TEXAS RANGERS 2025 SEASON (key games)
+  {id:52001,title:"Rangers Opening Day",date:"2025-03-27",start:"13:05",who:"family",notes:"MLB Opening Day"},
+  {id:52002,title:"Rangers vs Astros",date:"2025-04-18",start:"19:05",who:"family",notes:"MLB - Division rivalry"},
+  {id:52003,title:"Rangers vs Yankees",date:"2025-05-02",start:"19:05",who:"family",notes:"MLB"},
+  {id:52004,title:"Rangers vs Astros",date:"2025-05-16",start:"19:05",who:"family",notes:"MLB - Division rivalry"},
+  {id:52005,title:"Rangers vs Red Sox",date:"2025-06-06",start:"19:05",who:"family",notes:"MLB"},
+  {id:52006,title:"Rangers MLB All-Star Break",date:"2025-07-14",who:"family",notes:"MLB All-Star Game"},
+  {id:52007,title:"Rangers vs Astros",date:"2025-07-25",start:"19:05",who:"family",notes:"MLB - Division rivalry"},
+  {id:52008,title:"Rangers vs Angels",date:"2025-08-08",start:"19:05",who:"family",notes:"MLB"},
+  {id:52009,title:"Rangers vs Astros",date:"2025-09-05",start:"19:05",who:"family",notes:"MLB - Division rivalry"},
+  {id:52010,title:"Rangers Regular Season Ends",date:"2025-09-28",who:"family",notes:"MLB Season Finale"},
+  // WORLD CUP 2025
+  {id:53001,title:"World Cup 2026 Kickoff",date:"2025-06-14",start:"15:00",who:"family",notes:"FIFA World Cup 2026 opens"},
+  {id:53002,title:"World Cup Final",date:"2025-07-19",start:"14:00",who:"family",notes:"FIFA World Cup Final"},
+  // MANCHESTER UNITED 2025-26 SEASON (key fixtures)
+  {id:54001,title:"Man Utd vs Arsenal",date:"2025-08-16",start:"11:30",who:"family",notes:"Premier League - NBCSN"},
+  {id:54002,title:"Man Utd vs Liverpool",date:"2025-09-13",start:"11:30",who:"family",notes:"Premier League"},
+  {id:54003,title:"Man Utd vs Man City",date:"2025-11-01",start:"11:30",who:"family",notes:"Premier League - Manchester Derby"},
+  {id:54004,title:"Man Utd vs Chelsea",date:"2025-11-22",start:"11:30",who:"family",notes:"Premier League"},
+  {id:54005,title:"Man Utd vs Tottenham",date:"2026-01-10",start:"11:30",who:"family",notes:"Premier League"},
+  {id:54006,title:"Man Utd vs Arsenal",date:"2026-02-14",start:"11:30",who:"family",notes:"Premier League"},
+  {id:54007,title:"Man Utd vs Liverpool",date:"2026-03-07",start:"11:30",who:"family",notes:"Premier League"},
+  {id:54008,title:"Man Utd vs Man City",date:"2026-04-04",start:"11:30",who:"family",notes:"Premier League - Manchester Derby"},
+  // F1 2025 SEASON
+  {id:55001,title:"F1 Australian GP",date:"2025-03-16",start:"01:00",who:"family",notes:"F1 Race - Melbourne"},
+  {id:55002,title:"F1 Chinese GP",date:"2025-03-23",start:"02:00",who:"family",notes:"F1 Race - Shanghai"},
+  {id:55003,title:"F1 Japanese GP",date:"2025-04-06",start:"01:00",who:"family",notes:"F1 Race - Suzuka"},
+  {id:55004,title:"F1 Bahrain GP",date:"2025-04-13",start:"11:00",who:"family",notes:"F1 Race - Bahrain"},
+  {id:55005,title:"F1 Saudi Arabian GP",date:"2025-04-20",start:"12:00",who:"family",notes:"F1 Race - Jeddah"},
+  {id:55006,title:"F1 Miami GP",date:"2025-05-04",start:"15:00",who:"family",notes:"F1 Race - Miami"},
+  {id:55007,title:"F1 Emilia Romagna GP",date:"2025-05-18",start:"09:00",who:"family",notes:"F1 Race - Imola"},
+  {id:55008,title:"F1 Monaco GP",date:"2025-05-25",start:"09:00",who:"family",notes:"F1 Race - Monte Carlo"},
+  {id:55009,title:"F1 Spanish GP",date:"2025-06-01",start:"09:00",who:"family",notes:"F1 Race - Barcelona"},
+  {id:55010,title:"F1 Canadian GP",date:"2025-06-15",start:"14:00",who:"family",notes:"F1 Race - Montreal"},
+  {id:55011,title:"F1 Austrian GP",date:"2025-06-29",start:"09:00",who:"family",notes:"F1 Race - Red Bull Ring"},
+  {id:55012,title:"F1 British GP",date:"2025-07-06",start:"10:00",who:"family",notes:"F1 Race - Silverstone"},
+  {id:55013,title:"F1 Belgian GP",date:"2025-07-27",start:"09:00",who:"family",notes:"F1 Race - Spa"},
+  {id:55014,title:"F1 Hungarian GP",date:"2025-08-03",start:"09:00",who:"family",notes:"F1 Race - Budapest"},
+  {id:55015,title:"F1 Dutch GP",date:"2025-08-31",start:"09:00",who:"family",notes:"F1 Race - Zandvoort"},
+  {id:55016,title:"F1 Italian GP",date:"2025-09-07",start:"09:00",who:"family",notes:"F1 Race - Monza"},
+  {id:55017,title:"F1 Azerbaijan GP",date:"2025-09-21",start:"08:00",who:"family",notes:"F1 Race - Baku"},
+  {id:55018,title:"F1 Singapore GP",date:"2025-10-05",start:"08:00",who:"family",notes:"F1 Race - Marina Bay"},
+  {id:55019,title:"F1 United States GP",date:"2025-10-19",start:"14:00",who:"family",notes:"F1 Race - Austin COTA"},
+  {id:55020,title:"F1 Mexico GP",date:"2025-10-26",start:"14:00",who:"family",notes:"F1 Race - Mexico City"},
+  {id:55021,title:"F1 Brazil GP",date:"2025-11-09",start:"12:00",who:"family",notes:"F1 Race - Sao Paulo"},
+  {id:55022,title:"F1 Las Vegas GP",date:"2025-11-22",start:"22:00",who:"family",notes:"F1 Race - Las Vegas"},
+  {id:55023,title:"F1 Qatar GP",date:"2025-11-30",start:"11:00",who:"family",notes:"F1 Race - Lusail"},
+  {id:55024,title:"F1 Abu Dhabi GP",date:"2025-12-07",start:"09:00",who:"family",notes:"F1 Season Finale - Yas Marina"},
+
+  // ── 2026 PERSONAL EVENTS ──
+  // Medical
+  {id:60001,title:"Heart Stress Test - Dr. Park",date:"2026-04-20",start:"09:00",who:"marc",notes:"9am"},
+  {id:60002,title:"Mita Knot Procedure",date:"2026-04-23",who:"mita",notes:"Procedure"},
+  {id:60003,title:"Jillian Appointment",date:"2026-04-27",start:"08:00",who:"marc",notes:"8am"},
+  {id:60004,title:"Mita Colonoscopy",date:"2026-05-07",who:"mita",notes:"Colonoscopy"},
+  {id:60005,title:"Dentist - Marc",date:"2026-05-07",start:"10:30",who:"marc",notes:"10:30am"},
+  {id:60006,title:"Mita Colonoscopy Follow-up",date:"2026-05-14",who:"mita",notes:"Follow-up"},
+  {id:60007,title:"Blood Work - Marc",date:"2026-05-19",start:"08:30",who:"marc",notes:"8:30am"},
+  {id:60008,title:"Doctor Appt - Marc",date:"2026-05-26",start:"08:30",who:"marc",notes:"8:30am"},
+  {id:60009,title:"Dentist - Marc",date:"2026-06-09",start:"10:15",who:"marc",notes:"10:15am"},
+  {id:60010,title:"Dentist - Marc",date:"2026-07-27",start:"08:00",who:"marc",notes:"8:00am"},
+  {id:60011,title:"Park Heart Dr - Marc",date:"2026-09-14",start:"08:00",who:"marc",notes:"8:00am"},
+  // Mita Dallas Art Fair 2026
+  {id:60020,title:"Mita - Dallas Art Fair",date:"2026-04-12",who:"mita",notes:"Dallas Art Fair"},
+  {id:60021,title:"Mita - Dallas Art Fair",date:"2026-04-13",who:"mita",notes:"Dallas Art Fair"},
+  {id:60022,title:"Mita - Dallas Art Fair",date:"2026-04-14",who:"mita",notes:"Dallas Art Fair"},
+  {id:60023,title:"Mita - Dallas Art Fair",date:"2026-04-15",who:"mita",notes:"Dallas Art Fair"},
+  {id:60024,title:"Mita - Dallas Art Fair",date:"2026-04-16",who:"mita",notes:"Dallas Art Fair"},
+  {id:60025,title:"Mita - Dallas Art Fair",date:"2026-04-17",who:"mita",notes:"Dallas Art Fair"},
+  {id:60026,title:"Mita - Dallas Art Fair",date:"2026-04-18",who:"mita",notes:"Dallas Art Fair"},
+  {id:60027,title:"Mita - Dallas Art Fair",date:"2026-04-19",who:"mita",notes:"Dallas Art Fair"},
+  // Personal / Family 2026
+  {id:60030,title:"Pick up Andy at DFW",date:"2026-04-17",start:"11:00",who:"family",notes:"AA2521 - 11am"},
+  {id:60031,title:"Kairos Coffield Closing",date:"2026-04-19",start:"12:00",who:"marc",notes:"Noon - 7pm"},
+  {id:60032,title:"Rice for SFA",date:"2026-04-25",who:"marc",notes:""},
+  {id:60033,title:"Feed Kairos Beto Lunch - FUMCR",date:"2026-05-02",start:"12:00",who:"marc",notes:"Noon"},
+  {id:60034,title:"Gage Graduation - U of Arkansas",date:"2026-05-08",who:"family",notes:"All three"},
+  {id:60035,title:"Gage Graduation - U of Arkansas",date:"2026-05-09",who:"family",notes:"All three"},
+  {id:60036,title:"Ramp Build",date:"2026-05-16",start:"05:00",who:"marc",notes:"5am start"},
+  {id:60037,title:"World Cup - Marc & Mita",date:"2026-06-14",start:"15:00",who:"family",notes:"3pm"},
+  {id:60038,title:"World Cup - Marc & Opa",date:"2026-06-30",start:"12:00",who:"family",notes:"Noon"},
+  {id:60039,title:"World Cup - Marc & Opa",date:"2026-07-03",start:"13:00",who:"family",notes:"1pm"},
+  {id:60040,title:"World Cup - Marc & Opa",date:"2026-07-06",start:"14:00",who:"family",notes:"2pm"},
+  // H.E.R.O.E.S. 2026
+  {id:60050,title:"H.E.R.O.E.S. Board Meeting",date:"2026-05-12",start:"19:00",who:"marc",notes:"7pm"},
+  {id:60051,title:"H.E.R.O.E.S. Board Meeting",date:"2026-09-15",start:"19:00",who:"marc",notes:"7pm"},
+  {id:60052,title:"H.E.R.O.E.S. Board Meeting",date:"2026-12-16",start:"19:00",who:"marc",notes:"7pm"},
+  {id:60060,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-22",who:"major",notes:"Week 1"},
+  {id:60061,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-23",who:"major",notes:"Week 1"},
+  {id:60062,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-24",who:"major",notes:"Week 1"},
+  {id:60063,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-25",who:"major",notes:"Week 1"},
+  {id:60064,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-26",who:"major",notes:"Week 1"},
+  {id:60065,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-29",who:"major",notes:"Week 2"},
+  {id:60066,title:"H.E.R.O.E.S. Summer Camp",date:"2026-06-30",who:"major",notes:"Week 2"},
+  {id:60067,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-01",who:"major",notes:"Week 2"},
+  {id:60068,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-02",who:"major",notes:"Week 2"},
+  {id:60069,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-06",who:"major",notes:"Week 3"},
+  {id:60070,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-07",who:"major",notes:"Week 3"},
+  {id:60071,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-08",who:"major",notes:"Week 3"},
+  {id:60072,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-09",who:"major",notes:"Week 3"},
+  {id:60073,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-10",who:"major",notes:"Week 3"},
+  {id:60074,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-13",who:"major",notes:"Week 4"},
+  {id:60075,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-14",who:"major",notes:"Week 4"},
+  {id:60076,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-15",who:"major",notes:"Week 4"},
+  {id:60077,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-16",who:"major",notes:"Week 4"},
+  {id:60078,title:"H.E.R.O.E.S. Summer Camp",date:"2026-07-17",who:"major",notes:"Week 4"},
+  // Clean AC 2026
+  {id:60080,title:"Clean AC & Change Filter",date:"2026-11-07",who:"family",notes:"Every 6 months"},
+
+  // ── 2026 ON-CALL - MISSING WEEKS ──
+  // Apr 30 - May 7 2026
+  {id:6100,title:"On-Call - Marc",date:"2026-04-30",who:"marc",notes:"On-call through May 7"},
+  {id:6101,title:"On-Call - Marc",date:"2026-05-01",who:"marc",notes:"On-call week"},
+  {id:6102,title:"On-Call - Marc",date:"2026-05-02",who:"marc",notes:"On-call week"},
+  {id:6103,title:"On-Call - Marc",date:"2026-05-03",who:"marc",notes:"On-call week"},
+  {id:6104,title:"On-Call - Marc",date:"2026-05-04",who:"marc",notes:"On-call week"},
+  {id:6105,title:"On-Call - Marc",date:"2026-05-05",who:"marc",notes:"On-call week"},
+  {id:6106,title:"On-Call - Marc",date:"2026-05-06",who:"marc",notes:"On-call week"},
+  {id:6107,title:"On-Call - Marc",date:"2026-05-07",who:"marc",notes:"On-call ends"},
+  // Jun 18 - Jun 24 2026
+  {id:6110,title:"On-Call - Marc",date:"2026-06-18",who:"marc",notes:"On-call through Jun 24"},
+  {id:6111,title:"On-Call - Marc",date:"2026-06-19",who:"marc",notes:"On-call week"},
+  {id:6112,title:"On-Call - Marc",date:"2026-06-20",who:"marc",notes:"On-call week"},
+  {id:6113,title:"On-Call - Marc",date:"2026-06-21",who:"marc",notes:"On-call week"},
+  {id:6114,title:"On-Call - Marc",date:"2026-06-22",who:"marc",notes:"On-call week"},
+  {id:6115,title:"On-Call - Marc",date:"2026-06-23",who:"marc",notes:"On-call week"},
+  {id:6116,title:"On-Call - Marc",date:"2026-06-24",who:"marc",notes:"On-call ends"},
+  // Aug 6 - Aug 13 2026 (fix: add Aug 13)
+  {id:6120,title:"On-Call - Marc",date:"2026-08-13",who:"marc",notes:"On-call ends"},
+  // Sep 24 - Oct 1 2026 (fix: add Oct 1)
+  {id:6121,title:"On-Call - Marc",date:"2026-10-01",who:"marc",notes:"On-call ends"},
+  // Nov 12 - Nov 19 2026 (fix: add Nov 19)
+  {id:6122,title:"On-Call - Marc",date:"2026-11-19",who:"marc",notes:"On-call ends"},
+  // Dec 31 - Jan 7 2027 (fix: add Jan 7)
+  {id:6123,title:"On-Call - Marc",date:"2027-01-07",who:"marc",notes:"On-call ends"},
+
+  // ══ US FEDERAL HOLIDAYS 2027 ══
+  {id:10001,title:"New Year's Day",date:"2027-01-01",who:"family",notes:"Federal Holiday"},
+  {id:10002,title:"MLK Day",date:"2027-01-18",who:"family",notes:"Federal Holiday"},
+  {id:10003,title:"Presidents' Day",date:"2027-02-15",who:"family",notes:"Federal Holiday"},
+  {id:10004,title:"Memorial Day",date:"2027-05-31",who:"family",notes:"Federal Holiday"},
+  {id:10005,title:"Juneteenth",date:"2027-06-19",who:"family",notes:"Federal Holiday"},
+  {id:10006,title:"Independence Day",date:"2027-07-04",who:"family",notes:"Federal Holiday"},
+  {id:10007,title:"Labor Day",date:"2027-09-06",who:"family",notes:"Federal Holiday"},
+  {id:10008,title:"Columbus Day",date:"2027-10-11",who:"family",notes:"Federal Holiday"},
+  {id:10009,title:"Veterans Day",date:"2027-11-11",who:"family",notes:"Federal Holiday"},
+  {id:10010,title:"Thanksgiving",date:"2027-11-25",who:"family",notes:"Federal Holiday"},
+  {id:10011,title:"Christmas Day",date:"2027-12-25",who:"family",notes:"Federal Holiday"},
+
+  // ══ INDIA HOLIDAYS 2027 ══
+  {id:10020,title:"Republic Day",date:"2027-01-26",who:"family",notes:"India National Holiday"},
+  {id:10021,title:"Holi",date:"2027-03-22",who:"family",notes:"India Holiday"},
+  {id:10022,title:"Good Friday",date:"2027-03-26",who:"family",notes:"India Holiday"},
+  {id:10023,title:"Eid ul-Fitr",date:"2027-03-09",who:"family",notes:"India Holiday"},
+  {id:10024,title:"Ram Navami",date:"2027-04-15",who:"family",notes:"India Holiday"},
+  {id:10025,title:"Mahavir Jayanti",date:"2027-04-20",who:"family",notes:"India Holiday"},
+  {id:10026,title:"Buddha Purnima",date:"2027-05-20",who:"family",notes:"India Holiday"},
+  {id:10027,title:"Eid ul-Adha",date:"2027-05-27",who:"family",notes:"India Holiday"},
+  {id:10028,title:"Independence Day (India)",date:"2027-08-15",who:"family",notes:"India National Holiday"},
+  {id:10029,title:"Janmashtami",date:"2027-08-24",who:"family",notes:"India Holiday"},
+  {id:10030,title:"Gandhi Jayanti",date:"2027-10-02",who:"family",notes:"India National Holiday"},
+  {id:10031,title:"Dussehra",date:"2027-10-10",who:"family",notes:"India Holiday"},
+  {id:10032,title:"Diwali",date:"2027-10-29",who:"family",notes:"India Holiday"},
+  {id:10033,title:"Guru Nanak Jayanti",date:"2027-11-15",who:"family",notes:"India Holiday"},
+  {id:10034,title:"Christmas Day",date:"2027-12-25",who:"family",notes:"India Holiday"},
+
+  // ══ BIRTHDAYS 2027 ══
+  {id:11001,title:"Whitney's Birthday",date:"2027-01-14",who:"family",notes:"Birthday"},
+  {id:11002,title:"Becky Williams' Birthday",date:"2027-01-20",who:"family",notes:"Birthday"},
+  {id:11003,title:"Fernando's Birthday",date:"2027-01-23",who:"family",notes:"Birthday"},
+  {id:11004,title:"Major's Birthday",date:"2027-01-26",who:"major",notes:"Birthday"},
+  {id:11005,title:"Robert Stern's Birthday",date:"2027-02-02",who:"family",notes:"Birthday"},
+  {id:11006,title:"Neetal's Birthday",date:"2027-02-04",who:"family",notes:"Birthday"},
+  {id:11007,title:"Tom Williams' Birthday",date:"2027-02-11",who:"family",notes:"Birthday"},
+  {id:11008,title:"Briyana's Birthday",date:"2027-02-20",who:"family",notes:"Birthday"},
+  {id:11009,title:"Marc's Birthday",date:"2027-03-28",who:"marc",notes:"Birthday"},
+  {id:11010,title:"Rocky's Birthday",date:"2027-03-29",who:"family",notes:"Birthday"},
+  {id:11011,title:"Sarla's Birthday",date:"2027-04-09",who:"family",notes:"Birthday"},
+  {id:11012,title:"Patti's Birthday",date:"2027-04-10",who:"family",notes:"Birthday"},
+  {id:11013,title:"Stacy's Birthday",date:"2027-04-16",who:"family",notes:"Birthday"},
+  {id:11014,title:"Jonathan's Birthday",date:"2027-04-18",who:"family",notes:"Birthday"},
+  {id:11015,title:"Tifani's Birthday",date:"2027-05-05",who:"family",notes:"Birthday"},
+  {id:11016,title:"Leah's Birthday",date:"2027-05-05",who:"family",notes:"Birthday"},
+  {id:11017,title:"David Goins' Birthday",date:"2027-05-14",who:"family",notes:"Birthday"},
+  {id:11018,title:"Doug's Birthday",date:"2027-05-14",who:"family",notes:"Birthday"},
+  {id:11019,title:"Renee's Birthday",date:"2027-05-19",who:"family",notes:"Birthday"},
+  {id:11020,title:"Clint's Birthday",date:"2027-06-10",who:"family",notes:"Birthday"},
+  {id:11021,title:"Ashley's Birthday",date:"2027-06-25",who:"family",notes:"Birthday"},
+  {id:11022,title:"Alora's Birthday",date:"2027-07-06",who:"family",notes:"Birthday"},
+  {id:11023,title:"Leila's Birthday",date:"2027-07-17",who:"family",notes:"Birthday"},
+  {id:11024,title:"Sanjaybhai's Birthday",date:"2027-08-02",who:"family",notes:"Birthday"},
+  {id:11025,title:"Andy's Birthday",date:"2027-08-05",who:"family",notes:"Birthday"},
+  {id:11026,title:"Bhabhi's Birthday",date:"2027-08-16",who:"family",notes:"Birthday"},
+  {id:11027,title:"Risha & Rohan's Birthdays",date:"2027-08-20",who:"family",notes:"Birthday"},
+  {id:11028,title:"Mita's Birthday",date:"2027-08-23",who:"mita",notes:"Birthday"},
+  {id:11029,title:"Michael's Birthday",date:"2027-08-30",who:"family",notes:"Birthday"},
+  {id:11030,title:"BJ Anderson's Birthday",date:"2027-09-03",who:"family",notes:"Birthday"},
+  {id:11031,title:"Dada's Birthday",date:"2027-09-09",who:"family",notes:"Birthday"},
+  {id:11032,title:"Sean Golden's Birthday",date:"2027-09-15",who:"family",notes:"Birthday"},
+  {id:11033,title:"George's Birthday",date:"2027-09-25",who:"family",notes:"Birthday"},
+  {id:11034,title:"Ellen's Birthday",date:"2027-09-28",who:"family",notes:"Birthday"},
+  {id:11035,title:"Natalie Diaz's Birthday",date:"2027-09-29",who:"family",notes:"Birthday"},
+  {id:11036,title:"Gage's Birthday",date:"2027-10-05",who:"family",notes:"Birthday"},
+  {id:11037,title:"Neal Bhakta's Birthday",date:"2027-10-14",who:"family",notes:"Birthday"},
+  {id:11038,title:"Piper's Birthday",date:"2027-10-20",who:"family",notes:"Birthday"},
+  {id:11039,title:"Riley's Birthday",date:"2027-11-13",who:"family",notes:"Birthday"},
+  {id:11040,title:"Alison's Birthday",date:"2027-11-16",who:"family",notes:"Birthday"},
+  {id:11041,title:"Houston Oates' Birthday",date:"2027-11-22",who:"family",notes:"Birthday"},
+  {id:11042,title:"Philip's Birthday",date:"2027-12-04",who:"family",notes:"Birthday"},
+  {id:11043,title:"Claudette's Birthday",date:"2027-12-11",who:"family",notes:"Birthday"},
+  {id:11044,title:"Kennie's Birthday",date:"2027-12-21",who:"family",notes:"Birthday"},
+
+  // ══ ANNIVERSARIES 2027 ══
+  {id:12001,title:"Andy & Kennie Anniversary",date:"2027-02-21",who:"family",notes:"Anniversary"},
+  {id:12002,title:"Marc & Mita Anniversary",date:"2027-04-20",who:"family",notes:"Our Anniversary"},
+  {id:12003,title:"Crowsons' Anniversary",date:"2027-07-16",who:"family",notes:"Anniversary"},
+
+  // ══ DOG MEDS 2027 ══
+  {id:13001,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-01-03",who:"family",notes:"Both dogs"},
+  {id:13002,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-02-03",who:"family",notes:"Both dogs"},
+  {id:13003,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-03-03",who:"family",notes:"Both dogs"},
+  {id:13004,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-04-03",who:"family",notes:"Both dogs"},
+  {id:13005,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-05-03",who:"family",notes:"Both dogs"},
+  {id:13006,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-06-03",who:"family",notes:"Both dogs"},
+  {id:13007,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-07-03",who:"family",notes:"Both dogs"},
+  {id:13008,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-08-03",who:"family",notes:"Both dogs"},
+  {id:13009,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-09-03",who:"family",notes:"Both dogs"},
+  {id:13010,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-10-03",who:"family",notes:"Both dogs"},
+  {id:13011,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-11-03",who:"family",notes:"Both dogs"},
+  {id:13012,title:"Dog Meds: Heartworm & Flea Pill",date:"2027-12-03",who:"family",notes:"Both dogs"},
+
+  // ══ MONTHLY CHORES 2027 ══
+  {id:14001,title:"Chores: Wipe baseboards & door frames",date:"2027-01-01",who:"chore",notes:"Adults"},
+  {id:14002,title:"Chores: Clean oven & microwave",date:"2027-01-01",who:"chore",notes:"Adults"},
+  {id:14003,title:"Major: Tidy bedroom, wipe desk, organize backpack",date:"2027-01-01",who:"chore",notes:"Major"},
+  {id:14010,title:"Chores: Clean refrigerator",date:"2027-02-01",who:"chore",notes:"Adults"},
+  {id:14011,title:"Chores: Dust ceiling fans & light fixtures",date:"2027-02-01",who:"chore",notes:"Adults"},
+  {id:14012,title:"Major: Wipe bathroom sink & mirror",date:"2027-02-01",who:"chore",notes:"Major"},
+  {id:14020,title:"Chores: Deep clean bathrooms",date:"2027-03-01",who:"chore",notes:"Adults"},
+  {id:14021,title:"Chores: Clean dishwasher filter",date:"2027-03-01",who:"chore",notes:"Adults"},
+  {id:14022,title:"Major: Clean backpack & binder, tidy closet",date:"2027-03-01",who:"chore",notes:"Major"},
+  {id:14030,title:"Chores: Wash windows inside",date:"2027-04-01",who:"chore",notes:"Adults - spring cleaning"},
+  {id:14031,title:"Chores: Rotate mattresses",date:"2027-04-01",who:"chore",notes:"Adults"},
+  {id:14032,title:"Major: Organize shoes & coat closet",date:"2027-04-01",who:"chore",notes:"Major"},
+  {id:14040,title:"Chores: Deep vacuum carpets & rugs",date:"2027-05-01",who:"chore",notes:"Adults"},
+  {id:14041,title:"Chores: Clean garage floor",date:"2027-05-01",who:"chore",notes:"Adults"},
+  {id:14042,title:"Major: Help organize garage",date:"2027-05-01",who:"chore",notes:"Major"},
+  {id:14050,title:"Chores: Deep clean laundry room",date:"2027-06-01",who:"chore",notes:"Adults"},
+  {id:14051,title:"Chores: Mop all hard floors",date:"2027-06-01",who:"chore",notes:"Adults"},
+  {id:14052,title:"Major: Vacuum living room, wipe remotes",date:"2027-06-01",who:"chore",notes:"Major"},
+  {id:14060,title:"Chores: Clean inside cabinets & pantry",date:"2027-07-01",who:"chore",notes:"Adults"},
+  {id:14061,title:"Chores: Dust all vents & registers",date:"2027-07-01",who:"chore",notes:"Adults"},
+  {id:14062,title:"Major: Wipe bathroom, fold & put away laundry",date:"2027-07-01",who:"chore",notes:"Major"},
+  {id:14070,title:"Chores: Deep clean bathrooms + re-caulk check",date:"2027-08-01",who:"chore",notes:"Adults"},
+  {id:14071,title:"Chores: Clean refrigerator coils",date:"2027-08-01",who:"chore",notes:"Adults"},
+  {id:14072,title:"Major: Back to school room reset",date:"2027-08-01",who:"chore",notes:"Major"},
+  {id:14080,title:"Chores: Wash all exterior windows",date:"2027-09-01",who:"chore",notes:"Adults"},
+  {id:14081,title:"Chores: Check & restock first aid kits",date:"2027-09-01",who:"chore",notes:"Adults"},
+  {id:14082,title:"Major: Tidy locker/backpack, organize papers",date:"2027-09-01",who:"chore",notes:"Major"},
+  {id:14090,title:"Chores: Flip & vacuum mattresses",date:"2027-10-01",who:"chore",notes:"Adults"},
+  {id:14091,title:"Chores: Seasonal gear swap",date:"2027-10-01",who:"chore",notes:"Adults"},
+  {id:14092,title:"Major: Swap seasonal clothes, organize dresser",date:"2027-10-01",who:"chore",notes:"Major"},
+  {id:14100,title:"Chores: Deep clean kitchen before holidays",date:"2027-11-01",who:"chore",notes:"Adults"},
+  {id:14101,title:"Chores: Reorganize pantry",date:"2027-11-01",who:"chore",notes:"Adults"},
+  {id:14102,title:"Major: Help decorate, tidy bonus room",date:"2027-11-01",who:"chore",notes:"Major"},
+  {id:14110,title:"Chores: Full house tidy before holidays",date:"2027-12-01",who:"chore",notes:"Adults"},
+  {id:14111,title:"Chores: Wash bedding & guest towels",date:"2027-12-01",who:"chore",notes:"Adults"},
+  {id:14112,title:"Major: Help wrap gifts, organize toys to donate",date:"2027-12-01",who:"chore",notes:"Major"},
+
+  // ══ HOME MAINTENANCE 2027 ══
+  {id:15001,title:"Maint: Test all smoke & CO detectors",date:"2027-01-15",who:"maintain",notes:"Annual January check"},
+  {id:15002,title:"Maint: Flush water heater sediment",date:"2027-01-20",who:"maintain",notes:"Annual"},
+  {id:15003,title:"Maint: Clean dryer vent to exterior",date:"2027-02-10",who:"maintain",notes:"Annual - fire safety"},
+  {id:15004,title:"Maint: Test GFCI outlets",date:"2027-02-15",who:"maintain",notes:"Bathrooms, kitchen, garage"},
+  {id:15005,title:"Maint: Service HVAC before summer",date:"2027-03-01",who:"maintain",notes:"Schedule pro tune-up"},
+  {id:15006,title:"Maint: Check irrigation system",date:"2027-03-15",who:"maintain",notes:"Spring activation"},
+  {id:15007,title:"Maint: Fertilize lawn (spring)",date:"2027-03-15",who:"maintain",notes:"Spring feed"},
+  {id:15008,title:"Maint: Power wash driveway & patio",date:"2027-04-01",who:"maintain",notes:"Annual spring clean"},
+  {id:15009,title:"Maint: Clean gutters (spring)",date:"2027-04-15",who:"maintain",notes:"After pollen season"},
+  {id:15010,title:"Maint: Inspect foundation for cracks",date:"2027-04-01",who:"maintain",notes:"Walk the perimeter"},
+  {id:15011,title:"Maint: Replace HVAC filter (pre-summer)",date:"2027-05-01",who:"maintain",notes:"MERV-11 or higher"},
+  {id:15012,title:"Maint: Inspect & treat wood fence",date:"2027-05-15",who:"maintain",notes:"Seal before summer sun"},
+  {id:15013,title:"Maint: Check garage door springs",date:"2027-05-15",who:"maintain",notes:"Annual safety check"},
+  {id:15014,title:"Maint: Trim trees away from house",date:"2027-06-15",who:"maintain",notes:"Pre-storm season"},
+  {id:15015,title:"Maint: Check under all sinks for leaks",date:"2027-07-15",who:"maintain",notes:"Annual check"},
+  {id:15016,title:"Maint: Inspect washing machine hoses",date:"2027-07-01",who:"maintain",notes:"Replace every 5 years"},
+  {id:15017,title:"Maint: Replace HVAC filter (mid-summer)",date:"2027-08-01",who:"maintain",notes:"TX summer peak"},
+  {id:15018,title:"Maint: Check for pest entry points",date:"2027-08-01",who:"maintain",notes:"Seal gaps before fall"},
+  {id:15019,title:"Maint: Service HVAC for fall",date:"2027-09-01",who:"maintain",notes:"Flush condensate drain"},
+  {id:15020,title:"Maint: Clean gutters (fall)",date:"2027-09-15",who:"maintain",notes:"Before leaves drop"},
+  {id:15021,title:"Maint: Test & reset water softener",date:"2027-09-15",who:"maintain",notes:"Check salt & cycle"},
+  {id:15022,title:"Maint: Replace HVAC filter (fall)",date:"2027-10-01",who:"maintain",notes:"Heating season"},
+  {id:15023,title:"Maint: Winterize irrigation system",date:"2027-10-15",who:"maintain",notes:"Before first TX freeze"},
+  {id:15024,title:"Maint: Check fireplace/chimney flue",date:"2027-10-15",who:"maintain",notes:"Annual inspection"},
+  {id:15025,title:"Maint: Seal attic hatch & garage door",date:"2027-10-15",who:"maintain",notes:"Energy loss prevention"},
+  {id:15026,title:"Maint: Test smoke & CO detectors (6-month)",date:"2027-11-01",who:"maintain",notes:"Replace batteries"},
+  {id:15027,title:"Maint: Insulate exposed pipes in garage",date:"2027-11-01",who:"maintain",notes:"TX freeze prep"},
+  {id:15028,title:"Maint: Check roof flashing & caulk vents",date:"2027-11-15",who:"maintain",notes:"Before winter rain"},
+  {id:15029,title:"Maint: Flush all drains",date:"2027-12-01",who:"maintain",notes:"Boiling water + baking soda"},
+  {id:15030,title:"Maint: Restock emergency kit",date:"2027-12-15",who:"maintain",notes:"Check expiry dates"},
+  {id:15031,title:"Maint: Year-end - book contractors",date:"2027-12-15",who:"maintain",notes:"Book HVAC, pest, roofer early"},
+  {id:15032,title:"Clean AC & Change Filter",date:"2027-05-07",who:"family",notes:"Every 6 months"},
+  {id:15033,title:"Clean AC & Change Filter",date:"2027-11-07",who:"family",notes:"Every 6 months"},
+
+  {id:70001,title:"Estate Planning - Rich O'Connor",date:"2026-04-21",start:"11:00",who:"family",notes:"Marc & Mita - 11am"},
+];
+
+// ===== STATE =====
+let currentView = 'day';
+let currentDate = new Date();
+let editingId = null;
+
+// Load from localStorage, but seed if empty or only has old demo data
+function initEvents() {
+  const stored = localStorage.getItem('m3_events_v12');
+  if (stored) {
+    return JSON.parse(stored);
+  }
+  // First run - use seed data
+  localStorage.setItem('m3_events_v12', JSON.stringify(SEED_EVENTS));
+  return [...SEED_EVENTS];
+}
+
+let events = initEvents();
+
+function saveEvents() {
+  localStorage.setItem('m3_events_v12', JSON.stringify(events));
+}
+
+// ===== CLOCK =====
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('date-label').textContent =
+    `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ===== VIEW SWITCHING =====
+function setView(v) {
+  currentView = v;
+  var viewOrder = ['day','week','month','three','dash'];
+  document.querySelectorAll('.tab').forEach(function(t,i){ t.classList.toggle('active', viewOrder[i]===v); });
+  document.querySelectorAll('.view').forEach(function(el){ el.classList.remove('active'); });
+  document.getElementById(v+'-view').classList.add('active');
+  currentViewIndex = VIEWS.indexOf(v);
+  if (currentViewIndex < 0) currentViewIndex = 0;
+  renderView();
+}
+
+function navPrev() {
+  if (currentView === 'day') currentDate.setDate(currentDate.getDate()-1);
+  else if (currentView === 'week') currentDate.setDate(currentDate.getDate()-7);
+  else if (currentView === 'month') currentDate.setMonth(currentDate.getMonth()-1);
+  else if (currentView === 'three') currentDate.setMonth(currentDate.getMonth()-3);
+  renderView();
+}
+function navNext() {
+  if (currentView === 'day') currentDate.setDate(currentDate.getDate()+1);
+  else if (currentView === 'week') currentDate.setDate(currentDate.getDate()+7);
+  else if (currentView === 'month') currentDate.setMonth(currentDate.getMonth()+1);
+  else if (currentView === 'three') currentDate.setMonth(currentDate.getMonth()+3);
+  renderView();
+}
+function renderView() {
+  var views = { day: renderDay, week: renderWeek, month: renderMonth, three: renderThree, dash: renderDash };
+  views[currentView]();
+}
+
+// ===== HELPERS =====
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const toDateStr = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const todayStr = () => toDateStr(new Date());
+const colorVar = (who) => `var(--${who})`;
+
+function getEventsForDate(dateStr) {
+  return events.filter(e => e.date === dateStr).sort((a,b) => (a.start||'00:00').localeCompare(b.start||'00:00'));
+}
+
+function formatTime(t) {
+  if (!t) return '';
+  const [h,m] = t.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hour = h % 12 || 12;
+  return `${hour}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+// ===== DAY VIEW =====
+function renderDay() {
+  const dateStr = toDateStr(currentDate);
+  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  document.getElementById('nav-title').textContent =
+    dayNames[currentDate.getDay()] + ', ' + MONTHS[currentDate.getMonth()] + ' ' + currentDate.getDate() + ', ' + currentDate.getFullYear();
+
+  const dayEvents = getEventsForDate(dateStr);
+  const timeline = document.getElementById('day-timeline');
+
+  // Build event list — no hours, just items sorted by time
+  let html = '';
+  if (dayEvents.length === 0) {
+    html = '<div style="padding:32px;text-align:center;color:var(--text-dim);font-size:1rem;">No events today</div>';
+  } else {
+    html = dayEvents.map(function(e) {
+      var timeStr = e.start ? '<span class="event-time">' + formatTime(e.start) + (e.end ? ' – ' + formatTime(e.end) : '') + '</span>' : '';
+      var noteStr = e.notes ? '<span style="font-size:0.72rem;opacity:0.7;margin-left:8px;">' + e.notes + '</span>' : '';
+      return '<div class="day-list-item color-' + e.who + '" onclick="openEditModal(' + e.id + ')">'
+        + '<div class="day-list-left">' + timeStr + '</div>'
+        + '<div class="day-list-title">' + e.title + noteStr + '</div>'
+        + '</div>';
+    }).join('');
+  }
+  timeline.innerHTML = html;
+
+  // Upcoming sidebar
+  const upcoming = events.filter(function(e) { return e.date >= dateStr; })
+    .sort(function(a,b) { return a.date.localeCompare(b.date) || (a.start||'').localeCompare(b.start||''); })
+    .slice(0, 12);
+  const ul = document.getElementById('upcoming-list');
+  ul.innerHTML = upcoming.map(function(e) {
+    return '<div class="upcoming-item" onclick="openEditModal(' + e.id + ')">'
+      + '<div class="upcoming-dot" style="background:' + colorVar(e.who) + '"></div>'
+      + '<div class="upcoming-info">'
+      + '<div class="upcoming-name">' + e.title + '</div>'
+      + '<div class="upcoming-meta">' + (e.date === dateStr ? 'Today' : e.date) + (e.start ? ' · ' + formatTime(e.start) : '') + '</div>'
+      + '</div></div>';
+  }).join('');
+}
+
+// ===== WEEK VIEW =====
+function renderWeek() {
+  // Start from today (currentDate) and show next 7 days
+  var days = [];
+  for (var i = 0; i < 7; i++) {
+    var d = new Date(currentDate);
+    d.setDate(currentDate.getDate() + i);
+    days.push(d);
+  }
+  var weekStart = days[0];
+  var today = todayStr();
+
+  document.getElementById('nav-title').textContent =
+    'Week of ' + MONTHS[weekStart.getMonth()] + ' ' + weekStart.getDate() + ' – ' + MONTHS[days[6].getMonth()] + ' ' + days[6].getDate() + ', ' + days[6].getFullYear();
+
+  // Hide old header/body, use week-view div directly
+  var headerGrid = document.getElementById('week-header-grid');
+  headerGrid.style.cssText = 'display:none';
+  var body = document.getElementById('week-body');
+  body.style.cssText = 'display:none';
+
+  // Build 7-column event list inside week-view
+  var container = document.getElementById('week-list-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'week-list-container';
+    document.getElementById('week-view').appendChild(container);
+  }
+  container.style.cssText = 'display:grid;grid-template-columns:repeat(7,1fr);gap:10px;flex:1;min-height:0;overflow:hidden;';
+
+  container.innerHTML = days.map(function(d) {
+    var ds = toDateStr(d);
+    var isToday = ds === today;
+    var dayEvents = getEventsForDate(ds);
+    var evHtml = dayEvents.length === 0
+      ? '<div style="font-size:0.7rem;color:var(--text-dim);padding:6px 4px;">No events</div>'
+      : dayEvents.map(function(e) {
+          var timeStr = e.start ? '<div style="font-size:0.68rem;opacity:0.75;">' + formatTime(e.start) + '</div>' : '';
+          return '<div class="week-list-item color-' + e.who + '" onclick="openEditModal(' + e.id + ')">'
+            + timeStr
+            + '<div style="font-size:0.78rem;font-weight:500;line-height:1.3;">' + e.title + '</div>'
+            + '</div>';
+        }).join('');
+
+    var numDisp = isToday
+      ? '<span style="background:var(--accent);color:#000;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;">' + d.getDate() + '</span>'
+      : '<span style="font-size:0.85rem;font-weight:600;color:var(--text-muted);">' + d.getDate() + '</span>';
+
+    return '<div style="background:var(--surface);border:1px solid ' + (isToday ? 'var(--accent)' : 'var(--border)') + ';border-radius:10px;display:flex;flex-direction:column;overflow:hidden;height:100%;">'
+      + '<div style="padding:10px 10px 6px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">'
+      + numDisp
+      + '<span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:' + (isToday ? 'var(--accent)' : 'var(--text-muted)') + ';">' + DAYS_SHORT[d.getDay()] + '</span>'
+      + '</div>'
+      + '<div style="padding:6px;display:flex;flex-direction:column;gap:4px;overflow-y:auto;flex:1;">' + evHtml + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+// ===== MONTH VIEW =====
+function renderMonth() {
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+  document.getElementById('nav-title').textContent = `${MONTHS[month]} ${year}`;
+  const today = todayStr();
+
+  document.getElementById('month-header').innerHTML =
+    DAYS_SHORT.map(d => `<div class="month-day-header">${d}</div>`).join('');
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month+1, 0);
+  const startDow = firstDay.getDay();
+  const totalCells = Math.ceil((startDow + lastDay.getDate()) / 7) * 7;
+
+  let weeks = '';
+  let weekRow = '';
+  for (let i = 0; i < totalCells; i++) {
+    const cellDate = new Date(year, month, 1 - startDow + i);
+    const ds = toDateStr(cellDate);
+    const isCurrentMonth = cellDate.getMonth() === month;
+    const isToday = ds === today;
+    const dayEvents = getEventsForDate(ds);
+    const maxShow = 3;
+    const evHtml = dayEvents.slice(0,maxShow).map(e =>
+      `<div class="cell-event color-${e.who}" onclick="openEditModal(${e.id})" title="${e.title}">${e.title}</div>`).join('');
+    const moreHtml = dayEvents.length > maxShow ? `<div class="cell-more">+${dayEvents.length-maxShow} more</div>` : '';
+    const numDisp = isToday
+      ? `<span class="cell-num"><span style="background:var(--accent);color:#000;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82rem;">${cellDate.getDate()}</span></span>`
+      : `<div class="cell-num">${cellDate.getDate()}</div>`;
+    weekRow += `<div class="month-cell${!isCurrentMonth?' other-month':''}${isToday?' today':''}" onclick="jumpToDay('${ds}')">${numDisp}${evHtml}${moreHtml}</div>`;
+    if ((i+1)%7===0) {
+      weeks += `<div class="month-week-row">${weekRow}</div>`;
+      weekRow = '';
+    }
+  }
+  document.getElementById('month-weeks').innerHTML = weeks;
+}
+
+function jumpToDay(dateStr) {
+  currentDate = new Date(dateStr + 'T12:00:00');
+  setView('day');
+}
+
+// ===== THREE MONTH VIEW =====
+function renderThree() {
+  // Show next 90 days starting from today, grouped by month, single scrollable column
+  var today = todayStr();
+  var endDate = new Date();
+  endDate.setDate(endDate.getDate() + 90);
+  var endStr = toDateStr(endDate);
+
+  // Nav title
+  var startMonth = MONTHS[new Date().getMonth()];
+  var endMonth = MONTHS[endDate.getMonth()];
+  var endYear = endDate.getFullYear();
+  document.getElementById('nav-title').textContent = startMonth + ' – ' + endMonth + ' ' + endYear;
+
+  // Get all events in window, sorted
+  var upcoming = events.filter(function(e) {
+    return e.date >= today && e.date <= endStr;
+  }).sort(function(a,b) {
+    return a.date.localeCompare(b.date) || (a.start||'').localeCompare(b.start||'');
+  });
+
+  // Group by month
+  var byMonth = {}, monthOrder = [];
+  upcoming.forEach(function(e) {
+    var mk = e.date.slice(0,7); // YYYY-MM
+    if (!byMonth[mk]) { byMonth[mk] = []; monthOrder.push(mk); }
+    byMonth[mk].push(e);
+  });
+  monthOrder = monthOrder.filter(function(m,i,a){ return a.indexOf(m)===i; });
+
+  // Build 3-column layout, one column per month
+  var cols = monthOrder.slice(0,3).map(function(mk) {
+    var parts = mk.split('-');
+    var monthName = MONTHS[parseInt(parts[1])-1] + ' ' + parts[0];
+    var isCurrent = mk === today.slice(0,7);
+
+    // Group events within month by date
+    var grouped = {}, datOrder = [];
+    byMonth[mk].forEach(function(e) {
+      if (!grouped[e.date]) { grouped[e.date] = []; datOrder.push(e.date); }
+      grouped[e.date].push(e);
+    });
+    datOrder = datOrder.filter(function(d,i,a){ return a.indexOf(d)===i; });
+
+    var bodyHtml = datOrder.map(function(ds) {
+      var d = new Date(ds + 'T12:00:00');
+      var isToday = ds === today;
+      var dayLabel = (isToday ? 'Today' : DAYS_SHORT[d.getDay()]) + ' ' + parseInt(ds.slice(8));
+      var evItems = grouped[ds].map(function(e) {
+        var timeStr = e.start ? '<span style="font-size:0.65rem;opacity:0.75;margin-right:5px;">' + formatTime(e.start) + '</span>' : '';
+        return '<div class="three-event-item color-' + e.who + '" onclick="openEditModal(' + e.id + ')" title="' + e.title + '">' + timeStr + e.title + '</div>';
+      }).join('');
+      return '<div style="margin-bottom:8px;">'
+        + '<div style="font-size:0.68rem;font-weight:600;color:' + (isToday?'var(--accent)':'var(--text-muted)') + ';text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;padding-bottom:3px;border-bottom:1px solid var(--border);">' + dayLabel + '</div>'
+        + evItems + '</div>';
+    }).join('');
+
+    return '<div class="mini-month' + (isCurrent ? ' current' : '') + '">'
+      + '<div class="mini-month-title">' + monthName + '</div>'
+      + '<div style="flex:1;overflow-y:auto;">' + (bodyHtml || '<div style="font-size:0.8rem;color:var(--text-dim);">No events</div>') + '</div>'
+      + '</div>';
+  }).join('');
+
+  // Wrap in 3-col grid
+  document.getElementById('three-month-grid').style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;overflow:hidden;';
+  document.getElementById('three-month-grid').innerHTML = cols || '<div style="color:var(--text-dim);padding:32px;">No upcoming events in next 90 days</div>';
+}
+
+function renderMiniMonth(mDate, isCurrent) { return ''; } // legacy stub
+
+
+// ===== DASHBOARD VIEW =====
+function renderDash() {
+  var today = todayStr();
+  var endDate = new Date();
+  endDate.setDate(endDate.getDate() + 60);
+  var endStr = toDateStr(endDate);
+
+  document.getElementById('nav-title').textContent = 'Family Dashboard — Next 60 Days';
+
+  // Who we show and their colors
+  var cols = [
+    { who: 'family', label: 'Family',  color: 'var(--family)' },
+    { who: 'marc',   label: 'Marc',    color: 'var(--marc)'   },
+    { who: 'mita',   label: 'Mita',    color: 'var(--mita)'   },
+    { who: 'major',  label: 'Major',   color: 'var(--major)'  },
+  ];
+
+  // Filter: no chores, no maintenance, no birthdays, no dog meds
+  var skipWho = ['chore','maintain'];
+  var skipWords = ['birthday','dog meds','chores:','major:','maint:'];
+
+  function isSkipped(e) {
+    if (skipWho.indexOf(e.who) >= 0) return true;
+    var tl = e.title.toLowerCase();
+    for (var i=0;i<skipWords.length;i++) { if (tl.indexOf(skipWords[i]) >= 0) return true; }
+    return false;
+  }
+
+  var upcoming = events.filter(function(e) {
+    return e.date >= today && e.date <= endStr && !isSkipped(e);
+  }).sort(function(a,b){ return a.date.localeCompare(b.date)||(a.start||'').localeCompare(b.start||''); });
+
+  var grid = document.getElementById('dash-grid');
+  grid.innerHTML = cols.map(function(col) {
+    // Family col shows family events; individual cols show their events + family events
+    var colEvents = upcoming.filter(function(e) {
+      if (col.who === 'family') return e.who === 'family';
+      return e.who === col.who || e.who === 'family';
+    });
+
+    // Group by date
+    var grouped = {}, sortedDates = [];
+    colEvents.forEach(function(e) {
+      if (!grouped[e.date]) { grouped[e.date] = []; sortedDates.push(e.date); }
+      grouped[e.date].push(e);
+    });
+    sortedDates = sortedDates.filter(function(d,i,a){ return a.indexOf(d)===i; }).sort();
+
+    var bodyHtml = sortedDates.length === 0
+      ? '<div style="padding:16px;text-align:center;color:var(--text-dim);font-size:0.85rem;">No events</div>'
+      : sortedDates.map(function(ds) {
+          var d = new Date(ds + 'T12:00:00');
+          var isToday = ds === today;
+          var dayLabel = isToday ? 'Today' : (DAYS_SHORT[d.getDay()] + ' ' + MONTHS[d.getMonth()].slice(0,3) + ' ' + d.getDate());
+          var evItems = grouped[ds].map(function(e) {
+            var timeStr = e.start ? formatTime(e.start) : '';
+            return '<div class="dash-event color-' + e.who + '" onclick="openEditModal(' + e.id + ')">'
+              + '<div class="dash-event-title">' + e.title + '</div>'
+              + (timeStr ? '<div class="dash-event-meta">' + timeStr + (e.notes ? ' · ' + e.notes : '') + '</div>' : '')
+              + '</div>';
+          }).join('');
+          return '<div class="dash-date-sep">' + dayLabel + '</div>' + evItems;
+        }).join('');
+
+    return '<div class="dash-col">'
+      + '<div class="dash-col-header">'
+      + '<div style="width:12px;height:12px;border-radius:50%;background:' + col.color + ';"></div>'
+      + '<div class="dash-col-name" style="color:' + col.color + ';">' + col.label + '</div>'
+      + '</div>'
+      + '<div class="dash-col-body">' + bodyHtml + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+// ===== MODAL =====
+function openAddModal(dateStr) {
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'Add Event';
+  document.getElementById('input-title').value = '';
+  document.getElementById('input-date').value = dateStr || toDateStr(currentDate);
+  document.getElementById('input-who').value = 'family';
+  document.getElementById('input-start').value = '';
+  document.getElementById('input-end').value = '';
+  document.getElementById('input-notes').value = '';
+  document.getElementById('modal-actions').innerHTML = `
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn-save" onclick="saveEvent()">Save Event</button>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('input-title').focus(), 100);
+}
+
+function openEditModal(id) {
+  const ev = events.find(e => e.id === id);
+  if (!ev) return;
+  editingId = id;
+  document.getElementById('modal-title').textContent = 'Edit Event';
+  document.getElementById('input-title').value = ev.title;
+  document.getElementById('input-date').value = ev.date;
+  document.getElementById('input-who').value = ev.who;
+  document.getElementById('input-start').value = ev.start || '';
+  document.getElementById('input-end').value = ev.end || '';
+  document.getElementById('input-notes').value = ev.notes || '';
+  document.getElementById('modal-actions').innerHTML = `
+    <button class="btn-delete" onclick="deleteEvent(${id})">Delete</button>
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn-save" onclick="saveEvent()">Save Changes</button>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  editingId = null;
+}
+
+function saveEvent() {
+  const title = document.getElementById('input-title').value.trim();
+  if (!title) { document.getElementById('input-title').focus(); return; }
+  const ev = {
+    title,
+    date: document.getElementById('input-date').value,
+    who: document.getElementById('input-who').value,
+    start: document.getElementById('input-start').value,
+    end: document.getElementById('input-end').value,
+    notes: document.getElementById('input-notes').value.trim(),
+  };
+  if (editingId) {
+    const idx = events.findIndex(e => e.id === editingId);
+    events[idx] = { ...events[idx], ...ev };
+  } else {
+    ev.id = Date.now();
+    events.push(ev);
+  }
+  saveEvents();
+  closeModal();
+  renderView();
+}
+
+function deleteEvent(id) {
+  if (!confirm('Delete this event?')) return;
+  events = events.filter(e => e.id !== id);
+  saveEvents();
+  closeModal();
+  renderView();
+}
+
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (document.getElementById('modal-overlay').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') navPrev();
+  if (e.key === 'ArrowRight') navNext();
+  if (e.key === '1') setView('day');
+  if (e.key === '2') setView('week');
+  if (e.key === '3') setView('month');
+  if (e.key === '4') setView('three');
+});
+
+renderView();
+
+// ===== AUTO-ROTATE =====
+var VIEWS = ['day', 'three', 'dash']; // auto-rotate: day, 3-month, dashboard
+const ROTATE_INTERVAL = 30000;   // 30 seconds per view
+const PAUSE_AFTER_INTERACTION = 120000; // 2 minutes pause on click/touch
+
+let rotateTimer = null;
+let pauseTimer = null;
+let autoplayPaused = false;
+let currentViewIndex = 0;
+
+// Indicator UI
+const indicator = document.createElement('div');
+indicator.id = 'autoplay-indicator';
+indicator.style.cssText = `
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(13,17,23,0.85); border: 1px solid var(--border);
+  border-radius: 20px; padding: 6px 14px; z-index: 200;
+  font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: var(--text-muted);
+  backdrop-filter: blur(6px); transition: opacity 0.4s;
+`;
+document.body.appendChild(indicator);
+
+// Progress bar
+const progressBar = document.createElement('div');
+progressBar.style.cssText = `
+  position: fixed; bottom: 0; left: 0; height: 3px;
+  background: var(--accent); width: 0%; z-index: 201;
+  transition: none;
+`;
+document.body.appendChild(progressBar);
+
+let progressAnim = null;
+
+function startProgress() {
+  progressBar.style.transition = 'none';
+  progressBar.style.width = '0%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      progressBar.style.transition = `width ${ROTATE_INTERVAL}ms linear`;
+      progressBar.style.width = '100%';
+    });
+  });
+}
+
+function stopProgress() {
+  progressBar.style.transition = 'none';
+  progressBar.style.width = '0%';
+}
+
+function updateIndicator() {
+  const dots = VIEWS.map(function(v, i) {
+    var color = i === currentViewIndex ? 'var(--accent)' : 'var(--border)';
+    return '<span style="width:7px;height:7px;border-radius:50%;background:' + color + ';display:inline-block;"></span>';
+  }).join('');
+  indicator.innerHTML = autoplayPaused
+    ? '<span>&#9208;</span>' + dots + '<span>Paused &mdash; resuming in <span id="resume-countdown"></span>s</span>'
+    : '<span>&#9654;</span>' + dots + '<span>Auto-rotating</span>';
+}
+
+function rotateView() {
+  currentViewIndex = (currentViewIndex + 1) % VIEWS.length;
+  setView(VIEWS[currentViewIndex]);
+  startProgress();
+  updateIndicator();
+}
+
+function startAutoRotate() {
+  if (rotateTimer) clearInterval(rotateTimer);
+  rotateTimer = setInterval(rotateView, ROTATE_INTERVAL);
+  startProgress();
+  autoplayPaused = false;
+  updateIndicator();
+}
+
+function pauseAutoRotate() {
+  if (rotateTimer) { clearInterval(rotateTimer); rotateTimer = null; }
+  stopProgress();
+  autoplayPaused = true;
+
+  // Clear any existing pause timer
+  if (pauseTimer) clearInterval(pauseTimer);
+
+  let remaining = Math.floor(PAUSE_AFTER_INTERACTION / 1000);
+  updateIndicator();
+  const countdown = document.getElementById('resume-countdown');
+  if (countdown) countdown.textContent = remaining;
+
+  pauseTimer = setInterval(() => {
+    remaining--;
+    const cd = document.getElementById('resume-countdown');
+    if (cd) cd.textContent = remaining;
+    if (remaining <= 0) {
+      clearInterval(pauseTimer);
+      pauseTimer = null;
+      startAutoRotate();
+    }
+  }, 1000);
+}
+
+// Sync currentViewIndex when view is changed manually
+const _origSetView = setView;
+window.setView = function(v) {
+  _origSetView(v);
+  currentViewIndex = VIEWS.indexOf(v);
+};
+
+// Pause on any user interaction (click, touch, keypress)
+['click','touchstart','keydown'].forEach(evt => {
+  document.addEventListener(evt, (e) => {
+    // Don't pause if it's just the auto-rotate itself triggering
+    if (e.isTrusted) pauseAutoRotate();
+  }, { passive: true });
+});
+
+// Sync view index on manual tab clicks
+document.querySelectorAll('.tab').forEach((tab, i) => {
+  tab.addEventListener('click', () => { currentViewIndex = i; });
+});
+
+
+// ===== DAILY QUOTE =====
+// 30 pre-loaded quotes so it works offline too
+var QUOTES = [
+  {text:"The secret of getting ahead is getting started.", source:"— Mark Twain"},
+  {text:"Do all the good you can, for all the people you can, in all the ways you can, as long as you can.", source:"— John Wesley"},
+  {text:"In all things I have shown you that by working hard in this way we must help the weak.", source:"— Acts 20:35"},
+  {text:"Family is not an important thing. It's everything.", source:"— Michael J. Fox"},
+  {text:"The Lord bless you and keep you; the Lord make his face shine on you and be gracious to you.", source:"— Numbers 6:24-25"},
+  {text:"Happiness is not something ready made. It comes from your own actions.", source:"— Dalai Lama"},
+  {text:"Trust in the Lord with all your heart and lean not on your own understanding.", source:"— Proverbs 3:5"},
+  {text:"The best time to plant a tree was 20 years ago. The second best time is now.", source:"— Chinese Proverb"},
+  {text:"For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you.", source:"— Jeremiah 29:11"},
+  {text:"It does not matter how slowly you go as long as you do not stop.", source:"— Confucius"},
+  {text:"Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you.", source:"— Joshua 1:9"},
+  {text:"The greatest glory in living lies not in never falling, but in rising every time we fall.", source:"— Nelson Mandela"},
+  {text:"Love is patient, love is kind. It does not envy, it does not boast, it is not proud.", source:"— 1 Corinthians 13:4"},
+  {text:"You miss 100% of the shots you don’t take.", source:"— Wayne Gretzky"},
+  {text:"I can do all things through Christ who strengthens me.", source:"— Philippians 4:13"},
+  {text:"In the middle of every difficulty lies opportunity.", source:"— Albert Einstein"},
+  {text:"And we know that in all things God works for the good of those who love him.", source:"— Romans 8:28"},
+  {text:"Life is what happens when you’re busy making other plans.", source:"— John Lennon"},
+  {text:"Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you.", source:"— Ephesians 4:32"},
+  {text:"The way to get started is to quit talking and begin doing.", source:"— Walt Disney"},
+  {text:"Cast all your anxiety on him because he cares for you.", source:"— 1 Peter 5:7"},
+  {text:"Spread love everywhere you go. Let no one ever come to you without leaving happier.", source:"— Mother Teresa"},
+  {text:"Give thanks in all circumstances; for this is God’s will for you in Christ Jesus.", source:"— 1 Thessalonians 5:18"},
+  {text:"You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose.", source:"— Dr. Seuss"},
+  {text:"The steadfast love of the Lord never ceases; his mercies never come to an end.", source:"— Lamentations 3:22"},
+  {text:"It always seems impossible until it’s done.", source:"— Nelson Mandela"},
+  {text:"Whatever you do, work at it with all your heart, as working for the Lord.", source:"— Colossians 3:23"},
+  {text:"Keep your face always toward the sunshine, and shadows will fall behind you.", source:"— Walt Whitman"},
+  {text:"For God so loved the world that he gave his one and only Son.", source:"— John 3:16"},
+  {text:"The future belongs to those who believe in the beauty of their dreams.", source:"— Eleanor Roosevelt"},
+];
+
+function loadDailyQuote() {
+  // Pick quote based on day of year so it changes daily but is consistent all day
+  var now = new Date();
+  var start = new Date(now.getFullYear(), 0, 0);
+  var diff = now - start;
+  var oneDay = 1000 * 60 * 60 * 24;
+  var dayOfYear = Math.floor(diff / oneDay);
+  var q = QUOTES[dayOfYear % QUOTES.length];
+
+  // Try live API first (ZenQuotes)
+  fetch('https://zenquotes.io/api/today')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data[0] && data[0].q) {
+        document.getElementById('daily-quote').textContent = '“' + data[0].q + '”';
+        document.getElementById('daily-quote-source').textContent = data[0].a ? '— ' + data[0].a : '';
+      }
+    })
+    .catch(function() {
+      // Fallback to pre-loaded quote
+      document.getElementById('daily-quote').textContent = '“' + q.text + '”';
+      document.getElementById('daily-quote-source').textContent = q.source;
+    });
+
+  // Always show pre-loaded immediately, API will update if available
+  document.getElementById('daily-quote').textContent = '“' + q.text + '”';
+  document.getElementById('daily-quote-source').textContent = q.source;
+}
+
+loadDailyQuote();
+
+// Start on load
+currentViewIndex = 0;
+startAutoRotate();
+updateIndicator();
+
+// ===== WEATHER =====
+var WEATHER_LAT = 32.9482;
+var WEATHER_LON = -96.7297;
+var WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=' + WEATHER_LAT + '&longitude=' + WEATHER_LON +
+  '&current=temperature_2m,weathercode,precipitation_probability,windspeed_10m' +
+  '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode' +
+  '&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago&forecast_days=2';
+
+function weatherCodeToEmoji(code) {
+  if (code === 0) return { icon: '☀️', desc: 'Clear' };
+  if (code === 1) return { icon: '🌤️', desc: 'Mostly Clear' };
+  if (code === 2) return { icon: '⛅', desc: 'Partly Cloudy' };
+  if (code === 3) return { icon: '☁️', desc: 'Overcast' };
+  if (code >= 45 && code <= 48) return { icon: '🌫️', desc: 'Foggy' };
+  if (code >= 51 && code <= 55) return { icon: '🌦️', desc: 'Drizzle' };
+  if (code >= 61 && code <= 65) return { icon: '🌧️', desc: 'Rain' };
+  if (code >= 71 && code <= 77) return { icon: '❄️', desc: 'Snow' };
+  if (code >= 80 && code <= 82) return { icon: '🌦️', desc: 'Showers' };
+  if (code >= 95 && code <= 99) return { icon: '⛈️', desc: 'Thunderstorm' };
+  return { icon: '🌡️', desc: 'Unknown' };
+}
+
+function fetchWeather() {
+  fetch(WEATHER_URL)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var cur = data.current;
+      var daily = data.daily;
+      var wx = weatherCodeToEmoji(cur.weathercode);
+      var temp = Math.round(cur.temperature_2m);
+      var hi = Math.round(daily.temperature_2m_max[0]);
+      var lo = Math.round(daily.temperature_2m_min[0]);
+      var rain = cur.precipitation_probability;
+      var wind = Math.round(cur.windspeed_10m);
+
+      document.getElementById('weather-icon').textContent = wx.icon;
+      document.getElementById('weather-temp').textContent = temp + '°F';
+      document.getElementById('weather-desc').textContent = wx.desc;
+      document.getElementById('weather-hilo').textContent = 'H:' + hi + '° L:' + lo + '°';
+      document.getElementById('weather-rain').textContent = '💧 ' + rain + '%';
+      document.getElementById('weather-wind').textContent = '💨 ' + wind + 'mph';
+      // Tomorrow
+      var wxT = weatherCodeToEmoji(daily.weathercode ? daily.weathercode[1] : 3);
+      var hiT = Math.round(daily.temperature_2m_max[1] || 0);
+      var loT = Math.round(daily.temperature_2m_min[1] || 0);
+      var rainT = daily.precipitation_probability_max ? daily.precipitation_probability_max[1] : 0;
+      document.getElementById('weather-icon-tmr').textContent = wxT.icon;
+      document.getElementById('weather-temp-tmr').textContent = Math.round((hiT+loT)/2) + '°F';
+      document.getElementById('weather-desc-tmr').textContent = wxT.desc;
+      document.getElementById('weather-hilo-tmr').textContent = 'H:' + hiT + '° L:' + loT + '°';
+      document.getElementById('weather-rain-tmr').textContent = '💧 ' + rainT + '%';
+      var now = new Date(); var hh = now.getHours(); var mm = String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('weather-updated').textContent = 'Updated ' + (hh%12||12) + ':' + mm + (hh>=12?'pm':'am');
+    })
+    .catch(function() {
+      document.getElementById('weather-desc').textContent = 'Unavailable';
+    });
+}
+
+// Fetch on load, then every 15 minutes
+fetchWeather();
+setInterval(fetchWeather, 15 * 60 * 1000);
+
+
+// ===== PWA SERVICE WORKER =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(reg) {
+      console.log('SW registered:', reg.scope);
+    }).catch(function(err) {
+      console.log('SW registration failed:', err);
+    });
+  });
+}
+
+</script>
+</body>
+</html>
