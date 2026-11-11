@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Day-One IT Checklist: 24 Things I Check First — justaskmajor</title>
+<meta name="description" content="A plain-English, 24-item IT checklist for small businesses covering ownership, accounts, email, backups, devices, and planning, with a scoring system and PowerShell checks.">
+<link rel="canonical" href="https://justaskmajor.com/blog/day-one-it-checklist.html">
+<meta property="og:url" content="https://justaskmajor.com/blog/day-one-it-checklist.html">
+
+<meta property="og:title" content="The Day-One IT Checklist: 24 Things I Check First">
+<meta property="og:description" content="A plain-English, 24-item IT checklist for small businesses covering ownership, accounts, email, backups, devices, and planning, with a scoring system and PowerShell checks.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+.content .table-wrap { overflow-x: auto; margin: 1.5rem 0; -webkit-overflow-scrolling: touch; }
+.content .table-wrap.wide { width: min(1120px, calc(100vw - 2rem)); position: relative; left: 50%; transform: translateX(-50%); }
+.content .table-wrap.wide td { min-width: 6.5rem; }
+.content .table-wrap.wide td:first-child, .content .table-wrap.wide th:first-child { min-width: 2rem; }
+.content .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.content .table-wrap th { padding: 0.5rem; text-align: left; font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; border-bottom: 2px solid var(--copper); white-space: nowrap; }
+.content .table-wrap td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; min-width: 7rem; }
+.content ul:has(input[type="checkbox"]) { list-style: none; padding-left: 0.25rem; }
+.content ul:has(input[type="checkbox"]) li { margin-bottom: 0.6rem; }
+.content input[type="checkbox"] { margin-right: 0.5rem; accent-color: var(--copper); }
+.content .callout { margin: 1.75rem 0; padding: 1.25rem 1.5rem; background: var(--paper-warm); border-left: 3px solid var(--copper); border-radius: var(--r); }
+.content .callout p:last-child { margin-bottom: 0; }
+.content pre { background: #14213d; color: #f4efe6; padding: 1rem 1.25rem; border-radius: var(--r); overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 1.5rem 0; }
+.content pre code { background: none; color: inherit; padding: 0; font-family: var(--mono); }
+.content :not(pre) > code { font-family: var(--mono); font-size: 0.88em; background: var(--paper-warm); padding: 0.1em 0.35em; border-radius: 3px; }
+@media print { nav, footer, .affiliate-disclosure { display: none; } .content ul:has(input[type="checkbox"]) li { break-inside: avoid; } }
+</style>
+
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "wtlo5baagg");
+</script>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-inner">
+<a href="/" class="brand">justask<span>major</span></a>
+<button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<ul class="nav-links">
+<li><a href="/services.html">Services</a></li>
+<li><a href="/about.html">About</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+</ul>
+</div>
+</nav>
+
+<article class="content">
+<span class="eyebrow">Field notes · Nov 2026</span>
+<h1>The day-one IT checklist: <em style="color: var(--copper);">24 things I check first</em>.</h1>
+
+<div class="post-meta">By Marc Stern · 14 min read</div>
+
+
+
+<p>When I sit down with a new small-business client, I don’t start with a pitch or a network diagram. I start with a short list of questions, and in about fifteen minutes the answers tell me almost everything I need to know about how risky their IT situation is.</p>
+<p>None of the questions are technical trick questions. They’re things like: <em>Who owns your domain name? Who can log in as an administrator? What happens if your best employee quits tomorrow? When did you last restore a file from backup?</em> Most owners can’t answer more than a few of them, and that’s not a criticism. It’s the normal state of small-business IT, where everything was set up once by someone who has since moved on, and nobody has looked at it since.</p>
+<p>This post is that list. It’s the checklist I use on day one, written so that an owner or office manager can work through it without a technical background. Each item says what to check, why it matters, and what a good answer looks like. At the end you’ll have a score and a short list of what to fix first.</p>
+<p>You can finish it in an afternoon, and there’s a printable version at the end.</p>
+<div class="callout">
+<p><strong>How to use this:</strong> Give each item a color. <strong>Green</strong> means you have it and you’ve checked. <strong>Yellow</strong> means you think you have it but you’re not sure. <strong>Red</strong> means no, or you don’t know. “I don’t know” counts as red. That’s not harsh, it’s accurate: if you don’t know, you can’t rely on it in an emergency.</p>
+</div>
+<h2 id="why-the-first-15-minutes-tell-me-so-much">Why the first 15 minutes tell me so much</h2>
+<p>Small-business IT problems are rarely exotic. They’re almost always one of a handful of things: nobody knows who controls the critical accounts, there’s no tested backup, there’s no second factor on email, software is out of date, or the one person who understands it all is a single point of failure.</p>
+<p>Those problems share a root cause, which is <strong>a lack of ownership and documentation</strong>, not a lack of technology. The fix usually costs very little. But you can’t fix what you haven’t looked at, and you can’t look at it without a list. So here it is, in six sections.</p>
+<h2 id="section-1-ownership-and-access-the-who-has-the-keys-test">Section 1: Ownership and access (the “who has the keys” test)</h2>
+<p>If I could fix only one section for a business, it’s this one. When something breaks or someone leaves, these are the questions that decide whether it’s a ten-minute problem or a ten-day crisis.</p>
+<h3 id="who-owns-your-domain-name">1. Who owns your domain name?</h3>
+<p>Your domain (<code>yourcompany.com</code>) is the foundation of your website and email. It’s registered with a company like GoDaddy, Namecheap, or Squarespace. <strong>Log in to that account right now.</strong> Is it registered under your company’s name and an email address you control? Or under a web designer’s personal account from 2016?</p>
+<p><em>Why it matters:</em> Whoever controls the registrar account controls your website and email. If a former contractor owns it and disappears, or the renewal bills go to a dead inbox, you can lose your domain.</p>
+<p><em>Good answer:</em> The owner or company is the registered owner. Two people have access. Auto-renew is on, billing is current, and the domain is locked. MFA is enabled on the registrar login.</p>
+<h3 id="who-controls-your-dns">2. Who controls your DNS?</h3>
+<p>DNS is the set of records that points your domain at your website, your email, and your other services. It might be at your registrar, at Cloudflare, or at your web host. Know where it is and who can edit it.</p>
+<p><em>Why it matters:</em> A wrong DNS change can take your email down in minutes, and a malicious one can redirect it.</p>
+<p><em>Good answer:</em> You know where DNS lives, at least two people can log in, and you have a recent export or screenshot of the records.</p>
+<h3 id="who-are-your-administrators-in-microsoft-365-or-google-workspace">3. Who are your administrators in Microsoft 365 or Google Workspace?</h3>
+<p>Open the admin center (admin.microsoft.com or admin.google.com) and look at the list of admins.</p>
+<p><em>Why it matters:</em> Admins can read anyone’s email, reset any password, and delete everything. Too many admins is an exposure. Too few (or only an outside consultant who’s no longer around) is a lockout waiting to happen.</p>
+<p><em>Good answer:</em> Two to four named admins, each using a separate admin account with MFA. You recognize every name on the list.</p>
+<h3 id="where-are-the-router-firewall-and-wi-fi-admin-logins">4. Where are the router, firewall, and Wi-Fi admin logins?</h3>
+<p>Find the box in the closet that your internet comes through, and the Wi-Fi access points. Do you know their admin passwords?</p>
+<p><em>Why it matters:</em> Consumer routers often still have the default login (<code>admin</code> / <code>admin</code> or a sticker on the bottom). If you can’t log in, you can’t fix, update, or secure them.</p>
+<p><em>Good answer:</em> The default passwords are changed, the logins are stored somewhere other than a sticky note, and the firmware is reasonably current.</p>
+<h3 id="is-there-a-central-secure-place-for-passwords">5. Is there a central, secure place for passwords?</h3>
+<p>Ask yourself: where do shared logins live? If the answer is a spreadsheet, a shared document, a notebook, or one person’s memory, that’s red.</p>
+<p><em>Why it matters:</em> Shared passwords in a spreadsheet are one phishing email away from exposure. And if the one person who knows them leaves, so do the passwords.</p>
+<p><em>Good answer:</em> A business password manager, with each person having their own login, shared vaults for shared accounts, and an owner-level recovery path.</p>
+<h3 id="do-you-have-a-list-of-every-service-and-subscription-you-pay-for">6. Do you have a list of every service and subscription you pay for?</h3>
+<p>Domain, email, website host, accounting software, payroll, phone system, backup, antivirus, internet, cloud storage. Who’s the account owner for each, and when does each renew?</p>
+<p><em>Why it matters:</em> The surprise outage is often just an expired credit card on a service nobody remembers. And you can’t secure or cancel what you don’t know exists.</p>
+<p><em>Good answer:</em> One simple table: service, vendor, account owner, login location, renewal date, monthly cost.</p>
+<h2 id="section-2-identity-and-accounts">Section 2: Identity and accounts</h2>
+<h3 id="is-multi-factor-authentication-on-for-email">7. Is multi-factor authentication on for email?</h3>
+<p>Ask a random employee to show you the sign-in prompt. Does it ask for a code or approval from a phone after the password?</p>
+<p><em>Why it matters:</em> Email is the master key. Password resets for almost every other service go to your inbox. A stolen email password without MFA is the single most common way small businesses get hurt. If you only fix one item on this entire list, make it this one. I walk through exactly how in <a href="/blog/m365-security-basics.html">Microsoft 365 Security Basics, in plain English</a>.</p>
+<p><em>Good answer:</em> MFA is on for every user, with the Authenticator app or a hardware key rather than text messages when possible.</p>
+<h3 id="are-accounts-for-former-employees-gone">8. Are accounts for former employees gone?</h3>
+<p>Pull the list of users and compare it to the list of people who work for you today.</p>
+<p><em>Why it matters:</em> Old accounts are a favorite back door. They have valid credentials, nobody’s watching them, and nobody notices unusual activity because the real person is gone.</p>
+<p><em>Good answer:</em> Every account belongs to a current employee or a documented purpose (like a shared mailbox). When someone leaves, you have a same-day checklist that disables the account, revokes sessions, and reassigns their data.</p>
+<h3 id="does-everyone-have-only-the-access-they-need">9. Does everyone have only the access they need?</h3>
+<p>Does the receptionist have access to payroll folders? Does every employee have admin rights on their laptop?</p>
+<p><em>Why it matters:</em> When an account is compromised, the damage is limited to what that account could reach.</p>
+<p><em>Good answer:</em> Sensitive folders (payroll, HR, finance) are restricted to the people who need them, and daily-use accounts aren’t administrators.</p>
+<h2 id="section-3-email-and-domain-protection">Section 3: Email and domain protection</h2>
+<h3 id="do-spf-dkim-and-dmarc-exist-for-your-domain">10. Do SPF, DKIM, and DMARC exist for your domain?</h3>
+<p>These are the records that tell the world which servers may send email as you, and what to do with forgeries. Without them, anyone can send an email that appears to come from your address, and your own legitimate messages are more likely to land in spam.</p>
+<p>You can check from any Windows PC in about a minute. Open PowerShell and run this, replacing the domain:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">$domain</span> <span class="op">=</span> <span class="st">&#39;yourcompany.com&#39;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Write-Host</span> <span class="st">&quot;--- SPF ---&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type TXT <span class="va">$domain</span> <span class="op">-</span>ErrorAction SilentlyContinue <span class="op">|</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Where-Object</span> <span class="op">{</span> <span class="va">$_</span><span class="op">.</span><span class="fu">Strings</span> <span class="op">-</span>match <span class="st">&#39;v=spf1&#39;</span> <span class="op">}</span> <span class="op">|</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select-Object</span> <span class="op">-</span>ExpandProperty Strings</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Write-Host</span> <span class="st">&quot;--- DMARC ---&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type TXT <span class="st">&quot;_dmarc.$domain&quot;</span> <span class="op">-</span>ErrorAction SilentlyContinue <span class="op">|</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Select-Object</span> <span class="op">-</span>ExpandProperty Strings</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">Write-Host</span> <span class="st">&quot;--- DKIM (Microsoft 365 selectors) ---&quot;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;selector1&#39;</span><span class="op">,</span><span class="st">&#39;selector2&#39;</span> <span class="op">|</span> <span class="fu">ForEach-Object</span> <span class="op">{</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type CNAME <span class="st">&quot;$_._domainkey.$domain&quot;</span> <span class="op">-</span>ErrorAction SilentlyContinue <span class="op">|</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">Select-Object</span> Name<span class="op">,</span> NameHost</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><em>How to read it:</em> If SPF shows a record ending in <code>-all</code> or <code>~all</code>, you have one. If DMARC returns nothing, you have no policy. If the two DKIM lines come back empty, signing isn’t set up (assuming you’re on Microsoft 365; Google Workspace uses a different selector).</p>
+<p><em>Good answer:</em> All three exist. DMARC starts at <code>p=none</code> while you watch reports, then moves toward <code>quarantine</code> and <code>reject</code> over a few weeks.</p>
+<h3 id="is-there-a-spam-and-phishing-filter-doing-real-work">11. Is there a spam and phishing filter doing real work?</h3>
+<p>Microsoft 365 and Google Workspace both include filtering. Ask: has anyone ever looked at the quarantine, or customized the settings?</p>
+<p><em>Why it matters:</em> Default filtering catches a lot, but attackers test against the defaults. Higher-tier plans add link and attachment scanning that catches more.</p>
+<p><em>Good answer:</em> Someone has reviewed the settings, a quarantine process exists, and staff know how to report a suspicious message.</p>
+<h3 id="is-automatic-external-forwarding-blocked">12. Is automatic external forwarding blocked?</h3>
+<p>Attackers who get into a mailbox often set up a rule that quietly forwards copies of mail outside.</p>
+<p><em>Good answer:</em> Auto-forwarding to external addresses is off by default, and you check inbox rules in the audit log occasionally.</p>
+<h2 id="section-4-backups-and-recovery">Section 4: Backups and recovery</h2>
+<h3 id="what-is-backed-up-where-and-how-often">13. What is backed up, where, and how often?</h3>
+<p>Make a list: file server or shared drive, laptops, email, SharePoint and OneDrive, accounting data, your website. For each, write down where the backup lives and when it last ran successfully.</p>
+<p><em>Why it matters:</em> “We have a backup” is the most dangerous sentence in IT, because it’s usually based on faith. A cloud-sync folder is not a backup. Neither is a drive plugged into the same computer it’s protecting. I’ve written about the typical failures in <a href="/blog/three-backup-mistakes.html">The Three Backup Mistakes I See Every Single Week</a>.</p>
+<p><em>Good answer:</em> Everything important has a backup that’s separate from the original, versioned (so you can go back to <em>last Tuesday</em>, not just “now”), and includes one copy off-site. The 3-2-1 rule: three copies, two types of media, one off-site.</p>
+<h3 id="when-did-you-last-restore-something">14. When did you last restore something?</h3>
+<p>Not “when did the backup last run?” but “when did you last pull a file back out of it and open it?”</p>
+<p><em>Why it matters:</em> Backups fail silently: bad media, wrong folders, expired credentials, permissions that changed. The only proof a backup works is a successful restore.</p>
+<p><em>Good answer:</em> You test a restore at least quarterly, document it, and have once tried restoring a whole machine.</p>
+<h3 id="how-long-could-you-be-down">15. How long could you be down?</h3>
+<p>Ask the question out loud: if the main server, the internet, or our email were down for a day, a week, what happens? What’s the most you could afford to lose: an hour of work, a day?</p>
+<p><em>Why it matters:</em> This is the question that connects IT decisions to money. Those two numbers (how long you can be down, and how much data you can lose) are what a backup design should be built around.</p>
+<p><em>Good answer:</em> You’ve written both down, and your backup setup actually meets them.</p>
+<h2 id="section-5-devices-and-network">Section 5: Devices and network</h2>
+<h3 id="is-anything-running-an-unsupported-operating-system">16. Is anything running an unsupported operating system?</h3>
+<p>Check every computer. Windows 10 reached the end of free security updates in October 2025, and machines still running it, or older versions, no longer receive fixes for new vulnerabilities unless you’ve enrolled in Microsoft’s extended update program.</p>
+<p>To check one machine quickly, run this in PowerShell:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">$os</span>  <span class="op">=</span> <span class="fu">Get-CimInstance</span> Win32_OperatingSystem</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">$hot</span> <span class="op">=</span> <span class="fu">Get-HotFix</span> <span class="op">|</span> <span class="fu">Sort-Object</span> InstalledOn <span class="op">-</span>Descending <span class="op">|</span> <span class="fu">Select-Object</span> <span class="op">-</span>First 1</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>pscustomobject<span class="op">]</span>@<span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    Computer       <span class="op">=</span> <span class="va">$env</span><span class="op">:</span>COMPUTERNAME</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    OS             <span class="op">=</span> <span class="va">$os</span><span class="op">.</span><span class="fu">Caption</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    Version        <span class="op">=</span> <span class="va">$os</span><span class="op">.</span><span class="fu">Version</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    LastBoot       <span class="op">=</span> <span class="va">$os</span><span class="op">.</span><span class="fu">LastBootUpTime</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    LastPatchKB    <span class="op">=</span> <span class="va">$hot</span><span class="op">.</span><span class="fu">HotFixID</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    LastPatchDate  <span class="op">=</span> <span class="va">$hot</span><span class="op">.</span><span class="fu">InstalledOn</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    BitLocker      <span class="op">=</span> <span class="op">(</span>Get<span class="op">-</span>BitLockerVolume <span class="op">-</span>MountPoint <span class="st">&#39;C:&#39;</span> <span class="op">-</span>ErrorAction SilentlyContinue<span class="op">).</span><span class="fu">ProtectionStatus</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>(Run it as administrator for the BitLocker value. <code>On</code> means the drive is encrypted.)</p>
+<p><em>Good answer:</em> Everything runs a supported OS and has been patched in the last month or so. Anything that can’t be upgraded is isolated from the rest of the network or replaced.</p>
+<h3 id="are-laptops-encrypted-and-set-to-lock">17. Are laptops encrypted and set to lock?</h3>
+<p>If a laptop is stolen from a car or left on a plane, can the finder read your files?</p>
+<p><em>Why it matters:</em> Lost devices are a leading cause of reportable data exposure, and encryption turns a breach into an inconvenience.</p>
+<p><em>Good answer:</em> BitLocker (Windows) or FileVault (Mac) is on, recovery keys are stored somewhere safe, and screens lock after a few minutes.</p>
+<h3 id="is-there-antivirus-or-endpoint-protection-that-someone-actually-monitors">18. Is there antivirus or endpoint protection that someone actually monitors?</h3>
+<p>Windows includes Microsoft Defender, which is solid. The question isn’t which product, it’s whether it’s running, up to date, and reporting somewhere you can see.</p>
+<p><em>Good answer:</em> Every machine reports to a console. Alerts go to a person.</p>
+<h3 id="whats-the-state-of-your-network">19. What’s the state of your network?</h3>
+<p>Check these four things:</p>
+<ul>
+<li><strong>Router firmware:</strong> is it current?</li>
+<li><strong>Port forwarding:</strong> are any internal devices exposed directly to the internet?</li>
+<li><strong>Guest Wi-Fi:</strong> are visitors and personal phones on a separate network from your business computers?</li>
+<li><strong>Wi-Fi password:</strong> has it changed since the last time someone who knew it left?</li>
+</ul>
+<p><em>Why it matters:</em> Exposed devices and old firmware are what automated internet scanners look for.</p>
+<p><em>Good answer:</em> Firmware is updated at least twice a year, no unexplained forwarded ports, a separate guest network, and the main Wi-Fi password changes when staff turn over.</p>
+<h2 id="section-6-people-paperwork-and-planning">Section 6: People, paperwork, and planning</h2>
+<h3 id="is-there-a-one-page-what-to-do-when-it-breaks-document">20. Is there a one-page “what to do when it breaks” document?</h3>
+<p>A single page that answers: Who do we call for email problems? For internet? For the accounting software? Where are the admin logins? Who’s authorized to spend money to fix things?</p>
+<p><em>Why it matters:</em> In a crisis, nobody has time to figure out who to call. And if the one person who knows leaves, the knowledge leaves with them.</p>
+<p><em>Good answer:</em> A one-page runbook exists, is stored somewhere accessible when the network is down (a printed copy counts), and was updated this year.</p>
+<h3 id="is-there-a-callback-rule-for-money">21. Is there a callback rule for money?</h3>
+<p>Any change to bank details, any unusual payment request, any wire, gets confirmed by phone using a number you already had.</p>
+<p><em>Why it matters:</em> Business email compromise is one of the most expensive crimes reported to the FBI, and this one process step defeats most of it.</p>
+<p><em>Good answer:</em> It’s written down, everyone with payment authority knows it, and the owner follows it too.</p>
+<h3 id="do-people-know-what-to-do-with-a-suspicious-email">22. Do people know what to do with a suspicious email?</h3>
+<p><em>Good answer:</em> Staff know to report it rather than delete it, there’s a button or an address for that, and they’ve seen real examples within the past year.</p>
+<h3 id="do-you-have-cyber-insurance-and-do-you-know-what-it-requires">23. Do you have cyber insurance, and do you know what it requires?</h3>
+<p>Many policies require MFA, backups, and endpoint protection, and can deny a claim if you said you had them and didn’t.</p>
+<p><em>Good answer:</em> You have a policy, you’ve read the security questionnaire you answered, and the answers are actually true.</p>
+<h3 id="is-there-a-plan-for-when-your-it-person-is-unavailable">24. Is there a plan for when your IT person is unavailable?</h3>
+<p>Whether your IT help is an employee, a part-time contractor, or “my nephew,” what happens if they’re out for a week or gone for good?</p>
+<p><em>Good answer:</em> Credentials and documentation aren’t in one person’s head, and there’s a backup contact.</p>
+<h2 id="scoring-yourself">Scoring yourself</h2>
+<p>Count your answers. Give <strong>2 points</strong> for each green, <strong>1</strong> for each yellow, and <strong>0</strong> for each red. There are 24 items, so the maximum is 48.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Score</th>
+<th>What it likely means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>40 to 48</td>
+<td>Strong. You’re ahead of most small businesses. Keep checking quarterly.</td>
+</tr>
+<tr class="even">
+<td>28 to 39</td>
+<td>Decent foundation, with gaps that matter. Fix the reds first.</td>
+</tr>
+<tr class="odd">
+<td>14 to 27</td>
+<td>Significant exposure. You’re probably one bad day away from a serious problem. Start this week.</td>
+</tr>
+<tr class="even">
+<td>0 to 13</td>
+<td>Treat it as urgent. Start with items 1, 3, 7, 13, and 14.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The score isn’t a grade. It’s a map. What matters is what you do with the reds.</p>
+<h2 id="what-to-fix-first">What to fix first</h2>
+<p>If you have a lot of red, don’t panic and don’t try to do it all at once. Here’s the order I’d tackle things, because it goes from highest-impact to lowest and from quickest to slowest:</p>
+<ol type="1">
+<li><strong>MFA on email (item 7).</strong> The best return on time of anything here. Usually an hour or two.</li>
+<li><strong>Domain and admin ownership (items 1, 3).</strong> Make sure you can’t be locked out of your own business.</li>
+<li><strong>A tested backup (items 13, 14).</strong> Take a real restore test this month.</li>
+<li><strong>Password manager (item 5).</strong> Gets shared passwords out of spreadsheets.</li>
+<li><strong>Offboarding and account cleanup (items 8, 9).</strong> Remove dead accounts.</li>
+<li><strong>The paperwork (items 6, 20).</strong> One table of services, one page of “who to call.”</li>
+<li><strong>Everything else,</strong> in order of how scary it looked when you checked it.</li>
+</ol>
+<p>A month of steady, boring effort on this list is worth more than any security product you could buy.</p>
+<h2 id="the-printable-version">The printable version</h2>
+<p>Copy this into a document, print it, and keep a copy where you can reach it when the network is down. Mark each line G, Y, or R.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" disabled> 1. Domain registered to the company, two people have access, MFA on registrar</label></li>
+<li><label><input type="checkbox" disabled> 2. DNS location known, two people can edit, records exported</label></li>
+<li><label><input type="checkbox" disabled> 3. Two to four admins, each with separate admin accounts and MFA</label></li>
+<li><label><input type="checkbox" disabled> 4. Router, firewall, and Wi-Fi logins changed from defaults and stored safely</label></li>
+<li><label><input type="checkbox" disabled> 5. Business password manager in use</label></li>
+<li><label><input type="checkbox" disabled> 6. List of services, owners, logins, and renewal dates</label></li>
+<li><label><input type="checkbox" disabled> 7. MFA on for every user’s email</label></li>
+<li><label><input type="checkbox" disabled> 8. Former employees’ accounts removed, offboarding checklist exists</label></li>
+<li><label><input type="checkbox" disabled> 9. Sensitive folders restricted, no daily-use admin accounts</label></li>
+<li><label><input type="checkbox" disabled> 10. SPF, DKIM, and DMARC in place</label></li>
+<li><label><input type="checkbox" disabled> 11. Spam and phishing filtering reviewed</label></li>
+<li><label><input type="checkbox" disabled> 12. External auto-forwarding blocked</label></li>
+<li><label><input type="checkbox" disabled> 13. Everything important is backed up, versioned, with an off-site copy</label></li>
+<li><label><input type="checkbox" disabled> 14. Restore tested in the last 90 days</label></li>
+<li><label><input type="checkbox" disabled> 15. Downtime and data-loss limits written down</label></li>
+<li><label><input type="checkbox" disabled> 16. No unsupported operating systems</label></li>
+<li><label><input type="checkbox" disabled> 17. Laptops encrypted and auto-locking</label></li>
+<li><label><input type="checkbox" disabled> 18. Endpoint protection running and monitored</label></li>
+<li><label><input type="checkbox" disabled> 19. Router firmware current, no unneeded forwarded ports, guest Wi-Fi separate</label></li>
+<li><label><input type="checkbox" disabled> 20. One-page runbook exists and is stored offline</label></li>
+<li><label><input type="checkbox" disabled> 21. Callback rule for payment and bank-detail changes</label></li>
+<li><label><input type="checkbox" disabled> 22. Staff know how to report suspicious email</label></li>
+<li><label><input type="checkbox" disabled> 23. Cyber insurance reviewed against reality</label></li>
+<li><label><input type="checkbox" disabled> 24. Backup plan for the person who handles IT</label></li>
+</ul>
+<h2 id="why-i-keep-coming-back-to-this-list">Why I keep coming back to this list</h2>
+<p>A checklist isn’t glamorous, and you won’t impress anyone at a dinner party with it. But in a field where the stakes are high and people constantly reach for new tools, the thing that most consistently separates the businesses that recover quickly from the ones that don’t is whether somebody wrote down the basics and checked them on a schedule.</p>
+<p>Run through the list this week. Put a repeat reminder on the calendar to do it again in three months. It gets faster every time, and the number of reds almost always goes in one direction.</p>
+<p>If you’d like a second set of eyes, this is exactly what the quarterly health check in my <a href="/services.html">Advisor plan</a> covers: I go through the list with you, tell you what I find in plain English, and help you prioritize the fixes. Or <a href="/contact.html">get in touch</a> and we can talk through where you stand.</p>
+
+
+<p style="margin-top: 2rem; font-size: 0.9rem; color: var(--muted);">
+Related reading: <a href="/blog/m365-security-basics.html">Microsoft 365 Security Basics</a> · <a href="/blog/three-backup-mistakes.html">The Three Backup Mistakes I See Every Single Week</a>
+</p>
+
+</article>
+
+<footer>
+<div class="wrap">
+<div class="foot-grid">
+<div>
+<div class="foot-brand">justask<span>major</span></div>
+<p class="foot-tagline">Strategic IT for small businesses, nonprofits, and discerning homeowners. Based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+</div>
+<div>
+<h4>Services</h4>
+<ul>
+<li><a href="/services.html#advisor">Advisor</a></li>
+<li><a href="/services.html#partner">Quarterly Partner</a></li>
+<li><a href="/services.html#projects">Project work</a></li>
+</ul>
+</div>
+<div>
+<h4>Company</h4>
+<ul>
+<li><a href="/about.html">About</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/contact.html">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4>Connect</h4>
+<ul>
+<li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+<li><a href="/contact.html">Start a project</a></li>
+</ul>
+</div>
+</div>
+<div class="foot-bottom">
+<div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+<div>Built with care · 10% pledged</div>
+</div>
+<div class="foot-disclosure">
+As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+</div>
+</div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>

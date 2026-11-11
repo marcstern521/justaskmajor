@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft 365 Security Basics — In Plain English — justaskmajor</title>
+<meta name="description" content="Multi-factor authentication, Conditional Access, and the four settings most small-business Microsoft 365 tenants never touch, with a 30-day rollout plan.">
+<link rel="canonical" href="https://justaskmajor.com/blog/m365-security-basics.html">
+<meta property="og:url" content="https://justaskmajor.com/blog/m365-security-basics.html">
+
+<meta property="og:title" content="Microsoft 365 Security Basics — In Plain English">
+<meta property="og:description" content="Multi-factor authentication, Conditional Access, and the four settings most small-business Microsoft 365 tenants never touch, with a 30-day rollout plan.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+.content .table-wrap { overflow-x: auto; margin: 1.5rem 0; -webkit-overflow-scrolling: touch; }
+.content .table-wrap.wide { width: min(1120px, calc(100vw - 2rem)); position: relative; left: 50%; transform: translateX(-50%); }
+.content .table-wrap.wide td { min-width: 6.5rem; }
+.content .table-wrap.wide td:first-child, .content .table-wrap.wide th:first-child { min-width: 2rem; }
+.content .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.content .table-wrap th { padding: 0.5rem; text-align: left; font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; border-bottom: 2px solid var(--copper); white-space: nowrap; }
+.content .table-wrap td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; min-width: 7rem; }
+.content ul:has(input[type="checkbox"]) { list-style: none; padding-left: 0.25rem; }
+.content ul:has(input[type="checkbox"]) li { margin-bottom: 0.6rem; }
+.content input[type="checkbox"] { margin-right: 0.5rem; accent-color: var(--copper); }
+.content .callout { margin: 1.75rem 0; padding: 1.25rem 1.5rem; background: var(--paper-warm); border-left: 3px solid var(--copper); border-radius: var(--r); }
+.content .callout p:last-child { margin-bottom: 0; }
+.content pre { background: #14213d; color: #f4efe6; padding: 1rem 1.25rem; border-radius: var(--r); overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 1.5rem 0; }
+.content pre code { background: none; color: inherit; padding: 0; font-family: var(--mono); }
+.content :not(pre) > code { font-family: var(--mono); font-size: 0.88em; background: var(--paper-warm); padding: 0.1em 0.35em; border-radius: 3px; }
+@media print { nav, footer, .affiliate-disclosure { display: none; } .content ul:has(input[type="checkbox"]) li { break-inside: avoid; } }
+</style>
+
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "wtlo5baagg");
+</script>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-inner">
+<a href="/" class="brand">justask<span>major</span></a>
+<button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<ul class="nav-links">
+<li><a href="/services.html">Services</a></li>
+<li><a href="/about.html">About</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+</ul>
+</div>
+</nav>
+
+<article class="content">
+<span class="eyebrow">Field notes · Nov 2026</span>
+<h1>Microsoft 365 security basics, <em style="color: var(--copper);">in plain English</em>.</h1>
+
+<div class="post-meta">By Marc Stern · 16 min read</div>
+
+<div class="affiliate-disclosure">
+<strong>Affiliate disclosure:</strong> This post contains an affiliate link. If you buy through it, justaskmajor.com earns a small commission at no extra cost to you. 10% of all revenue is donated to special needs nonprofits.
+</div>
+
+<p>Picture a small accounting office with eight people. On a Tuesday morning, the office manager gets an email that looks like a shared-document notice from a client. She clicks, signs in to a page that looks exactly like Microsoft’s, and goes back to work. Nothing seems wrong.</p>
+<p>Over the next three weeks, the person who now controls her mailbox reads her email. They learn who the clients are, who approves payments, and what invoices look like. They create a rule that quietly forwards a copy of everything to an outside address, and another that hides replies from the bank. Then one afternoon a client receives a perfectly normal-looking message: “We’ve changed our bank details, please use the new account for the next payment.”</p>
+<p>Nobody hacked a server. Nobody broke through a firewall. The whole thing started with one password and ended with a wire transfer.</p>
+<p>This is how most small-business security incidents actually happen, and it’s why the boring settings in your Microsoft 365 tenant matter more than almost anything else you’ll spend money on this year. The good news is that the fixes are mostly free, mostly one-time, and mostly already included in the licenses you’re paying for.</p>
+<p>This post walks through what I’d turn on, in what order, and why. No jargon without an explanation, and every setting comes with the reason it exists.</p>
+<div class="callout">
+<p><strong>Who this is for:</strong> businesses with roughly 5 to 50 people on Microsoft 365, no full-time IT staff, and a vague feeling that “someone set this up once.” If that’s you, you’re in the right place.</p>
+</div>
+<h2 id="why-this-matters-more-than-it-used-to">Why this matters more than it used to</h2>
+<p>Business email compromise, the crime in the story above, is not rare. The FBI’s Internet Crime Complaint Center reported more than 24,700 business email compromise complaints in 2025, with reported losses of about $3 billion. That’s one category, among the most expensive the FBI tracks, and those are only the cases that were reported.</p>
+<p>Two things have changed in the last few years.</p>
+<p>First, attackers stopped trying to guess passwords one at a time. They phish real passwords, then use them. A password alone, no matter how long, is not a defense against a convincing fake sign-in page.</p>
+<p>Second, attackers have better tools. Phishing emails used to be easy to spot because of bad grammar and odd formatting. Now they are clean, correctly worded, and often personalized with details from your public website and LinkedIn. You can’t train your way out of this entirely. You need settings that make a stolen password useless.</p>
+<p>That’s the whole philosophy of this post: assume a password will eventually get stolen, and configure the tenant so it doesn’t matter.</p>
+<h2 id="first-know-what-youre-paying-for">First, know what you’re paying for</h2>
+<p>Before changing anything, find out which license you have. It determines which tools you can use. Go to the Microsoft 365 admin center, open <strong>Billing &gt; Your products</strong>, and look at the plan name.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Plan</th>
+<th>Approx. price per user per month*</th>
+<th>What it means for security</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Business Basic</td>
+<td>$7</td>
+<td>Security defaults only. No Conditional Access.</td>
+</tr>
+<tr class="even">
+<td>Business Standard</td>
+<td>$14</td>
+<td>Same as Basic. Desktop apps included.</td>
+</tr>
+<tr class="odd">
+<td>Business Premium</td>
+<td>$22</td>
+<td>Conditional Access, Defender for Business, Defender for Office 365, Intune device management. The one I recommend.</td>
+</tr>
+</tbody>
+</table></div>
+<p>*Annual commitment, list prices as I understand them after Microsoft’s July 2026 packaging update. Month-to-month costs more, and prices change, so confirm in your own admin center or with your reseller before you budget.</p>
+<p>Here’s the short version of why Business Premium is the right plan for most offices: it’s the one that includes Microsoft Entra ID P1, which is where <strong>Conditional Access</strong> lives. Conditional Access is the feature that lets you write rules like “only allow sign-ins that pass MFA” and “block sign-ins from countries where we have no employees.” On Basic and Standard, you get a simpler all-or-nothing switch called <strong>security defaults</strong>. That’s still far better than nothing, and I’ll cover it below.</p>
+<p>If you have Basic or Standard and you have more than about five employees, the extra $8 to $15 per user per month for Premium is usually the cheapest security upgrade available. It also covers device management and advanced email protection, which would otherwise be separate purchases.</p>
+<h2 id="step-1-multi-factor-authentication-for-everyone-no-exceptions">Step 1: Multi-factor authentication for everyone, no exceptions</h2>
+<p>Multi-factor authentication, or MFA, means signing in takes two things: something you know (your password) plus something you have (your phone, or a physical key). A stolen password alone no longer works, because the attacker doesn’t have your phone.</p>
+<p>If you do only one thing from this entire post, do this.</p>
+<h3 id="security-defaults-vs.-conditional-access">Security defaults vs. Conditional Access</h3>
+<p>There are two ways to turn MFA on for everyone, and which one you use depends on your license.</p>
+<p><strong>Security defaults</strong> is a free, one-click setting in the Entra admin center. It requires every user to register for MFA, requires MFA for admins, and blocks older, insecure sign-in methods. You find it at <strong>Entra ID &gt; Overview &gt; Properties &gt; Manage security defaults</strong>. If you’re on Business Basic or Standard, turn this on today.</p>
+<p><strong>Conditional Access</strong> is the grown-up version. Instead of one blanket setting, you create policies with conditions. It’s what I’d use on Business Premium, because it gives you control over exceptions, which every real office needs (a conference-room account, a scanner that sends email, an emergency admin).</p>
+<p>You can’t use both at once. Turning on Conditional Access policies means turning off security defaults first. Do it in that order: build and test your policies, then switch off security defaults.</p>
+<h3 id="which-mfa-method-should-people-use">Which MFA method should people use?</h3>
+<p>Not all MFA is equal. In order from best to worst:</p>
+<ol type="1">
+<li><strong>Passkeys or a hardware security key.</strong> These can’t be phished, because they only work on the real Microsoft sign-in site. Best for administrators and executives.</li>
+<li><strong>The Microsoft Authenticator app with number matching.</strong> When you sign in, the screen shows a two-digit number, and you type that number into the app. This stops the “approval fatigue” trick where an attacker spams you with push requests hoping you tap Approve to make them stop. Best for everyone else.</li>
+<li><strong>Text message codes.</strong> Better than nothing, but they can be intercepted through SIM swapping and phishing. Use only as a last resort for people who can’t use an app.</li>
+</ol>
+<p>For the people who can do the most damage if compromised, meaning your owners and anyone with admin rights, buy a pair of hardware keys each. A YubiKey costs about $55 and stays on a keychain. Get two per person, because you want a backup when one is lost:</p>
+<ul>
+<li><a href="https://www.amazon.com/s?k=yubikey+5c+nfc&tag=marcstern521-20" target="_blank" rel="noopener nofollow">YubiKey 5C NFC security keys on Amazon</a> — buy two per admin</li>
+</ul>
+<h3 id="microsoft-is-now-enforcing-this-for-admins-anyway">Microsoft is now enforcing this for admins anyway</h3>
+<p>Microsoft began requiring MFA to sign in to the Microsoft 365 admin center in 2025, and extended mandatory MFA to the Azure portal, the Entra and Intune admin centers, and, in a later phase, command-line and automation tools. There are no exemptions for specific accounts, and “stay signed in” doesn’t bypass it. If someone in your office signs in as an admin with just a password today and it still works, that’s likely a postponement that will run out, not a sign that you’re safe.</p>
+<h3 id="the-rollout-without-the-revolt">The rollout, without the revolt</h3>
+<p>The fastest way to make an office hate security is to flip a switch on Monday morning and lock everyone out. Here’s the gentler route:</p>
+<ol type="1">
+<li>Announce it a week ahead. Two sentences: what’s changing, when, and where to get help.</li>
+<li>Have each person register Authenticator at <strong>aka.ms/mfasetup</strong>, ideally during a 15-minute walkthrough.</li>
+<li>Start with a pilot group of three people, preferably including one skeptic.</li>
+<li>In Conditional Access, create the policy in <strong>Report-only</strong> mode first. It logs what <em>would</em> have happened without blocking anyone. Check the sign-in logs for a few days.</li>
+<li>Switch the policy to <strong>On</strong>.</li>
+</ol>
+<h2 id="step-2-a-starter-set-of-conditional-access-policies">Step 2: A starter set of Conditional Access policies</h2>
+<p>If you’re on Business Premium, here are the five policies I’d build first. Together they cover most of what matters. In the Entra admin center, go to <strong>Protection &gt; Conditional Access &gt; Policies &gt; New policy</strong>.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Policy</th>
+<th>What it does</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Require MFA for all users</td>
+<td>Every sign-in to every cloud app needs a second factor.</td>
+<td>The core defense against stolen passwords.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Block legacy authentication</td>
+<td>Blocks old protocols (POP, IMAP, basic SMTP) that can’t do MFA.</td>
+<td>Attackers target these precisely because they skip MFA.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Require stronger MFA for admins</td>
+<td>Admin roles must use passkeys or hardware keys.</td>
+<td>Admin accounts are the keys to the whole tenant.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Block sign-ins from countries you don’t operate in</td>
+<td>Uses a “named location” list.</td>
+<td>Cuts off a huge portion of automated attacks.</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Require MFA to register or change security info</td>
+<td>Prevents an attacker from adding their own phone to an account they’ve partly compromised.</td>
+<td>Closes a common persistence trick.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="two-rules-for-building-these-safely">Two rules for building these safely</h3>
+<p><strong>Always make emergency access accounts first.</strong> Create two cloud-only “break-glass” accounts, with long random passwords stored offline (a sealed envelope in a safe works fine), and exclude them from your policies. Their only purpose is to get you back in if a policy misfires and locks out every administrator, including you. Microsoft recommends securing these with a passkey or certificate rather than a plain password. Set an alert so you’re notified any time one of them signs in, because that should basically never happen.</p>
+<p><strong>Never test a policy on everyone at once.</strong> Report-only mode exists for a reason. The two things that most often break are a copier or scanner that emails documents using an old protocol, and a shared mailbox someone signs in to directly. Find them while you’re still watching logs, not while the CEO is waiting for a scan.</p>
+<h2 id="the-four-settings-most-tenants-never-touch">The four settings most tenants never touch</h2>
+<p>MFA gets all the attention. These four settings get almost none, and they’re the ones I most often find in the default state in small-business tenants. Each takes about ten minutes.</p>
+<h3 id="block-automatic-external-forwarding">1. Block automatic external forwarding</h3>
+<p>In the story at the top, the attacker created a rule that forwarded the victim’s email to an outside address. That’s one of the most common moves after an account is compromised, because it lets the attacker keep reading mail even after the password is reset.</p>
+<p>You can shut the door. In the Microsoft Defender portal (security.microsoft.com), go to <strong>Email &amp; collaboration &gt; Policies &amp; rules &gt; Threat policies &gt; Anti-spam policies</strong>, open the <strong>Outbound spam filter policy</strong>, and set <strong>Automatic forwarding rules</strong> to <strong>Off - Forwarding is disabled</strong>.</p>
+<p>If someone has a genuine business reason to forward mail outside, you can allow it for that one user instead of everyone. Almost nobody needs it.</p>
+<h3 id="control-which-apps-users-can-grant-access-to">2. Control which apps users can grant access to</h3>
+<p>Here’s an attack that never touches your password at all. A user receives a link that says “Allow this app to read your mail?” The sign-in page is real Microsoft. The user clicks Accept, and now a malicious app has legitimate, ongoing access to their mailbox and files. This is called OAuth consent phishing, and MFA doesn’t stop it, because the user did sign in properly.</p>
+<p>The fix is in <strong>Entra admin center &gt; Enterprise applications &gt; Consent and permissions &gt; User consent settings</strong>. Change it from allowing users to approve any app to either <strong>Do not allow user consent</strong>, or the more flexible <strong>Allow user consent for apps from verified publishers, for selected permissions</strong>. Then turn on the admin consent workflow, so users can request an app and you approve it.</p>
+<h3 id="tighten-external-sharing-in-sharepoint-and-onedrive">3. Tighten external sharing in SharePoint and OneDrive</h3>
+<p>By default, tenants are often permissive: anyone in your company can create an “Anyone with the link” share that requires no sign-in at all. That link can be forwarded, posted, or indexed, and you’ll never know.</p>
+<p>In the <strong>SharePoint admin center &gt; Policies &gt; Sharing</strong>, move the external sharing slider to <strong>New and existing guests</strong> (people must sign in or verify with a code) or, for firms with sensitive data, <strong>Existing guests</strong> only. Then set the default link type to <strong>Specific people</strong>. Staff can still share with clients. They just can’t accidentally create a public link.</p>
+<h3 id="turn-off-what-you-dont-use-smtp-auth-and-old-protocols">4. Turn off what you don’t use: SMTP AUTH and old protocols</h3>
+<p>Your Conditional Access policy blocks legacy authentication for sign-ins, but it’s worth also disabling the older mail submission protocol at the Exchange level if nothing needs it. In the Exchange admin center, under <strong>Settings &gt; Mail flow</strong>, you can turn off SMTP AUTH for the organization. If a scanner or line-of-business app depends on it, leave it on for that mailbox only and plan to move it to a modern method. The principle: if you don’t know why a door is open, find out before you leave it that way.</p>
+<div class="callout">
+<p><strong>Tip:</strong> After changing any of these four settings, test with a normal user account, a shared mailbox, and your scanner. Thirty minutes of testing is far cheaper than a Monday-morning outage.</p>
+</div>
+<h2 id="admin-hygiene-the-cheapest-big-win">Admin hygiene: the cheapest big win</h2>
+<p>Most small offices have one of two admin setups. Either nobody has admin rights and the original consultant’s account is the only one that works, or everyone has admin rights because it was easier. Both are risky.</p>
+<p>A healthy setup looks like this:</p>
+<ul>
+<li><strong>Two to four Global Administrators, never more.</strong> If everyone in the front office is a Global Admin, then everyone in the front office can be phished into handing over the whole tenant.</li>
+<li><strong>Separate admin accounts.</strong> Your day-to-day mailbox is where phishing arrives. Your admin account should be a different identity (for example, <code>jane.admin@yourcompany.com</code>) that doesn’t have a mailbox, doesn’t browse the web, and doesn’t get email. If your everyday account is compromised, the admin account isn’t.</li>
+<li><strong>Use the least powerful role that works.</strong> Someone who resets passwords doesn’t need Global Administrator. There’s a Password Administrator role for that.</li>
+<li><strong>Review the list quarterly.</strong> Open <strong>Roles &amp; admins</strong> and ask of each name: do they still work here, and do they still need this?</li>
+</ul>
+<h2 id="protect-the-inbox-spf-dkim-and-dmarc">Protect the inbox: SPF, DKIM, and DMARC</h2>
+<p>These three acronyms are how the internet decides whether an email is really from you. They matter in two ways: they stop other people from forging email that looks like it came from your domain, and they keep your legitimate email out of spam folders.</p>
+<p>In plain English:</p>
+<ul>
+<li><strong>SPF</strong> is a list, published in your DNS, of the servers allowed to send email for your domain. For a Microsoft 365-only business, it typically looks like <code>v=spf1 include:spf.protection.outlook.com -all</code>.</li>
+<li><strong>DKIM</strong> is a digital signature attached to each outgoing message, which proves it wasn’t altered in transit. In Microsoft 365, you enable it in the Defender portal and add two records to your DNS.</li>
+<li><strong>DMARC</strong> is the policy that tells receiving servers what to do with mail that fails SPF and DKIM: nothing (monitor), quarantine, or reject.</li>
+</ul>
+<p>You can check yours in about a minute from PowerShell on any Windows PC:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace yourcompany.com with your domain</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type TXT yourcompany<span class="op">.</span><span class="fu">com</span> <span class="op">|</span> <span class="fu">Where-Object</span> <span class="op">{</span> <span class="va">$_</span><span class="op">.</span><span class="fu">Strings</span> <span class="op">-</span>match <span class="st">&#39;v=spf1&#39;</span> <span class="op">}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type TXT _dmarc<span class="op">.</span><span class="fu">yourcompany</span><span class="op">.</span><span class="fu">com</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type CNAME selector1<span class="op">.</span><span class="fu">_domainkey</span><span class="op">.</span><span class="fu">yourcompany</span><span class="op">.</span><span class="fu">com</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Resolve<span class="op">-</span>DnsName <span class="op">-</span>Type CNAME selector2<span class="op">.</span><span class="fu">_domainkey</span><span class="op">.</span><span class="fu">yourcompany</span><span class="op">.</span><span class="fu">com</span></span></code></pre></div>
+<p>If the DMARC lookup returns nothing, you have no policy, and anyone can send email pretending to be you. Start with a monitoring-only policy such as <code>v=DMARC1; p=none; rua=mailto:dmarc@yourcompany.com</code>, review the reports for a few weeks to make sure your real senders (invoicing software, newsletter tools) pass, and then move to <code>p=quarantine</code>, and eventually <code>p=reject</code>. Rushing straight to reject is how legitimate invoices end up bouncing.</p>
+<h3 id="add-defender-for-office-365-protections">Add Defender for Office 365 protections</h3>
+<p>Business Premium includes Defender for Office 365, which scans links when they’re clicked and attachments before they’re delivered. Turn on the preset security policies, <strong>Standard</strong> is a sensible default, from <strong>Email &amp; collaboration &gt; Policies &amp; rules &gt; Threat policies &gt; Preset Security Policies</strong>. This takes a few minutes and applies Microsoft’s recommended settings for anti-phishing, Safe Links, and Safe Attachments, including impersonation protection for your executives’ names.</p>
+<h2 id="protect-the-devices">Protect the devices</h2>
+<p>A signed-in account on an unprotected laptop is still a weak link. With Business Premium you get Intune for device management and Defender for Business for endpoint protection. A reasonable small-office baseline is:</p>
+<ul>
+<li><strong>Disk encryption on</strong> (BitLocker for Windows, FileVault for Mac), so a lost laptop is an annoyance rather than a breach.</li>
+<li><strong>Automatic updates on</strong>, with a deadline for restarts.</li>
+<li><strong>A screen lock</strong> after a few minutes of inactivity.</li>
+<li><strong>Microsoft Defender running</strong> and reporting to the portal.</li>
+<li><strong>A rule that company email on a phone requires a PIN and encryption.</strong> You can enforce this with an app protection policy even on personal phones, without managing the whole device.</li>
+</ul>
+<p>You don’t have to do all of this in week one. Pick the first two and add the rest as you go.</p>
+<h2 id="people-and-process-the-part-software-cant-do">People and process: the part software can’t do</h2>
+<p>The most sophisticated settings in the world won’t help if someone is willing to wire money because an email told them to. A few simple habits close the gap.</p>
+<p><strong>The callback rule.</strong> Any request to change bank details, pay a new vendor, or send an unusual wire gets verified by phone, using a number you already had on file, never one in the email. This single rule defeats most business email compromise, and it costs nothing. It matters even more now that attackers can use AI to imitate writing style and even voices.</p>
+<p><strong>A “Report phishing” button.</strong> Add the Report Message add-in to Outlook so people can flag suspicious email in one click, and make it clear that clicking a bad link by mistake is fine, while hiding it is not. You want people to tell you quickly.</p>
+<p><strong>An offboarding checklist.</strong> When someone leaves, the same day: disable the account, revoke sessions, remove from groups, convert or forward their mailbox as needed, and recover company data. Old accounts of former employees are an easy way in.</p>
+<p><strong>Short, regular training.</strong> Fifteen minutes, quarterly, with real examples beats an annual hour-long video. Show actual phishing emails from your own inbox.</p>
+<h2 id="dont-forget-the-backup">Don’t forget the backup</h2>
+<p>Everything above reduces the chance of a bad day. None of it guarantees you won’t have one. Microsoft keeps your service running, but it isn’t a backup in the sense that matters: if a file is deleted, encrypted, or overwritten, and the change syncs everywhere, you need a separate copy from before it happened. I wrote about this in detail in <a href="/blog/three-backup-mistakes.html">The Three Backup Mistakes I See Every Single Week</a>, including the budget-friendly way to back up an entire Microsoft 365 tenant.</p>
+<h2 id="a-30-day-plan">A 30-day plan</h2>
+<p>You don’t need to do this all at once, and you shouldn’t. Here’s how I’d sequence it for a small office with one person acting as the part-time IT contact.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Tasks</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Confirm your license. Create two emergency admin accounts. Reduce Global Admins to 2 to 4. Turn on security defaults (Basic/Standard) or start Conditional Access in report-only (Premium).</td>
+<td>2 to 3 hours</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Roll MFA out to a pilot group, then everyone. Get hardware keys for admins and owners. Disable external auto-forwarding.</td>
+<td>3 to 4 hours</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Restrict user app consent. Tighten SharePoint sharing. Review sign-in logs and fix anything that broke. Switch Conditional Access policies from report-only to on.</td>
+<td>2 to 3 hours</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Check SPF, DKIM, and DMARC. Turn on the Standard preset security policy. Enable device encryption and update policies. Write the callback rule down and tell everyone.</td>
+<td>3 to 4 hours</td>
+</tr>
+</tbody>
+</table></div>
+<p>That’s roughly 12 hours across a month. For most offices, that’s the difference between being an easy target and being a hard one.</p>
+<h2 id="how-to-know-whether-its-working">How to know whether it’s working</h2>
+<p>Microsoft gives you a built-in scorecard called <strong>Secure Score</strong> in the Defender portal. It’s a percentage that reflects how many recommended settings you’ve turned on, with a prioritized list of what to do next. Don’t chase 100%. Some recommendations don’t fit every business. But a score that climbs from the low 20s to the 60s or 70s over a couple of months tells you the work is paying off, and it gives you something concrete to show an insurance underwriter, an auditor, or a client who asks about your security posture.</p>
+<p>Check it monthly, along with three other things: the list of admins, the sign-in logs for failed or unusual logins, and any new inbox rules or forwarding in the audit log.</p>
+<h2 id="quick-checklist">Quick checklist</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" disabled> License confirmed (Basic, Standard, or Premium)</label></li>
+<li><label><input type="checkbox" disabled> Two emergency admin accounts created and excluded from policies</label></li>
+<li><label><input type="checkbox" disabled> Global Admins reduced to 2 to 4, with separate admin accounts</label></li>
+<li><label><input type="checkbox" disabled> MFA required for everyone (security defaults or Conditional Access)</label></li>
+<li><label><input type="checkbox" disabled> Hardware keys or passkeys for admins and owners</label></li>
+<li><label><input type="checkbox" disabled> Legacy authentication blocked</label></li>
+<li><label><input type="checkbox" disabled> External auto-forwarding disabled</label></li>
+<li><label><input type="checkbox" disabled> User app consent restricted, with an admin approval workflow</label></li>
+<li><label><input type="checkbox" disabled> SharePoint and OneDrive sharing set to “New and existing guests” or tighter, default link “Specific people”</label></li>
+<li><label><input type="checkbox" disabled> SPF, DKIM, and DMARC in place and checked</label></li>
+<li><label><input type="checkbox" disabled> Standard preset security policy turned on</label></li>
+<li><label><input type="checkbox" disabled> Devices encrypted, updated, and protected</label></li>
+<li><label><input type="checkbox" disabled> Callback rule for payment changes written down and shared</label></li>
+<li><label><input type="checkbox" disabled> Offboarding checklist created</label></li>
+<li><label><input type="checkbox" disabled> Backup of the tenant tested with a real restore</label></li>
+<li><label><input type="checkbox" disabled> Secure Score reviewed monthly</label></li>
+</ul>
+<h2 id="what-id-do-if-this-were-my-office">What I’d do if this were my office</h2>
+<p>I’d spend the first week on the unglamorous basics: licenses, admin accounts, MFA. I’d resist the temptation to buy more security software before I’d configured the security I’d already paid for. And I’d put a recurring 30-minute task on the calendar each month to look at Secure Score, the admin list, and the sign-in logs, because the biggest risk to a well-configured tenant is that nobody looks at it again for two years.</p>
+<p>Security for a small business isn’t about being unbreakable. It’s about being a harder target than the next office over, and about making sure that when something does go wrong, it’s a small, recoverable problem and not a very bad Tuesday.</p>
+<p>If you’d rather not do this yourself, that’s what I do. <a href="/contact.html">Get in touch</a> and we can scope a Microsoft 365 security review: I’ll look at your tenant, tell you what’s configured, what’s missing, and what’s worth fixing first, and (if you want) make the changes with a rollback plan so nothing surprises your staff.</p>
+
+
+<p style="margin-top: 2rem; font-size: 0.9rem; color: var(--muted);">
+Related reading: <a href="/blog/three-backup-mistakes.html">The Three Backup Mistakes I See Every Single Week</a> · <a href="/blog/day-one-it-checklist.html">The Day-One IT Checklist</a>
+</p>
+
+</article>
+
+<footer>
+<div class="wrap">
+<div class="foot-grid">
+<div>
+<div class="foot-brand">justask<span>major</span></div>
+<p class="foot-tagline">Strategic IT for small businesses, nonprofits, and discerning homeowners. Based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+</div>
+<div>
+<h4>Services</h4>
+<ul>
+<li><a href="/services.html#advisor">Advisor</a></li>
+<li><a href="/services.html#partner">Quarterly Partner</a></li>
+<li><a href="/services.html#projects">Project work</a></li>
+</ul>
+</div>
+<div>
+<h4>Company</h4>
+<ul>
+<li><a href="/about.html">About</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/contact.html">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4>Connect</h4>
+<ul>
+<li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+<li><a href="/contact.html">Start a project</a></li>
+</ul>
+</div>
+</div>
+<div class="foot-bottom">
+<div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+<div>Built with care · 10% pledged</div>
+</div>
+<div class="foot-disclosure">
+As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+</div>
+</div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
