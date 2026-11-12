@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phone and Home Wi-Fi Security Basics: A Practical Guide — justaskmajor</title>
+<meta name="description" content="How to lock down your phone and carrier account, change your Wi-Fi and router admin passwords, set up a guest network, and secure smart-home devices, with a one-hour plan.">
+<link rel="canonical" href="https://justaskmajor.com/blog/phone-and-wifi-security-basics.html">
+<meta property="og:url" content="https://justaskmajor.com/blog/phone-and-wifi-security-basics.html">
+
+<meta property="og:title" content="Phone and Home Wi-Fi Security Basics: A Practical Guide">
+<meta property="og:description" content="How to lock down your phone and carrier account, change your Wi-Fi and router admin passwords, set up a guest network, and secure smart-home devices, with a one-hour plan.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="https://justaskmajor.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/style.css">
+<style>
+.content .table-wrap { overflow-x: auto; margin: 1.5rem 0; -webkit-overflow-scrolling: touch; }
+.content .table-wrap.wide { width: min(1120px, calc(100vw - 2rem)); position: relative; left: 50%; transform: translateX(-50%); }
+.content .table-wrap.wide td { min-width: 6.5rem; }
+.content .table-wrap.wide td:first-child, .content .table-wrap.wide th:first-child { min-width: 2rem; }
+.content .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.content .table-wrap th { padding: 0.5rem; text-align: left; font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; border-bottom: 2px solid var(--copper); white-space: nowrap; }
+.content .table-wrap td { padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); vertical-align: top; min-width: 7rem; }
+.content ul:has(input[type="checkbox"]) { list-style: none; padding-left: 0.25rem; }
+.content ul:has(input[type="checkbox"]) li { margin-bottom: 0.6rem; }
+.content input[type="checkbox"] { margin-right: 0.5rem; accent-color: var(--copper); }
+.content .callout { margin: 1.75rem 0; padding: 1.25rem 1.5rem; background: var(--paper-warm); border-left: 3px solid var(--copper); border-radius: var(--r); }
+.content .callout p:last-child { margin-bottom: 0; }
+.content pre { background: #14213d; color: #f4efe6; padding: 1rem 1.25rem; border-radius: var(--r); overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 1.5rem 0; }
+.content pre code { background: none; color: inherit; padding: 0; font-family: var(--mono); }
+.content :not(pre) > code { font-family: var(--mono); font-size: 0.88em; background: var(--paper-warm); padding: 0.1em 0.35em; border-radius: 3px; }
+@media print { nav, footer, .affiliate-disclosure { display: none; } .content ul:has(input[type="checkbox"]) li { break-inside: avoid; } }
+</style>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Phone and Home Wi-Fi Security Basics: A Practical Guide","description":"How to lock down your phone and carrier account, change your Wi-Fi and router admin passwords, set up a guest network, and secure smart-home devices, with a one-hour plan.","datePublished":"2026-11-11","dateModified":"2026-11-11","author":{"@type":"Person","name":"Marc Stern","url":"https://justaskmajor.com/about.html"},"publisher":{"@type":"Organization","name":"justaskmajor LLC","url":"https://justaskmajor.com/"},"mainEntityOfPage":"https://justaskmajor.com/blog/phone-and-wifi-security-basics.html"}
+</script>
+
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "wtlo5baagg");
+</script>
+</head>
+<body>
+
+<nav class="nav">
+<div class="nav-inner">
+<a href="/" class="brand">justask<span>major</span></a>
+<button class="menu-btn" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+<ul class="nav-links">
+<li><a href="/services.html">Services</a></li>
+<li><a href="/about.html">About</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/digital-products.html">Digital Products</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/contact.html" class="nav-cta">Get in touch</a></li>
+</ul>
+</div>
+</nav>
+
+<article class="content">
+<span class="eyebrow">Field notes · Nov 2026</span>
+<h1>Phone and home Wi-Fi security, <em style="color: var(--copper);">the basics</em>.</h1>
+
+<div class="post-meta">By Marc Stern · 12 min read</div>
+
+
+
+<p>Your phone and your home Wi-Fi are the two places where almost everything else in your digital life meets. Your phone holds your email, your banking apps, your photos, your two-step verification codes, and probably a good portion of your identity. Your home Wi-Fi is the doorway that every device in the house walks through, including the computer, the TV, the doorbell camera, and the smart speaker.</p>
+<p>The good news is that the basics for both are simple, most take only a few minutes, and almost none require technical skill. This post covers both in plain language: a set of phone habits that make a real difference, and a step-by-step guide to securing your home Wi-Fi, including how to change your Wi-Fi password and your router’s admin password, which many people have never done.</p>
+<p>This is part of a series. If you’re here because something already went wrong, start with <a href="/blog/account-hacked-what-to-do.html">Hacked? What to Do in the First Hour</a>. For the scams that trick people in the first place, see <a href="/blog/common-scams-fake-support.html">common scams and fake support calls</a>, and for cleaning up a computer or phone, see <a href="/blog/clean-wipe-computer-phone-after-hack.html">how to clean or wipe a device</a>.</p>
+<div class="callout">
+<p><strong>The five-minute version:</strong></p>
+<ol type="1">
+<li>Turn on automatic updates on your phone and router.</li>
+<li>Use a 6-digit (or longer) passcode, and turn on Find My iPhone or Find My Device.</li>
+<li>Call your phone carrier and add a port-out PIN or number lock.</li>
+<li>Change your Wi-Fi password and your router’s admin password to long, unique ones.</li>
+<li>Install apps only from the official store, and delete ones you don’t use.</li>
+</ol>
+</div>
+<h2 id="part-one-your-phone">Part one: your phone</h2>
+<h3 id="updates-are-the-single-best-thing-you-can-do">Updates are the single best thing you can do</h3>
+<p>Updates fix security holes that criminals actively use. Turn on automatic updates for the operating system and for apps.</p>
+<ul>
+<li><strong>iPhone:</strong> Settings, General, Software Update, Automatic Updates.</li>
+<li><strong>Android:</strong> Settings, System (or About phone), Software update, and in the Play Store, turn on auto-update for apps.</li>
+</ul>
+<p>If your phone is old enough that the manufacturer no longer provides security updates, it’s time to consider replacing it, especially if you use it for banking.</p>
+<h3 id="lock-it-properly">Lock it properly</h3>
+<p>A phone without a decent lock is an open door if it’s lost or stolen.</p>
+<ul>
+<li>Use a <strong>6-digit passcode or longer.</strong> A 4-digit code can be guessed quickly. Even better, use a longer alphanumeric passcode.</li>
+<li>Turn on <strong>Face ID, Touch ID, or fingerprint</strong> for convenience, but keep a strong passcode behind it.</li>
+<li>Set the phone to <strong>lock automatically</strong> after a short time, such as 30 seconds to one minute.</li>
+<li>Look at what shows on the <strong>lock screen.</strong> You can hide message previews so texts and codes aren’t visible to someone who picks up the phone.</li>
+</ul>
+<p><strong>A tip worth knowing:</strong> on an iPhone, a thief who sees you type your passcode and then steals the phone can use that passcode to change your Apple ID password. Apple offers <strong>Stolen Device Protection</strong> (Settings, Face ID &amp; Passcode) which adds protection when the phone is away from familiar places. Turn it on.</p>
+<h3 id="turn-on-find-my-phone">Turn on “find my phone”</h3>
+<ul>
+<li><strong>iPhone:</strong> Settings, tap your name, Find My, Find My iPhone. Turn on <strong>Find My network</strong> and <strong>Send Last Location.</strong></li>
+<li><strong>Android:</strong> Settings, Security, Find My Device (the exact path varies by phone).</li>
+</ul>
+<p>If your phone is lost, you can locate it, lock it, display a message, or erase it remotely.</p>
+<h3 id="protect-your-phone-number">Protect your phone number</h3>
+<p>Your phone number is more valuable than most people realize, because so many accounts send verification codes to it. In a <strong>SIM swap</strong> or <strong>port-out</strong> attack, a criminal convinces your carrier to move your number to a phone they control, then receives your codes and resets your passwords.</p>
+<p>Protect against it:</p>
+<ul>
+<li>Call your carrier (or sign in to your account) and add a <strong>port-out PIN, number lock, or “SIM protection.”</strong> Names vary by carrier. Ask specifically for protection against unauthorized transfers.</li>
+<li>Set a <strong>strong account PIN or passcode</strong> on the carrier account, and keep it different from your phone’s passcode.</li>
+<li>Add a <strong>SIM PIN</strong> if you want extra protection against someone moving your SIM card into another phone. On iPhone: Settings, Cellular, SIM PIN. Be careful to remember the PIN, because entering it wrong too many times can lock the SIM.</li>
+<li>Use an <strong>authenticator app or passkey</strong> instead of text messages for two-step verification wherever you can.</li>
+<li>If your phone suddenly loses service for no reason, and you get messages about changes to your accounts, contact your carrier immediately from another phone.</li>
+</ul>
+<h3 id="be-picky-about-apps">Be picky about apps</h3>
+<p>Apps are one of the main ways trouble gets onto phones.</p>
+<ul>
+<li>Install apps <strong>only from the Apple App Store or Google Play Store.</strong> Don’t install apps from links in texts, emails, or ads.</li>
+<li>On Android, leave <strong>“Install unknown apps”</strong> turned off.</li>
+<li><strong>Check reviews, the developer name, and the number of downloads.</strong> Be wary of copycat apps with names similar to the real one.</li>
+<li><strong>Delete apps you don’t use.</strong> Each app is a possible risk and a possible data collector.</li>
+<li><strong>Review permissions.</strong> A flashlight app has no reason to need your contacts or location. On iPhone, see Settings, Privacy &amp; Security. On Android, Settings, Privacy, Permission manager.</li>
+<li>Be skeptical of apps that ask for <strong>Accessibility</strong> access on Android. That permission is powerful and often abused.</li>
+</ul>
+<h3 id="texts-links-and-calls">Texts, links, and calls</h3>
+<p>Phones are where most scams reach people.</p>
+<ul>
+<li><strong>Don’t tap links in unexpected texts,</strong> even if the text seems to come from a company you use. Go to the app or website directly.</li>
+<li>Forward spam texts to <strong>7726</strong> (SPAM), then delete them.</li>
+<li>Turn on <strong>spam-call filtering.</strong> On iPhone, Settings, Phone, Silence Unknown Callers can help. On Android, use Caller ID &amp; spam in the Phone app settings.</li>
+<li>Use <strong>Do Not Disturb or Focus</strong> modes to cut down on interruptions.</li>
+<li>Never read a verification code to someone who called you.</li>
+</ul>
+<h3 id="public-wi-fi-bluetooth-and-charging">Public Wi-Fi, Bluetooth, and charging</h3>
+<ul>
+<li><strong>Public Wi-Fi</strong> in cafes, hotels, and airports is fine for casual browsing, since modern websites are encrypted. Be more careful about banking and sensitive logins. A VPN adds protection, though cellular data is a simpler option for sensitive tasks.</li>
+<li><strong>Don’t connect automatically to open networks.</strong> Turn off “auto-join” for public networks, and “forget” ones you no longer use.</li>
+<li>Turn off <strong>Bluetooth and AirDrop (or Nearby Share)</strong> when you’re not using them, or set them to contacts only.</li>
+<li><strong>Public USB charging stations</strong> carry a small risk. The simplest protection is to use your own charger and a wall outlet, or a USB data blocker.</li>
+</ul>
+<h3 id="photos-location-and-what-you-share">Photos, location, and what you share</h3>
+<ul>
+<li>Review which apps can see your <strong>location.</strong> “While using the app” is almost always enough.</li>
+<li>Think before posting vacation photos in real time, which tells people your home is empty.</li>
+<li>Be careful with photos of <strong>boarding passes, tickets, credit cards, and documents.</strong> They contain information scammers use.</li>
+<li>Check your <strong>social media privacy settings.</strong> Scammers use birthdays, family names, and details you’ve posted to make their messages convincing.</li>
+</ul>
+<h3 id="back-up-your-phone">Back up your phone</h3>
+<p>A backup protects you from loss, theft, and failure.</p>
+<ul>
+<li><strong>iPhone:</strong> Settings, tap your name, iCloud, iCloud Backup. Turn it on.</li>
+<li><strong>Android:</strong> Settings, Google, Backup, and Google Photos for pictures.</li>
+</ul>
+<h3 id="if-you-lose-your-phone">If you lose your phone</h3>
+<p>Act quickly. Use Find My iPhone or Find My Device to locate or lock it. Call your carrier to suspend service if it’s stolen. Change the passwords on your most important accounts, starting with email and Apple ID or Google. If you have a cloud backup, you can restore it to a new phone.</p>
+<h2 id="part-two-your-home-wi-fi-and-router">Part two: your home Wi-Fi and router</h2>
+<h3 id="why-the-router-matters">Why the router matters</h3>
+<p>Your router is the box (often supplied by your internet provider) that connects every device in your home to the internet. It decides who can get on your network, and it’s a target. A router with a weak or default password, or one that hasn’t been updated in years, can let attackers into the network or redirect your traffic.</p>
+<p>A few terms help here:</p>
+<ul>
+<li><strong>Wi-Fi password (network key):</strong> what you type in to join the Wi-Fi.</li>
+<li><strong>Network name (SSID):</strong> the name that shows up when you search for Wi-Fi.</li>
+<li><strong>Router admin password:</strong> a <em>different</em> password used to change the router’s settings. Many people never change this one, and it’s often something like “admin” or printed on a sticker.</li>
+</ul>
+<p>You need to secure both passwords.</p>
+<h3 id="how-to-log-in-to-your-router">How to log in to your router</h3>
+<ol type="1">
+<li>Connect to your home Wi-Fi (or plug a computer in with a network cable).</li>
+<li>Open a web browser and type your router’s address. Common ones are <strong>192.168.1.1</strong>, <strong>192.168.0.1</strong>, or <strong>10.0.0.1.</strong> The correct address, along with the default login, is often printed on a label on the router itself.</li>
+<li>Some providers use a mobile app instead (for example, apps from your internet provider or a router brand). If so, use the app.</li>
+<li>Sign in with the admin username and password. If you’ve never changed it, it’s often on the sticker.</li>
+</ol>
+<p>If you’ve forgotten the admin password and it was changed, you may need to <strong>reset the router to factory settings</strong> by holding a small reset button for about 10 seconds. That erases your settings, so you’ll need to set up Wi-Fi again.</p>
+<p>If your router belongs to your internet provider, you may need to contact them for help, and some settings may be limited.</p>
+<h3 id="change-the-wi-fi-password">Change the Wi-Fi password</h3>
+<p>Do this if you’ve shared the password widely, had a visitor or contractor with access, been hacked, or never changed the default.</p>
+<ol type="1">
+<li>Log in to the router (as above).</li>
+<li>Find the <strong>Wireless</strong> or <strong>Wi-Fi</strong> settings. The names vary.</li>
+<li>Look for the <strong>Password, Passphrase, or Security Key</strong> field.</li>
+<li>Enter a new password. Aim for <strong>at least 14 to 16 characters.</strong> A passphrase of several random words works well, such as “maple-river-sunset-pillow,” and is easier to type on a TV than a jumble of symbols.</li>
+<li>Save the changes. Your devices will disconnect.</li>
+<li><strong>Reconnect each device</strong> with the new password: phones, tablets, laptops, TVs, streaming sticks, printers, smart speakers, and cameras.</li>
+</ol>
+<p>A tip: before you change it, make a list of your devices, so you don’t forget one. Smart devices and printers are the ones people tend to find later.</p>
+<h3 id="change-the-router-admin-password">Change the router admin password</h3>
+<ol type="1">
+<li>In the router settings, look for <strong>Administration, System, Management, or Router Password.</strong></li>
+<li>Change both the <strong>username</strong> (if allowed) and the <strong>password.</strong></li>
+<li>Use a <strong>long, unique password</strong> that is different from your Wi-Fi password. Save it in your password manager or write it down and keep it at home.</li>
+<li>Save and log out.</li>
+</ol>
+<p>This matters because the Wi-Fi password only lets people <em>join</em> the network. The admin password lets them change the settings.</p>
+<h3 id="check-the-security-settings">Check the security settings</h3>
+<p>While you’re logged in, look for these settings.</p>
+<ul>
+<li><strong>Security mode:</strong> choose <strong>WPA3</strong> if it’s available, or <strong>WPA2-AES (WPA2-PSK)</strong> otherwise. Avoid WEP, WPA, or “open” networks, which are weak or have no protection. Some routers offer a mixed mode “WPA2/WPA3,” which is fine.</li>
+<li><strong>WPS (Wi-Fi Protected Setup):</strong> turn it <strong>off.</strong> It’s a convenience feature with known weaknesses.</li>
+<li><strong>Remote management / remote administration:</strong> turn it <strong>off</strong> unless you have a specific reason. This setting lets someone change your router from the internet.</li>
+<li><strong>UPnP:</strong> this feature lets devices open doors in the router automatically. Turn it off if you don’t need it, though some games and apps use it.</li>
+<li><strong>Firmware updates:</strong> check for and install updates, and turn on <strong>automatic updates</strong> if available. If your router is very old and no longer gets updates, it’s time to replace it.</li>
+<li><strong>Network name (SSID):</strong> change it from the default if it shows the router brand or your name or address. Avoid names that reveal personal information.</li>
+</ul>
+<h3 id="set-up-a-guest-network">Set up a guest network</h3>
+<p>A <strong>guest network</strong> is a separate Wi-Fi network for visitors and for devices you don’t fully trust. It gives guests internet access without letting them reach your computers, printers, and files.</p>
+<ol type="1">
+<li>In the Wi-Fi settings, look for <strong>Guest network.</strong></li>
+<li>Turn it on, give it a name and a different password.</li>
+<li>Use it for visitors, and for <strong>smart-home gadgets, TVs, and other “Internet of Things” devices.</strong> If one of those is compromised, it’s isolated from your main devices.</li>
+<li>Make sure <strong>“allow guests to access my local network”</strong> is off.</li>
+</ol>
+<h3 id="dont-forget-the-devices-on-your-network">Don’t forget the devices on your network</h3>
+<p>Smart cameras, doorbells, TVs, thermostats, baby monitors, and similar devices are common weak points.</p>
+<ul>
+<li><strong>Change default passwords</strong> on every device that has one.</li>
+<li><strong>Install updates</strong> for them. Many have an app that shows the firmware version.</li>
+<li><strong>Turn off features you don’t use,</strong> such as remote access or voice purchasing.</li>
+<li><strong>Remove old devices</strong> you no longer use.</li>
+<li>Consider replacing devices whose manufacturers have stopped supporting them.</li>
+</ul>
+<h3 id="see-whos-on-your-network">See who’s on your network</h3>
+<p>Your router (or its app) usually has a list of <strong>connected devices.</strong> Look through it. You should recognize everything. If there’s a device you can’t identify, check the names against your household. Many are things like “Roku” or “HP printer.” If something truly doesn’t belong, change the Wi-Fi password.</p>
+<h3 id="consider-upgrading-an-old-router">Consider upgrading an old router</h3>
+<p>A router that’s more than five to seven years old, or that no longer receives updates, is worth replacing. Modern routers support WPA3 and have automatic updates, and many include a simple app. You don’t need an expensive one, but check that the manufacturer commits to security updates. Many internet providers will swap a router for free.</p>
+<h3 id="a-few-other-network-safety-tips">A few “other” network safety tips</h3>
+<ul>
+<li><strong>Use a DNS filter</strong> that blocks known malicious sites. Some routers and internet providers include this, and free options exist for households.</li>
+<li><strong>Turn on your computer’s firewall.</strong> Both Windows and macOS have one built in.</li>
+<li>If you work from home, <strong>keep work devices on a separate network</strong> if possible, and follow your employer’s guidance.</li>
+<li><strong>Be cautious with free “VPN” apps,</strong> many of which collect and sell your data. If you use a VPN, pick a reputable paid one.</li>
+</ul>
+<h2 id="putting-it-all-together-a-one-hour-plan">Putting it all together: a one-hour plan</h2>
+<p>If you want a simple order of operations, here is one that takes about an hour.</p>
+<ol type="1">
+<li><strong>Update your phone</strong> and turn on automatic updates.</li>
+<li><strong>Set a 6-digit passcode or longer,</strong> and turn on Find My iPhone or Find My Device.</li>
+<li><strong>Call your carrier</strong> and add port-out protection.</li>
+<li><strong>Review your apps,</strong> delete the ones you don’t use, and check permissions.</li>
+<li><strong>Log in to your router.</strong> Change the admin password and the Wi-Fi password. Choose WPA3 or WPA2-AES. Turn off WPS and remote management.</li>
+<li><strong>Check for router firmware updates.</strong></li>
+<li><strong>Set up a guest network</strong> and move the smart devices and visitors onto it.</li>
+<li><strong>Reconnect your devices</strong> to the main network.</li>
+<li><strong>Write down</strong> where your passwords are and share that with one trusted person.</li>
+</ol>
+<h2 id="for-families-helping-a-parent">For families: helping a parent</h2>
+<p>If you’re setting this up for a parent, a few suggestions.</p>
+<ul>
+<li><strong>Do it together.</strong> Show them where things are so they’re not dependent on you for everything.</li>
+<li><strong>Write the Wi-Fi name and password on a card</strong> and keep it with the router, so guests and repair people don’t need to ask.</li>
+<li><strong>Set automatic updates</strong> so security doesn’t depend on remembering.</li>
+<li><strong>Add yourself as an emergency contact</strong> on their accounts where possible, and make sure they have a carrier account PIN you can help with.</li>
+<li><strong>Set up call blocking</strong> and teach the “hang up and call back” rule from the <a href="/blog/common-scams-fake-support.html">scams post</a>.</li>
+</ul>
+<h2 id="a-printable-checklist">A printable checklist</h2>
+<div class="callout">
+<p><strong>Phone</strong></p>
+<ul>
+<li>Automatic updates: on</li>
+<li>6-digit passcode or longer; Find My on</li>
+<li>Carrier port-out PIN / number lock added</li>
+<li>Apps only from the official store; unused apps deleted</li>
+<li>Authenticator app or passkeys instead of texted codes where possible</li>
+<li>Backups on</li>
+</ul>
+<p><strong>Router and Wi-Fi</strong></p>
+<ul>
+<li>Wi-Fi password changed (14+ characters)</li>
+<li>Router admin password changed (different from Wi-Fi)</li>
+<li>WPA3 or WPA2-AES; WPS off; remote management off</li>
+<li>Firmware updated (automatic if possible)</li>
+<li>Guest network on, used for visitors and smart devices</li>
+<li>Every device on the network recognized</li>
+</ul>
+</div>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<p><strong>How often should I change my Wi-Fi password?</strong> You don’t need to change it on a schedule. Change it if you’ve shared it widely, if a device was lost or compromised, after a security incident, or if you’ve never changed it from the default.</p>
+<p><strong>Is a router admin password different from the Wi-Fi password?</strong> Yes. The Wi-Fi password lets people connect. The admin password lets them change the router’s settings. Both should be strong and different from each other.</p>
+<p><strong>I changed my Wi-Fi password and now nothing connects.</strong> That’s normal. Each device needs the new password. Start with phones and computers, then work through the TV, streaming devices, printers, and smart-home gadgets.</p>
+<p><strong>Should I hide my network name?</strong> It doesn’t add real security and can cause connection problems. A strong password and WPA3 or WPA2-AES matter far more.</p>
+<p><strong>Is it safe to use public Wi-Fi?</strong> For casual browsing, generally yes, because most sites are encrypted. For banking or sensitive logins, use cellular data when you can.</p>
+<p><strong>Do I need antivirus on my phone?</strong> Generally no, if you stick to official app stores, update promptly, and avoid suspicious links. Built-in protections (Apple’s design and Google Play Protect) do a lot of the work.</p>
+<p><strong>What if my internet provider owns the router?</strong> You can usually still change the Wi-Fi and admin passwords. For settings you can’t access, contact your provider, or ask whether you can use your own router.</p>
+<h2 id="one-last-thing">One last thing</h2>
+<p>None of this needs to happen in a single sitting, and none of it requires being technical. Updates, a strong passcode, a carrier lock, and a router with a unique password cover most of what matters for most households.</p>
+<p>If you’d like help setting up a router, tightening up your phone, or doing a home or small-office network review, reach out through the <a href="/contact.html">contact page</a>.</p>
+<p><em>This post is general information. Router menus differ by brand and provider, so if your screen looks different, check the manufacturer’s or internet provider’s support page for your model.</em></p>
+
+
+<p style="margin-top: 2rem; font-size: 0.9rem; color: var(--muted);">
+Related reading: <a href="/blog/account-hacked-what-to-do.html">Hacked? What to Do in the First Hour</a> · <a href="/blog/common-scams-fake-support.html">Common Scams and Fake Support Calls</a> · <a href="/blog/clean-wipe-computer-phone-after-hack.html">How to Clean or Wipe a Computer and Phone</a>
+</p>
+
+</article>
+
+<footer>
+<div class="wrap">
+<div class="foot-grid">
+<div>
+<div class="foot-brand">justask<span>major</span></div>
+<p class="foot-tagline">Strategic IT for small businesses, nonprofits, and discerning homeowners. Based in Richardson, TX. Named for our son Major. 10% of revenue donated to special needs nonprofits.</p>
+</div>
+<div>
+<h4>Services</h4>
+<ul>
+<li><a href="/services.html#advisor">Advisor</a></li>
+<li><a href="/services.html#partner">Quarterly Partner</a></li>
+<li><a href="/services.html#projects">Project work</a></li>
+</ul>
+</div>
+<div>
+<h4>Company</h4>
+<ul>
+<li><a href="/about.html">About</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/resources.html">Resources</a></li>
+<li><a href="/contact.html">Contact</a></li>
+<li><a href="/privacy.html">Privacy</a></li>
+</ul>
+</div>
+<div>
+<h4>Connect</h4>
+<ul>
+<li><a href="mailto:hello@justaskmajor.com">hello@justaskmajor.com</a></li>
+<li><a href="/contact.html">Start a project</a></li>
+</ul>
+</div>
+</div>
+<div class="foot-bottom">
+<div>© <span id="yr"></span> justaskmajor LLC · Richardson, TX</div>
+<div>Built with care · 10% pledged</div>
+</div>
+<div class="foot-disclosure">
+As an Amazon Associate, justaskmajor.com earns from qualifying purchases on linked products.
+</div>
+</div>
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
